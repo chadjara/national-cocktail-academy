@@ -1,0 +1,399 @@
+import {
+  AlertTriangle,
+  ArrowRight,
+  Bookmark,
+  Filter,
+  Martini,
+  RotateCcw,
+  Timer,
+  type LucideIcon,
+} from "lucide-react";
+import { useState, type ReactNode } from "react";
+
+import {
+  Badge,
+  Button,
+  Card,
+  Checkbox,
+  Dialog,
+  EmptyState,
+  ErrorState,
+  Field,
+  Heading,
+  ICON_STROKE,
+  IconButton,
+  Input,
+  LoadingRegion,
+  ProgressBar,
+  RadioGroup,
+  SegmentedControl,
+  Select,
+  Sheet,
+  Skeleton,
+  Switch,
+  Tabs,
+  Text,
+  Textarea,
+  useToast,
+} from "~/design-system";
+
+import { DocSection } from "./foundations";
+
+function Specimen({
+  title,
+  note,
+  children,
+}: {
+  title: string;
+  note?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col">
+        <Heading as="h3" size="sm">
+          {title}
+        </Heading>
+        {note !== undefined && (
+          <Text size="sm" tone="subtle">
+            {note}
+          </Text>
+        )}
+      </div>
+      <div className="rounded-base border border-line bg-canvas p-3">{children}</div>
+    </div>
+  );
+}
+
+const icon = (Icon: LucideIcon) => <Icon aria-hidden size={20} strokeWidth={ICON_STROKE} />;
+
+function Buttons() {
+  return (
+    <Specimen
+      title="Button"
+      note="Four variants, two sizes. One primary action per screen. Medium is 44px; large is 52px for actions used one-handed."
+    >
+      <div className="flex flex-col gap-2">
+        <div className="flex flex-wrap items-center gap-1">
+          <Button>Start review</Button>
+          <Button variant="secondary">Skip for now</Button>
+          <Button variant="ghost">View spec</Button>
+          <Button variant="danger">Reset progress</Button>
+        </div>
+        <div className="flex flex-wrap items-center gap-1">
+          <Button size="lg" trailingIcon={icon(ArrowRight)}>
+            Continue lesson
+          </Button>
+          <Button variant="secondary" leadingIcon={icon(RotateCcw)}>
+            Retake
+          </Button>
+          <Button disabled>Exam locked</Button>
+        </div>
+        <div className="flex flex-wrap items-center gap-1">
+          <IconButton label="Save to favorites" icon={icon(Bookmark)} />
+          <IconButton label="Filter specs" variant="secondary" icon={icon(Filter)} />
+        </div>
+      </div>
+    </Specimen>
+  );
+}
+
+function Fields() {
+  const [name, setName] = useState("");
+  const [glass, setGlass] = useState<string | undefined>(undefined);
+  return (
+    <Specimen
+      title="Field, Input, Textarea, Select"
+      note="Every control has a visible label. Hints sit below; errors replace guesswork with the fix."
+    >
+      <div className="grid gap-3 md:grid-cols-2">
+        <Field label="Name on certificate" hint="Exactly as you want employers to read it.">
+          <Input
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            autoComplete="name"
+          />
+        </Field>
+        <Field label="Pour cost target" error="Enter a percentage between 10 and 40.">
+          <Input defaultValue="64" inputMode="decimal" />
+        </Field>
+        <Field label="Glassware">
+          <Select
+            value={glass}
+            onValueChange={setGlass}
+            placeholder="Choose a glass"
+            options={[
+              { value: "coupe", label: "Coupe" },
+              { value: "nick-and-nora", label: "Nick & Nora" },
+              { value: "rocks", label: "Rocks" },
+              { value: "highball", label: "Highball" },
+              { value: "collins", label: "Collins" },
+            ]}
+          />
+        </Field>
+        <Field label="Tasting notes" hint="Optional.">
+          <Textarea placeholder="Dry, bright, a little saline from the olive brine." />
+        </Field>
+      </div>
+    </Specimen>
+  );
+}
+
+function Choices() {
+  const [ice, setIce] = useState("cubes");
+  const [checked, setChecked] = useState(true);
+  const [haptics, setHaptics] = useState(false);
+  const [unit, setUnit] = useState<"oz" | "ml">("oz");
+  return (
+    <Specimen title="Checkbox, Radio, Switch, Segmented control">
+      <div className="grid gap-3 md:grid-cols-2">
+        <div className="flex flex-col">
+          <Checkbox
+            label="Responsible Service complete"
+            description="Required before certification."
+            checked={checked}
+            onCheckedChange={setChecked}
+          />
+          <Checkbox label="Campari" checked={false} onCheckedChange={() => undefined} />
+          <Switch
+            label="Keep screen awake during drills"
+            checked={haptics}
+            onCheckedChange={setHaptics}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <RadioGroup
+            label="Ice"
+            value={ice}
+            onValueChange={setIce}
+            options={[
+              { value: "cubes", label: "Cubes", description: "Standard 1¼-inch, for shaking" },
+              {
+                value: "large",
+                label: "Large format",
+                description: "One 2-inch cube, for serving",
+              },
+              { value: "crushed", label: "Crushed", description: "Juleps, swizzles, tiki" },
+            ]}
+          />
+          <SegmentedControl
+            label="Units"
+            value={unit}
+            onValueChange={setUnit}
+            options={[
+              { value: "oz", label: "oz" },
+              { value: "ml", label: "ml" },
+            ]}
+          />
+        </div>
+      </div>
+    </Specimen>
+  );
+}
+
+function Navigation() {
+  return (
+    <Specimen title="Tabs">
+      <Tabs
+        label="Spec details"
+        items={[
+          {
+            value: "method",
+            label: "Method",
+            content: (
+              <Text size="sm">
+                Add all ingredients to a mixing glass. Stir with ice for 30 seconds. Strain into a
+                chilled rocks glass over one large cube.
+              </Text>
+            ),
+          },
+          {
+            value: "history",
+            label: "History",
+            content: (
+              <Text size="sm">
+                Usually credited to Count Camillo Negroni in Florence around 1919, who asked for his
+                Americano made stronger, with gin in place of soda.
+              </Text>
+            ),
+          },
+          {
+            value: "variations",
+            label: "Variations",
+            content: (
+              <Text size="sm">Boulevardier, Old Pal, Negroni Sbagliato, White Negroni.</Text>
+            ),
+          },
+        ]}
+      />
+    </Specimen>
+  );
+}
+
+function Overlays() {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const toast = useToast();
+  return (
+    <Specimen
+      title="Dialog, Sheet, Toast"
+      note="Dialogs confirm. Sheets hold secondary detail and filters, from the bottom on phones. Toasts report, and never carry the only path to an action."
+    >
+      <div className="flex flex-wrap gap-1">
+        <Button variant="secondary" onClick={() => setDialogOpen(true)}>
+          Open dialog
+        </Button>
+        <Button variant="secondary" onClick={() => setSheetOpen(true)}>
+          Open sheet
+        </Button>
+        <Button
+          variant="secondary"
+          onClick={() =>
+            toast.show({
+              tone: "success",
+              title: "Review complete",
+              description: "Next review due tomorrow.",
+            })
+          }
+        >
+          Show toast
+        </Button>
+      </div>
+      <Dialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        title="Leave the exam?"
+        description="Your answers so far will be discarded and the attempt counts toward your cooldown."
+        actions={
+          <>
+            <Button variant="secondary" onClick={() => setDialogOpen(false)}>
+              Keep going
+            </Button>
+            <Button variant="danger" onClick={() => setDialogOpen(false)}>
+              Leave exam
+            </Button>
+          </>
+        }
+      >
+        <Text size="sm" tone="muted">
+          You have answered 14 of 40 questions.
+        </Text>
+      </Dialog>
+      <Sheet
+        open={sheetOpen}
+        onOpenChange={setSheetOpen}
+        title="Filter specs"
+        actions={
+          <Button fullWidth onClick={() => setSheetOpen(false)}>
+            Show 24 specs
+          </Button>
+        }
+      >
+        <div className="flex flex-col">
+          {["Gin", "Whiskey", "Rum", "Agave", "Brandy", "Vodka"].map((spirit) => (
+            <Checkbox
+              key={spirit}
+              label={spirit}
+              checked={spirit === "Gin"}
+              onCheckedChange={() => undefined}
+            />
+          ))}
+        </div>
+      </Sheet>
+    </Specimen>
+  );
+}
+
+function DataDisplay() {
+  return (
+    <Specimen title="Card, Badge, Progress">
+      <div className="grid gap-3 md:grid-cols-2">
+        <Card className="flex flex-col gap-2">
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex flex-col gap-0.5">
+              <Heading as="h4" size="md">
+                The Sour Family
+              </Heading>
+              <Text size="sm" tone="muted">
+                Module 3 · 6 lessons · 45 min
+              </Text>
+            </div>
+            <Badge tone="warning">2 due</Badge>
+          </div>
+          <ProgressBar label="Module progress" value={4} max={6} showValue />
+        </Card>
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-wrap gap-1">
+            <Badge>Stirred</Badge>
+            <Badge tone="accent">New</Badge>
+            <Badge tone="success">Passed</Badge>
+            <Badge tone="warning">Due today</Badge>
+            <Badge tone="danger">Failed</Badge>
+            <Badge tone="brass">Certified</Badge>
+          </div>
+          <ProgressBar label="Exam readiness" value={72} tone="success" showValue />
+          <ProgressBar label="Program complete" value={100} tone="brass" showValue />
+        </div>
+      </div>
+    </Specimen>
+  );
+}
+
+function States() {
+  return (
+    <Specimen
+      title="Loading, empty and error states"
+      note="Skeletons match the shape of what's coming. Empty states say what to do next. Errors say what happened and how to recover."
+    >
+      <div className="grid gap-3 md:grid-cols-2">
+        <LoadingRegion label="Loading your review queue">
+          <Card className="flex flex-col gap-1.5">
+            <Skeleton className="h-2.5 w-1/2" />
+            <Skeleton className="h-2 w-3/4" />
+            <Skeleton className="h-1 w-full" />
+          </Card>
+        </LoadingRegion>
+        <EmptyState
+          headingLevel="h4"
+          icon={<Martini aria-hidden size={24} strokeWidth={ICON_STROKE} />}
+          title="No favorites yet"
+          description="Save the specs you're working on and they'll show up here for quick reference."
+          action={<Button variant="secondary">Browse the library</Button>}
+        />
+        <EmptyState
+          headingLevel="h4"
+          icon={<Timer aria-hidden size={24} strokeWidth={ICON_STROKE} />}
+          title="Nothing due"
+          description="You're caught up. Your next review is tomorrow at 10:00."
+        />
+        <ErrorState
+          headingLevel="h4"
+          icon={<AlertTriangle aria-hidden size={24} strokeWidth={ICON_STROKE} />}
+          title="That backup file can't be read"
+          description="It may be from a newer version of the app, or it was edited. Nothing on this device was changed."
+          action={<Button variant="secondary">Choose another file</Button>}
+        />
+      </div>
+    </Specimen>
+  );
+}
+
+export function ComponentsSection() {
+  return (
+    <DocSection
+      id="components"
+      title="Components"
+      intro="Every screen is built from these. If a screen needs something that isn't here, it gets designed here first."
+    >
+      <div className="flex flex-col gap-4">
+        <Buttons />
+        <Fields />
+        <Choices />
+        <Navigation />
+        <Overlays />
+        <DataDisplay />
+        <States />
+      </div>
+    </DocSection>
+  );
+}

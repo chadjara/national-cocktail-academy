@@ -1,0 +1,57 @@
+import "~/lib/zod-setup";
+
+import { z } from "zod";
+
+/**
+ * Product configuration. Everything an academy owner would reasonably want to
+ * change without touching feature code lives here, and is validated at import
+ * time so a bad value fails the build instead of shipping.
+ */
+const appConfigSchema = z.object({
+  academy: z.object({
+    name: z.string().min(2).max(40),
+    shortName: z.string().min(2).max(12),
+    tagline: z.string().min(10).max(90),
+  }),
+  ageGate: z.discriminatedUnion("mode", [
+    z.object({
+      mode: z.literal("confirm-age"),
+      minimumAge: z.number().int().min(18).max(25),
+      region: z.string().min(2),
+    }),
+    z.object({
+      mode: z.literal("professional-training-framing"),
+    }),
+  ]),
+  units: z.object({
+    default: z.enum(["oz", "ml"]),
+    mlPerOz: z.literal(30),
+  }),
+  assessment: z.object({
+    passMarkPercent: z.number().int().min(50).max(100),
+    retakeCooldownHours: z.number().int().min(0).max(168),
+  }),
+});
+
+export type AppConfig = z.infer<typeof appConfigSchema>;
+
+export const appConfig: AppConfig = appConfigSchema.parse({
+  academy: {
+    name: "The Back Bar Academy",
+    shortName: "Back Bar",
+    tagline: "Professional bartending, from first pour to running the well.",
+  },
+  ageGate: {
+    mode: "confirm-age",
+    minimumAge: 21,
+    region: "United States",
+  },
+  units: {
+    default: "oz",
+    mlPerOz: 30,
+  },
+  assessment: {
+    passMarkPercent: 80,
+    retakeCooldownHours: 12,
+  },
+});

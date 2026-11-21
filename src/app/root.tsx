@@ -1,0 +1,109 @@
+import "~/lib/zod-setup";
+
+import { AlertTriangle } from "lucide-react";
+import type { ReactNode } from "react";
+import {
+  isRouteErrorResponse,
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+} from "react-router";
+
+import { appConfig } from "~/config/app.config";
+import { AppShell, Button, ErrorState, ICON_STROKE, ToastProvider } from "~/design-system";
+import { useAppUpdates } from "~/features/pwa/use-app-updates";
+import { themeBootScript } from "~/features/theme/theme";
+
+import frauncesLatin from "@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2?url";
+import interLatin from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+
+import type { Route } from "./+types/root";
+import "./app.css";
+import { primaryNav } from "./navigation";
+
+export const links: Route.LinksFunction = () => [
+  // Preload the two Latin font files so text renders once, in the right face,
+  // with no swap-induced layout shift.
+  { rel: "preload", href: interLatin, as: "font", type: "font/woff2", crossOrigin: "anonymous" },
+  { rel: "preload", href: frauncesLatin, as: "font", type: "font/woff2", crossOrigin: "anonymous" },
+  { rel: "manifest", href: `${import.meta.env.BASE_URL}manifest.webmanifest` },
+  { rel: "icon", href: `${import.meta.env.BASE_URL}icons/favicon.svg`, type: "image/svg+xml" },
+  { rel: "apple-touch-icon", href: `${import.meta.env.BASE_URL}icons/apple-touch-icon.png` },
+];
+
+export function Layout({ children }: { children: ReactNode }) {
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta name="theme-color" content="#f5f1e9" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#12110f" media="(prefers-color-scheme: dark)" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content={appConfig.academy.shortName} />
+        <meta name="description" content={appConfig.academy.tagline} />
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        {children}
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
+function Frame({ children }: { children: ReactNode }) {
+  useAppUpdates();
+  return (
+    <AppShell academyName={appConfig.academy.name} nav={primaryNav}>
+      {children}
+    </AppShell>
+  );
+}
+
+export default function App() {
+  return (
+    <ToastProvider>
+      <Frame>
+        <Outlet />
+      </Frame>
+    </ToastProvider>
+  );
+}
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  const detail = isRouteErrorResponse(error)
+    ? `${error.status} ${error.statusText}`
+    : error instanceof Error
+      ? error.message
+      : "Unknown error";
+
+  return (
+    <ToastProvider>
+      <AppShell academyName={appConfig.academy.name} nav={primaryNav}>
+        <ErrorState
+          headingLevel="h1"
+          className="mt-4"
+          icon={<AlertTriangle aria-hidden size={24} strokeWidth={ICON_STROKE} />}
+          title="Something broke on our side"
+          description={
+            <>
+              <p>
+                Your progress is stored on this device and hasn't been touched. Reload to try again.
+              </p>
+              {import.meta.env.DEV && (
+                <pre className="mt-1 text-caption whitespace-pre-wrap">{detail}</pre>
+              )}
+            </>
+          }
+          action={<Button onClick={() => window.location.reload()}>Reload</Button>}
+        />
+      </AppShell>
+    </ToastProvider>
+  );
+}
