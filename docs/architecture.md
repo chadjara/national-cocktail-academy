@@ -102,5 +102,7 @@ left rail on desktop.
 ---
 
 Routes marked ✓ are prerendered; "shell" routes prerender their loading state and fill in from
-the device after hydration. Routes ship in the milestone that builds them. Today only `/`,
-`/design-system` and the 404 exist.
+the device after hydration. Routes ship in the milestone that builds them. Live as of M2: `/`,
+`/library`, `/library/:cocktail` (105 prerendered pages), `/my-bar`, `/design-system` and the 404.
+Spec pages are prerendered for fast loads and search engines but not precached as HTML; offline,
+the SPA fallback renders them from the bundled content.

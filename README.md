@@ -81,8 +81,17 @@ For a custom domain, add it in the Pages settings. The base path switches to `/`
 - [Product spec and user stories](docs/product-spec.md)
 - [Architecture and route map](docs/architecture.md)
 - [Data model](docs/data-model.md)
+- [Content style guide](docs/content-style-guide.md)
 - [Roadmap](docs/roadmap.md)
 - [Decisions (ADRs)](docs/adr/README.md)
+
+## Spec library
+
+105 specs, including the 87 drinks on the current IBA official list (imported from the MIT-licensed
+[rasmusab/iba-cocktails](https://github.com/rasmusab/iba-cocktails) dataset). The other 18 are
+modern classics, each cross-checked against two or more professional sources (PUNCH, Imbibe,
+Difford's Guide, the creators' bars). Every spec page shows its sources. How content is sourced,
+written and classified: [docs/content-style-guide.md](docs/content-style-guide.md).
 
 ## Content and legal
 

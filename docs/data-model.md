@@ -72,3 +72,11 @@ new Dexie `version()` block, so every release runs a real migration.
 
 Theme preference is deliberately **not** in IndexedDB: it lives in `localStorage` under
 `academy.theme` so it can be applied before first paint (ADR 0003).
+
+### Content model (M2)
+
+Specs live in `src/content/` and are validated by `cocktailSchema` (`src/content/schema.ts`):
+`id, name, family, base, difficulty, method, techniques[], glass, ice, garnish, spec[], steps[],
+history?, note?, variations[], iba?, sources[]`. A spec line is `{ ingredient, amount, note?,
+optional? }`, where `amount` is a discriminated union of bar units (ml, dash, drop, barspoon, tsp,
+piece, pinch, few drops, splash, top, to taste). See [content-style-guide.md](content-style-guide.md).
