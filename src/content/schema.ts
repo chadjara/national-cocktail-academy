@@ -1,4 +1,4 @@
-import "~/lib/zod-setup";
+import "../lib/zod-setup";
 
 import { z } from "zod";
 

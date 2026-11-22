@@ -5,7 +5,7 @@ test("Today renders the academy and works without an account", async ({ page }) 
   await expect(
     page.getByRole("heading", { level: 1, name: "Proof Bartending Academy" }),
   ).toBeVisible();
-  await expect(page.getByText("no account")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Spec library" })).toBeVisible();
 });
 
 test("unknown routes show the designed 404 with a way back", async ({ page }) => {

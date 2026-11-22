@@ -18,8 +18,13 @@ test("after one visit, the app loads and navigates with no network", async ({ pa
     page.getByRole("heading", { level: 1, name: "Proof Bartending Academy" }),
   ).toBeVisible();
 
-  await page.getByRole("link", { name: "See the design system" }).click();
-  await expect(page.getByRole("heading", { level: 1, name: "Design system" })).toBeVisible();
+  await page.getByRole("link", { name: "Spec library" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Specs" })).toBeVisible();
+
+  // Spec pages aren't precached as HTML; the app shell renders them from bundled content.
+  await page.goto("/library/paper-plane");
+  await expect(page.getByRole("heading", { level: 1, name: "Paper Plane" })).toBeVisible();
+  await expect(page.getByRole("table", { name: "Paper Plane spec" })).toContainText("Amaro Nonino");
 
   await page.goto("/somewhere-uncached");
   await expect(page.getByRole("heading", { name: "That's not on the menu." })).toBeVisible();

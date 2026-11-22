@@ -26,4 +26,12 @@ export const test = base.extend<{ consoleErrors: string[] }>({
 
 export { expect };
 
-export const routes = ["/", "/design-system", "/not-a-real-page"] as const;
+export const routes = [
+  "/",
+  "/library",
+  "/library/negroni",
+  "/library/ramos-fizz",
+  "/my-bar",
+  "/design-system",
+  "/not-a-real-page",
+] as const;
