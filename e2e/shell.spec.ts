@@ -53,3 +53,10 @@ test("dialogs trap focus and close on Escape", async ({ page }) => {
   await expect(dialog).toBeHidden();
   await expect(opener).toBeFocused();
 });
+
+test("prerendered pages are served directly, not through the 404 fallback", async ({ page }) => {
+  for (const path of ["/", "/library", "/library/negroni", "/my-bar"]) {
+    const response = await page.goto(path);
+    expect(response?.status(), path).toBe(200);
+  }
+});
