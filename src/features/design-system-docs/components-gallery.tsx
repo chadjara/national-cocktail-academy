@@ -10,15 +10,18 @@ import {
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
+import { glassLabels } from "~/content/taxonomy";
 import {
   Badge,
   Button,
   Card,
   Checkbox,
+  ChipGroup,
   Dialog,
   EmptyState,
   ErrorState,
   Field,
+  GlassIcon,
   Heading,
   ICON_STROKE,
   IconButton,
@@ -26,15 +29,20 @@ import {
   LoadingRegion,
   ProgressBar,
   RadioGroup,
+  SearchField,
   SegmentedControl,
   Select,
   Sheet,
   Skeleton,
+  SpecCard,
+  SpecFact,
+  SpecSheet,
   Switch,
   Tabs,
   Text,
   Textarea,
   useToast,
+  type GlassShape,
 } from "~/design-system";
 
 import { DocSection } from "./foundations";
@@ -339,6 +347,81 @@ function DataDisplay() {
   );
 }
 
+function SpecComponents() {
+  const [query, setQuery] = useState("");
+  const [bases, setBases] = useState<string[]>(["gin"]);
+  return (
+    <Specimen
+      title="Spec components"
+      note="The library's building blocks. Glassware is drawn on the icon grid instead of photographed, so every drink reads the same way."
+    >
+      <div className="flex flex-col gap-3">
+        <ul className="grid grid-cols-3 gap-1.5 sm:grid-cols-6">
+          {(Object.keys(glassLabels) as GlassShape[]).map((glass) => (
+            <li
+              key={glass}
+              className="flex flex-col items-center gap-1 rounded-base border border-line py-2 text-ink"
+            >
+              <GlassIcon glass={glass} size={28} />
+              <span className="text-center text-caption text-ink-muted">{glassLabels[glass]}</span>
+            </li>
+          ))}
+        </ul>
+        <div className="grid gap-3 md:grid-cols-2">
+          <div className="flex flex-col gap-1.5">
+            <SearchField
+              label="Search specs (example)"
+              placeholder="Name or ingredient"
+              value={query}
+              onValueChange={setQuery}
+            />
+            <ChipGroup
+              label="Base spirit (example)"
+              value={bases}
+              onValueChange={setBases}
+              options={[
+                { value: "gin", label: "Gin" },
+                { value: "whiskey", label: "Whiskey" },
+                { value: "agave", label: "Tequila & mezcal" },
+              ]}
+            />
+            <ul className="-mx-1.5">
+              <li>
+                <SpecCard
+                  to="/library/negroni"
+                  title="Negroni"
+                  meta="Gin · Built · Rocks glass"
+                  leading={<GlassIcon glass="rocks" />}
+                />
+              </li>
+            </ul>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Card padding="sm" className="px-2">
+              <SpecSheet
+                caption="Daiquiri spec (example)"
+                rows={[
+                  { quantity: "2", unit: "oz", name: "White rum" },
+                  { quantity: "⅔", unit: "oz", name: "Fresh lime juice" },
+                  { quantity: "2", unit: "barspoons", name: "White cane sugar", note: "superfine" },
+                ]}
+              />
+            </Card>
+            <div className="grid grid-cols-2 gap-2">
+              <SpecFact
+                label="Glass"
+                value="Cocktail glass"
+                icon={<GlassIcon glass="cocktail" size={20} />}
+              />
+              <SpecFact label="Garnish" value="None" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </Specimen>
+  );
+}
+
 function States() {
   return (
     <Specimen
@@ -392,6 +475,7 @@ export function ComponentsSection() {
         <Navigation />
         <Overlays />
         <DataDisplay />
+        <SpecComponents />
         <States />
       </div>
     </DocSection>
