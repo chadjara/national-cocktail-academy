@@ -1,5 +1,6 @@
 /**
  * Runs after `react-router build`:
+ *   0. moves pages prerendered under a base path to the site root,
  *   1. adds a hash-based Content-Security-Policy to every HTML file,
  *   2. sets up GitHub Pages (404.html SPA fallback, .nojekyll),
  *   3. generates the precaching service worker so the app works offline.
@@ -10,6 +11,7 @@ import { join } from "node:path";
 import { generateSW } from "workbox-build";
 
 import { basePath, buildClientDir } from "../build.config.mjs";
+import { assertHomePageAtRoot, hoistBasePathOutput } from "./lib/base-path.mjs";
 import { injectContentSecurityPolicy } from "./lib/csp.mjs";
 
 const SPA_FALLBACK = "__spa-fallback.html";
@@ -66,6 +68,8 @@ async function buildServiceWorker() {
   return { count, size };
 }
 
+await hoistBasePathOutput(buildClientDir, basePath);
+await assertHomePageAtRoot(buildClientDir);
 const pages = await applyCsp();
 await prepareGitHubPages();
 const sw = await buildServiceWorker();
