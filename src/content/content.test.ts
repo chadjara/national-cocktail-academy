@@ -8,7 +8,10 @@ import {
   listBottles,
   listCocktails,
   listIngredients,
+  rawCocktails,
+  withDefaults,
 } from "./index";
+import { cocktailSchema, ingredientSchema } from "./schema";
 
 const cocktails = listCocktails();
 
@@ -41,6 +44,22 @@ function slugify(name: string): string {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
 }
+
+describe("schema validation (the build gate for content)", () => {
+  it.each(rawCocktails.map((entry) => [entry.id, entry] as const))(
+    "%s matches the schema",
+    (_id, entry) => {
+      const parsed = cocktailSchema.parse(entry);
+      // The runtime skips parsing, so its defaults must match the schema's exactly.
+      expect(withDefaults(entry)).toEqual(parsed);
+    },
+  );
+
+  it("every ingredient matches the schema", () => {
+    for (const ingredient of listIngredients())
+      expect(() => ingredientSchema.parse(ingredient)).not.toThrow();
+  });
+});
 
 describe("content integrity", () => {
   it("has a serious library: at least 100 specs", () => {

@@ -4,32 +4,36 @@ import { sours } from "./cocktails/sours";
 import { stirred } from "./cocktails/stirred";
 import { tropicalSparklingAndMore } from "./cocktails/tropical-sparkling-and-more";
 import { ingredients as ingredientList } from "./ingredients";
-import {
-  BOTTLE_CATEGORIES,
-  cocktailSchema,
-  ingredientSchema,
-  type Cocktail,
-  type Ingredient,
-} from "./schema";
+import { BOTTLE_CATEGORIES, type Cocktail, type CocktailInput, type Ingredient } from "./schema";
 
 /**
- * The read-only content API. Everything is parsed once at module load, so
- * defaults are applied and any invalid entry throws during the build.
+ * The read-only content API.
+ *
+ * Content is validated against the Zod schemas in content.test.ts, which runs
+ * in CI and blocks a bad spec from shipping. It is deliberately not re-parsed
+ * here: that would spend a phone's main thread on every launch re-checking
+ * data that cannot change after the build.
  */
 
-const cocktails: readonly Cocktail[] = [
+/** Applies the schema's defaults without the cost of a full parse. */
+export function withDefaults(entry: CocktailInput): Cocktail {
+  return { ...entry, techniques: entry.techniques ?? [], variations: entry.variations ?? [] };
+}
+
+/** Every authored entry, before defaults. Exported for the schema tests. */
+export const rawCocktails: readonly CocktailInput[] = [
   ...sours,
   ...modernSours,
   ...stirred,
   ...longDrinks,
   ...tropicalSparklingAndMore,
-]
-  .map((entry) => cocktailSchema.parse(entry))
+];
+
+const cocktails: readonly Cocktail[] = rawCocktails
+  .map(withDefaults)
   .sort((a, b) => a.name.localeCompare(b.name, "en"));
 
-const ingredients: readonly Ingredient[] = ingredientList.map((entry) =>
-  ingredientSchema.parse(entry),
-);
+const ingredients: readonly Ingredient[] = ingredientList;
 
 const cocktailById = new Map(cocktails.map((cocktail) => [cocktail.id, cocktail]));
 const ingredientById = new Map(ingredients.map((ingredient) => [ingredient.id, ingredient]));

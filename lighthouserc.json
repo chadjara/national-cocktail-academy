@@ -9,7 +9,7 @@
         "http://localhost:4173/library/negroni/",
         "http://localhost:4173/design-system/"
       ],
-      "numberOfRuns": 1,
+      "numberOfRuns": 3,
       "settings": {
         "chromeFlags": "--headless=new --no-sandbox"
       }
