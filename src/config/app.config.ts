@@ -37,8 +37,8 @@ export type AppConfig = z.infer<typeof appConfigSchema>;
 
 export const appConfig: AppConfig = appConfigSchema.parse({
   academy: {
-    name: "The Back Bar Academy",
-    shortName: "Back Bar",
+    name: "Proof Bartending Academy",
+    shortName: "Proof",
     tagline: "Professional bartending, from first pour to running the well.",
   },
   ageGate: {

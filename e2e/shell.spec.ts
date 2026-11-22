@@ -2,7 +2,9 @@ import { expect, test } from "./fixtures";
 
 test("Today renders the academy and works without an account", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { level: 1, name: "The Back Bar Academy" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Proof Bartending Academy" }),
+  ).toBeVisible();
   await expect(page.getByText("no account")).toBeVisible();
 });
 

@@ -14,7 +14,9 @@ test("after one visit, the app loads and navigates with no network", async ({ pa
   await context.setOffline(true);
 
   await page.reload();
-  await expect(page.getByRole("heading", { level: 1, name: "The Back Bar Academy" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Proof Bartending Academy" }),
+  ).toBeVisible();
 
   await page.getByRole("link", { name: "See the design system" }).click();
   await expect(page.getByRole("heading", { level: 1, name: "Design system" })).toBeVisible();

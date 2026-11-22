@@ -1,12 +1,13 @@
-# The Back Bar Academy
+# Proof Bartending Academy
 
 A professional bartending academy that runs entirely on the student's phone. It is free, works
 offline, needs no account and does no tracking. It takes students from first pour to running the well
 through a structured program, a spec library, a practice engine, in-app assessments and a
 certificate of completion.
 
-> The academy name is a working title, set in `src/config/app.config.ts` and
-> `public/manifest.webmanifest`. A test keeps the two in sync.
+> **Why "Proof":** it's bar vocabulary (alcohol proof) and it's what a student leaves with: proof
+> they can do the job. The name is set in `src/config/app.config.ts` and
+> `public/manifest.webmanifest`; a test keeps the two in sync.
 
 ## How it works
 
