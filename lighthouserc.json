@@ -3,8 +3,13 @@
     "collect": {
       "startServerCommand": "node scripts/serve.mjs",
       "startServerReadyPattern": "Serving",
-      "url": ["http://localhost:4173/", "http://localhost:4173/design-system/"],
-      "numberOfRuns": 1,
+      "url": [
+        "http://localhost:4173/",
+        "http://localhost:4173/library/",
+        "http://localhost:4173/library/negroni/",
+        "http://localhost:4173/design-system/"
+      ],
+      "numberOfRuns": 3,
       "settings": {
         "chromeFlags": "--headless=new --no-sandbox"
       }

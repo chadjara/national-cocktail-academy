@@ -44,7 +44,15 @@ async function buildServiceWorker() {
     globPatterns: ["**/*.{html,js,css,woff2,svg,png,webmanifest}"],
     // Content is English: Latin and Latin Extended cover it. Other font
     // subsets are fetched on demand online and fall back to system fonts offline.
-    globIgnores: ["404.html", "**/*-{cyrillic,cyrillic-ext,greek,greek-ext,vietnamese}-*.woff2"],
+    //
+    // Per-spec pages (library/<id>/index.html) are prerendered for fast first
+    // loads and search engines, but not precached: their data is already in
+    // the JS bundle, so offline navigations render them from the SPA fallback.
+    globIgnores: [
+      "404.html",
+      "library/*/index.html",
+      "**/*-{cyrillic,cyrillic-ext,greek,greek-ext,vietnamese}-*.woff2",
+    ],
     swDest: join(buildClientDir, "sw.js"),
     modifyURLPrefix: { "": basePath },
     navigateFallback: `${basePath}${SPA_FALLBACK}`,

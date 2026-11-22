@@ -1,6 +1,6 @@
 import Dexie, { type EntityTable } from "dexie";
 
-import type { MetaRecord } from "./records";
+import type { BarItemRecord, FavoriteRecord, MetaRecord } from "./records";
 
 export const DATABASE_NAME = "academy";
 
@@ -11,12 +11,21 @@ export const DATABASE_NAME = "academy";
  */
 export class AcademyDatabase extends Dexie {
   meta!: EntityTable<MetaRecord, "key">;
+  favorites!: EntityTable<FavoriteRecord, "cocktailId">;
+  barItems!: EntityTable<BarItemRecord, "ingredientId">;
 
   constructor(name: string = DATABASE_NAME) {
     super(name);
 
+    // v1 (M0): device settings.
     this.version(1).stores({
       meta: "key",
+    });
+
+    // v2 (M2): saved specs and the student's back bar.
+    this.version(2).stores({
+      favorites: "cocktailId, addedAt",
+      barItems: "ingredientId",
     });
   }
 }
