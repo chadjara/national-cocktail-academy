@@ -16,6 +16,9 @@ PHASE="${1:?usage: simulator-smoke.sh boot|run <out-dir> [App.app]}"
 OUT_DIR="${2:?missing out-dir}"
 BUNDLE_ID="com.chadjara.proof"
 mkdir -p "$OUT_DIR"
+# Absolute: simctl resolves --stdout/--stderr paths for the launched process,
+# and a relative path there makes SpringBoard deny the launch.
+OUT_DIR="$(cd "$OUT_DIR" && pwd)"
 
 boot() {
   # Newest iOS runtime, newest iPhone device type it supports.
