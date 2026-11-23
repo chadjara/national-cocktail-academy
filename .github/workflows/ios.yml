@@ -24,9 +24,10 @@ permissions:
 jobs:
   simulator:
     name: Simulator build and launch
-    # macos-15 has a far larger runner pool than macos-26 (whose jobs often went
-    # unclaimed) and ships Xcode 26.x, which meets Apple's iOS 26 SDK requirement.
-    runs-on: macos-15
+    # GitHub's Apple Silicon macOS pools (macos-15, macos-26) have been unable to
+    # hand out runners since late October 2026. The Intel pool is separate and its
+    # macOS 15 image ships Xcode 26.3, which meets Apple's iOS 26 SDK requirement.
+    runs-on: macos-15-intel
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
