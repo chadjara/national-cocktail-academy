@@ -1,6 +1,6 @@
 # 0001. Local-first static PWA, no backend
 
-**Status:** Accepted · 2026-11-21 · Amended by [0009](0009-native-ios-capacitor.md) (iOS app; Apple developer fee)
+**Status:** Accepted · 2026-11-21 · Amended by [0009](0009-native-ios-capacitor.md) (iOS app; Apple developer fee) and [0010](0010-app-only-distribution.md) (no public website; local-first and no backend still hold)
 
 ## Context
 

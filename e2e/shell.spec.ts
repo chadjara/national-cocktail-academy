@@ -36,6 +36,8 @@ test("an explicit theme choice survives reload and applies before hydration", as
 test("keyboard users can skip straight to content", async ({ page, isMobile }) => {
   test.skip(isMobile, "Skip links are a keyboard affordance.");
   await page.goto("/");
+  // The app renders on the device; wait for the first screen before tabbing.
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await page.keyboard.press("Tab");
   const skip = page.getByRole("link", { name: "Skip to content" });
   await expect(skip).toBeFocused();
@@ -52,13 +54,6 @@ test("dialogs trap focus and close on Escape", async ({ page }) => {
   await page.keyboard.press("Escape");
   await expect(dialog).toBeHidden();
   await expect(opener).toBeFocused();
-});
-
-test("prerendered pages are served directly, not through the 404 fallback", async ({ page }) => {
-  for (const path of ["/", "/library", "/library/negroni", "/my-bar"]) {
-    const response = await page.goto(path);
-    expect(response?.status(), path).toBe(200);
-  }
 });
 
 test("the privacy policy is published, dated and gives a way to get in touch", async ({ page }) => {

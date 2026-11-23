@@ -5,7 +5,6 @@ import { appConfig } from "~/config/app.config";
 import { listCocktails } from "~/content";
 import { Card, Heading, ICON_STROKE, PageHeader, Text } from "~/design-system";
 import { FavoritesSection } from "~/features/library/components/favorites-section";
-import { InstallHintCard } from "~/features/pwa/install-hint-card";
 
 import type { Route } from "./+types/today";
 
@@ -33,7 +32,6 @@ export default function TodayRoute() {
   return (
     <div className="flex flex-col gap-4">
       <PageHeader eyebrow="Today" title={appConfig.academy.name} lede={appConfig.academy.tagline} />
-      <InstallHintCard />
       <ul className="grid gap-1.5 sm:grid-cols-2">
         {entryPoints.map((entry) => (
           <li key={entry.to}>

@@ -3,22 +3,21 @@
 ```mermaid
 flowchart TB
   subgraph Build["Build time (GitHub Actions)"]
-    C[content/*.ts + *.mdx] --> V[Zod validation + link checker]
-    V --> B[Vite build + React Router prerender]
-    B --> SI[Search index JSON - MiniSearch]
-    B --> IMG[Responsive images - sharp]
+    C[content/*.ts] --> V[Zod validation in tests]
+    V --> B[Vite + React Router: single-page bundle]
+    B --> CSP[postbuild: hash-based CSP]
+    CSP --> CAP[Capacitor sync into ios/]
+    CAP --> X[xcodebuild archive + cloud signing]
   end
-  B --> GP[(GitHub Pages - static files only)]
-  GP -->|first load| SW[Service Worker - Workbox precache]
-  subgraph Device["Student's phone (installed PWA)"]
-    SW --> UI[Routes - thin]
-    UI --> F[Feature hooks]
-    F --> S[Services: scheduling, scoring, eligibility, conversion, math]
+  X --> TF[(App Store Connect / TestFlight)]
+  TF --> UI
+  subgraph Device["Student's iPhone (NCA app)"]
+    UI[Routes - thin] --> F[Feature hooks]
+    F --> S[Services: units, search, bar analysis, share text]
     S --> R[Repositories]
-    R --> DB[(IndexedDB via Dexie)]
+    R --> DB[(IndexedDB via Dexie, in app storage)]
     S --> CT[Content API - typed, read-only bundle]
-    S --> PDF[pdf-lib - lazy loaded]
-    S --> BK[Backup: export/import JSON via share sheet]
+    F --> N[Native: haptics, share sheet, status bar, splash]
   end
 ```
 
@@ -29,7 +28,7 @@ never touch Dexie. Services are pure TypeScript and unit-tested without a browse
 
 ## Libraries (all free, MIT/Apache, no accounts)
 
-- vite, react, react-router v7, vite-plugin-pwa
+- vite, react, react-router v7, Capacitor 8 (iOS)
 - dexie, dexie-react-hooks
 - zod
 - ts-fsrs (FSRS scheduler)
@@ -101,8 +100,6 @@ left rail on desktop.
 
 ---
 
-Routes marked ✓ are prerendered; "shell" routes prerender their loading state and fill in from
-the device after hydration. Routes ship in the milestone that builds them. Live as of M2: `/`,
-`/library`, `/library/:cocktail` (105 prerendered pages), `/my-bar`, `/design-system` and the 404.
-Spec pages are prerendered for fast loads and search engines but not precached as HTML; offline,
-the SPA fallback renders them from the bundled content.
+Routes render on the device; the app ships one `index.html` (ADR 0010), so the "Prerendered"
+column above records the original web plan and no longer applies. Live as of M2: `/`, `/library`,
+`/library/:cocktail`, `/my-bar`, `/privacy`, `/design-system` (developer reference) and the 404.

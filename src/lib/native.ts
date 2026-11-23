@@ -17,7 +17,7 @@ export function tapFeedback(): void {
   Haptics.impact({ style: ImpactStyle.Light }).catch(() => undefined);
 }
 
-export type SharePayload = { title: string; text: string; url: string };
+export type SharePayload = { title: string; text: string };
 
 export function canShare(): boolean {
   return isNativeApp() || (typeof navigator !== "undefined" && "share" in navigator);
