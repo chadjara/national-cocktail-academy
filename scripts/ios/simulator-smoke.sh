@@ -8,8 +8,8 @@
 #
 # "run" waits for the "[proof] ready" line the web app prints once React has
 # hydrated inside WKWebView. Capacitor forwards the web console to the app's
-# stdout (not the unified log), so that's what is captured. A screenshot is
-# saved for humans to look at.
+# stdout (not the unified log), captured through a pseudo-terminal. A
+# screenshot is saved for humans to look at.
 set -euo pipefail
 
 PHASE="${1:?usage: simulator-smoke.sh boot|run <out-dir> [App.app]}"
@@ -48,21 +48,29 @@ run() {
   xcrun simctl spawn "$device_id" log stream --level debug --style compact \
     --predicate 'process == "App"' > "$OUT_DIR/device.log" 2>&1 &
   local log_pid=$!
-  trap 'kill '"$log_pid"' 2>/dev/null || true' EXIT
+  trap 'kill '"$log_pid"' 2>/dev/null || true; xcrun simctl terminate '"$device_id"' '"$BUNDLE_ID"' 2>/dev/null || true' EXIT
 
   local console="$OUT_DIR/console.log"
+  # --console-pty gives the app a terminal, so Swift's print() is line-buffered
+  # (to a plain file it's block-buffered and nothing arrives until exit).
+  # simctl stays attached while the app runs, so it goes in the background.
   local launched=false
   for attempt in $(seq 1 16); do
-    if xcrun simctl launch --terminate-running-process \
-      --stdout="$console" --stderr="$OUT_DIR/stderr.log" \
-      "$device_id" "$BUNDLE_ID"; then
+    : > "$console"
+    xcrun simctl launch --console-pty --terminate-running-process \
+      "$device_id" "$BUNDLE_ID" > "$console" 2>&1 &
+    local launch_pid=$!
+    sleep 5
+    if ! grep -q "denied\|error was encountered" "$console"; then
       launched=true
       break
     fi
+    wait "$launch_pid" 2>/dev/null || true
     echo "Launch attempt $attempt refused; SpringBoard is still starting. Retrying in 15s."
     sleep 15
   done
   if [ "$launched" != true ]; then
+    cat "$console"
     echo "::error::The simulator refused to launch the app for 4 minutes."
     exit 1
   fi
@@ -78,8 +86,7 @@ run() {
   cat "$console" 2>/dev/null || true
 
   if ! grep -q "\[proof\] ready" "$console" 2>/dev/null; then
-    echo "::error::The web app never reported ready. stderr and the last system log lines follow."
-    cat "$OUT_DIR/stderr.log" 2>/dev/null || true
+    echo "::error::The web app never reported ready. The last system log lines follow."
     tail -40 "$OUT_DIR/device.log"
     exit 1
   fi
