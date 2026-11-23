@@ -61,7 +61,7 @@ function Block({ block }: { block: PolicyBlock }) {
 function StoredOnDeviceTable() {
   return (
     <table className="w-full border-collapse text-left text-sm">
-      <caption className="sr-only">Information Proof keeps on your device</caption>
+      <caption className="sr-only">Information NCA keeps on your device</caption>
       <thead>
         <tr className="border-b border-line-strong">
           <th scope="col" className="py-1 pr-2 font-semibold text-ink">

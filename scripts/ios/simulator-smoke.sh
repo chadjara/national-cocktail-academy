@@ -6,7 +6,7 @@
 #   simulator-smoke.sh boot <out-dir>             create and boot a fresh iPhone simulator
 #   simulator-smoke.sh run  <out-dir> <App.app>   install, launch, and check the app
 #
-# "run" waits for the "[proof] ready" line the web app prints once React has
+# "run" waits for the "[nca] ready" line the web app prints once React has
 # hydrated inside WKWebView. Capacitor forwards the web console to the app's
 # stdout (not the unified log), captured through a pseudo-terminal. A
 # screenshot is saved for humans to look at.
@@ -14,7 +14,7 @@ set -euo pipefail
 
 PHASE="${1:?usage: simulator-smoke.sh boot|run <out-dir> [App.app]}"
 OUT_DIR="${2:?missing out-dir}"
-BUNDLE_ID="com.chadjara.proof"
+BUNDLE_ID="com.chadjara.nationalcocktailacademy"
 mkdir -p "$OUT_DIR"
 # Absolute: simctl resolves --stdout/--stderr paths for the launched process,
 # and a relative path there makes SpringBoard deny the launch.
@@ -30,7 +30,7 @@ runtime = sorted(runtimes, key=lambda r: [int(p) for p in r["version"].split("."
 iphones = [d for d in runtime["supportedDeviceTypes"] if d["productFamily"] == "iPhone"]
 print(runtime["identifier"], iphones[-1]["identifier"])
 ')
-  DEVICE_ID=$(xcrun simctl create "Proof smoke test" "$DEVICE_TYPE" "$RUNTIME")
+  DEVICE_ID=$(xcrun simctl create "NCA smoke test" "$DEVICE_TYPE" "$RUNTIME")
   echo "$DEVICE_ID" > "$OUT_DIR/device-id"
   echo "Created $DEVICE_TYPE on $RUNTIME: $DEVICE_ID"
   xcrun simctl boot "$DEVICE_ID"
@@ -76,7 +76,7 @@ run() {
   fi
 
   for _ in $(seq 1 30); do
-    if grep -q "\[proof\] ready" "$console" 2>/dev/null; then break; fi
+    if grep -q "\[nca\] ready" "$console" 2>/dev/null; then break; fi
     sleep 2
   done
   sleep 2
@@ -85,7 +85,7 @@ run() {
   echo "--- App console (Capacitor) ---"
   cat "$console" 2>/dev/null || true
 
-  if ! grep -q "\[proof\] ready" "$console" 2>/dev/null; then
+  if ! grep -q "\[nca\] ready" "$console" 2>/dev/null; then
     echo "::error::The web app never reported ready. The last system log lines follow."
     tail -40 "$OUT_DIR/device.log"
     exit 1

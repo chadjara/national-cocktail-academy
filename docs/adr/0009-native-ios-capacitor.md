@@ -4,7 +4,7 @@
 
 ## Context
 
-The owner wants Proof on TestFlight, on the way to an App Store listing. They are enrolled in the
+The owner wants the app on TestFlight, on the way to an App Store listing. They are enrolled in the
 Apple Developer Program and have no Mac. That enrollment changes one line of ADR 0001: the product
 is still free to run, apart from Apple's $99/year developer fee, which the owner chose.
 
@@ -23,7 +23,7 @@ is still free to run, apart from Apple's $99/year developer fee, which the owner
   - local practice reminders, which arrive with the practice engine (M4)
 - **Build in GitHub Actions on macOS** (free for public repos).
   - `ios.yml` builds for the simulator and launches the app on every relevant PR. It waits for the
-    web app's `[proof] ready` log line, which is the only real WebKit check of the CSP and native
+    web app's `[nca] ready` log line, which is the only real WebKit check of the CSP and native
     bridge.
   - `testflight.yml` archives and uploads.
 - **Apple cloud-managed signing** with an App Store Connect API key (Admin role), stored as

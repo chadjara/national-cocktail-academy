@@ -5,8 +5,8 @@ import type { CapacitorConfig } from "@capacitor/cli";
  * Everything ships inside the binary; nothing is loaded from the network.
  */
 const config: CapacitorConfig = {
-  appId: "com.chadjara.proof",
-  appName: "Proof",
+  appId: "com.chadjara.nationalcocktailacademy",
+  appName: "NCA",
   webDir: "build/client",
   ios: {
     // The web content draws its own safe-area padding.

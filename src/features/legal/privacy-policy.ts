@@ -3,7 +3,7 @@ import { appConfig } from "~/config/app.config";
 /**
  * The privacy policy as data, so every change is a readable text diff.
  * Update `lastUpdated` with any material change, and rewrite this before
- * Proof ever adds accounts, payments, analytics or a server.
+ * NCA ever adds accounts, payments, analytics or a server.
  */
 
 export const policyLastUpdated = "23 November 2026";
@@ -19,7 +19,7 @@ export type PolicySection = { id: string; heading: string; blocks: readonly Poli
 
 export const policySummary: readonly string[] = [
   "No accounts, no analytics, no advertising and no tracking.",
-  "Proof doesn't collect personal data. What you do in the app stays on your device.",
+  "NCA doesn't collect personal data. What you do in the app stays on your device.",
   "Nothing is sold or shared, because there is nothing to sell or share.",
 ];
 
@@ -66,7 +66,7 @@ export const policySections: readonly PolicySection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: `${appConfig.academy.name} publishes this website and the Proof app for iPhone. In this policy, "we" means ${appConfig.academy.name}.`,
+        text: `${appConfig.academy.name} ("NCA") publishes this website and the NCA app for iPhone. ${appConfig.academy.disclaimer} In this policy, "NCA" and "we" mean ${appConfig.academy.name}.`,
       },
     ],
   },
@@ -76,11 +76,11 @@ export const policySections: readonly PolicySection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: "Proof keeps a small amount of information so it works the way you left it. On the website it's in your browser's storage (IndexedDB and localStorage). In the iPhone app it's in the app's own storage. It is never sent to us or to anyone else, and we can't see it.",
+        text: "NCA keeps a small amount of information so it works the way you left it. On the website it's in your browser's storage (IndexedDB and localStorage). In the iPhone app it's in the app's own storage. It is never sent to us or to anyone else, and we can't see it.",
       },
       {
         kind: "paragraph",
-        text: "To delete it, clear this site's data in your browser settings, or delete the app. If Proof later lets you export a backup file, that file is yours: it's created on your device and goes only where you put it.",
+        text: "To delete it, clear this site's data in your browser settings, or delete the app. If NCA later lets you export a backup file, that file is yours: it's created on your device and goes only where you put it.",
       },
     ],
   },
@@ -90,7 +90,7 @@ export const policySections: readonly PolicySection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: "Proof itself collects nothing, but two companies that deliver it may process limited technical information under their own policies:",
+        text: "NCA itself collects nothing, but two companies that deliver it may process limited technical information under their own policies:",
       },
       {
         kind: "link",
@@ -118,7 +118,7 @@ export const policySections: readonly PolicySection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: "Proof doesn't load anything from other companies: no analytics, no ad networks, no social media widgets, no outside fonts. Every file comes from Proof itself, and the site's security policy blocks scripts from elsewhere and stops the page from sending data to any other server.",
+        text: "NCA doesn't load anything from other companies: no analytics, no ad networks, no social media widgets, no outside fonts. Every file comes from NCA itself, and the site's security policy blocks scripts from elsewhere and stops the page from sending data to any other server.",
       },
     ],
   },
@@ -128,7 +128,7 @@ export const policySections: readonly PolicySection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: "Proof is professional bartending training for adults of legal drinking age (21 or older in the United States). It isn't directed at children. Because Proof collects no personal data from anyone, it collects none from children.",
+        text: "NCA is professional bartending training for adults of legal drinking age (21 or older in the United States). It isn't directed at children. Because NCA collects no personal data from anyone, it collects none from children.",
       },
     ],
   },
@@ -142,7 +142,7 @@ export const policySections: readonly PolicySection[] = [
       },
       {
         kind: "paragraph",
-        text: "We hold no personal information about you, so there is nothing for us to access, correct, delete, sell or share. Everything Proof stores is on your device and fully under your control. We do not sell or share personal information, and never will.",
+        text: "We hold no personal information about you, so there is nothing for us to access, correct, delete, sell or share. Everything NCA stores is on your device and fully under your control. We do not sell or share personal information, and never will.",
       },
     ],
   },
@@ -152,7 +152,7 @@ export const policySections: readonly PolicySection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: "Information on your device is protected by your device's and browser's own security, such as your passcode. Proof has no servers or accounts, so there is no database of your information that could be breached.",
+        text: "Information on your device is protected by your device's and browser's own security, such as your passcode. NCA has no servers or accounts, so there is no database of your information that could be breached.",
       },
     ],
   },
@@ -162,7 +162,7 @@ export const policySections: readonly PolicySection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: "If how Proof handles information ever changes, we'll update this page and its date first, and tell you in the app before the change takes effect.",
+        text: "If how NCA handles information ever changes, we'll update this page and its date first, and tell you in the app before the change takes effect.",
       },
     ],
   },
@@ -172,7 +172,7 @@ export const policySections: readonly PolicySection[] = [
     blocks: [
       {
         kind: "link",
-        before: "Questions about this policy or about Proof? ",
+        before: "Questions about this policy or about NCA? ",
         link: { label: "Get in touch here", href: appConfig.academy.contactUrl },
         after: ".",
       },

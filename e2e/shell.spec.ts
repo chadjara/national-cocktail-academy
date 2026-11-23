@@ -3,7 +3,7 @@ import { expect, test } from "./fixtures";
 test("Today renders the academy and works without an account", async ({ page }) => {
   await page.goto("/");
   await expect(
-    page.getByRole("heading", { level: 1, name: "Proof Bartending Academy" }),
+    page.getByRole("heading", { level: 1, name: "National Cocktail Academy" }),
   ).toBeVisible();
   await expect(page.getByRole("link", { name: "Spec library" })).toBeVisible();
 });
@@ -73,6 +73,6 @@ test("the privacy policy is published, dated and gives a way to get in touch", a
     "https://cjaratech.com/contact.html",
   );
   await expect(
-    page.getByRole("table", { name: "Information Proof keeps on your device" }),
+    page.getByRole("table", { name: "Information NCA keeps on your device" }),
   ).toBeVisible();
 });

@@ -53,7 +53,7 @@ export function finishLaunch(): void {
   if (!isNativeApp()) return;
   // CI's simulator smoke test waits for this line in the device log to prove
   // the bundle loaded under our CSP and React hydrated inside WKWebView.
-  console.info(`[proof] ready ${window.location.pathname}`);
+  console.info(`[nca] ready ${window.location.pathname}`);
   syncStatusBar();
   SplashScreen.hide({ fadeOutDuration: 200 }).catch(() => undefined);
 }

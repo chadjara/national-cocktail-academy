@@ -17,7 +17,7 @@ describe("privacy policy content", () => {
     }
   });
 
-  it("lists everything Proof stores on the device today", () => {
+  it("lists everything NCA stores on the device today", () => {
     const today = storedOnDevice.filter((entry) => entry.when === "now").map((e) => e.item);
     expect(today).toEqual(expect.arrayContaining(["Saved specs", "Bottles marked in My Bar"]));
   });

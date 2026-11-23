@@ -1,13 +1,13 @@
-# Proof Bartending Academy
+# National Cocktail Academy
 
 A professional bartending academy that runs entirely on the student's phone. It is free, works
 offline, needs no account and does no tracking. It takes students from first pour to running the well
 through a structured program, a spec library, a practice engine, in-app assessments and a
 certificate of completion.
 
-> **Why "Proof":** it's bar vocabulary (alcohol proof) and it's what a student leaves with: proof
-> they can do the job. The name is set in `src/config/app.config.ts` and
-> `public/manifest.webmanifest`; a test keeps the two in sync.
+> **National Cocktail Academy (NCA)** is an independent training app, not an accredited school or
+> a government body, and the app says so wherever the name could suggest otherwise. The name lives
+> in `src/config/app.config.ts` and `public/manifest.webmanifest`; a test keeps the two in sync.
 
 ## How it works
 
@@ -85,10 +85,10 @@ GitHub Actions builds and signs it on macOS, so no Mac is needed.
 
 1. **App Store Connect → Apps → + → New App.**
    - Platform: iOS
-   - Name: Proof Bartending Academy
-   - Bundle ID: `com.chadjara.proof` (register it under developer.apple.com → Identifiers if it isn't
+   - Name: National Cocktail Academy
+   - Bundle ID: `com.chadjara.nationalcocktailacademy` (register it under developer.apple.com → Identifiers if it isn't
      listed)
-   - SKU: `proof-ios`
+   - SKU: `nca-ios`
 2. **App Store Connect → Users and Access → Integrations → App Store Connect API → Team Keys → +.**
    - Role: **Admin**. Cloud signing needs it.
    - Download the `.p8` file, which is offered only once.
