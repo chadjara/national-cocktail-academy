@@ -22,6 +22,12 @@ describe("privacy policy content", () => {
     expect(today).toEqual(expect.arrayContaining(["Saved specs", "Bottles marked in My Bar"]));
   });
 
+  it("keeps the official copy's address in one place", () => {
+    expect(appConfig.academy.privacyPolicyUrl).toBe(
+      "https://cjaratech.com/national-cocktail-academy/privacy",
+    );
+  });
+
   it("points people to the configured contact page", () => {
     const contact = policySections.find((s) => s.id === "contact");
     const links = (contact?.blocks ?? []).flatMap((b) => (b.kind === "link" ? [b.link.href] : []));

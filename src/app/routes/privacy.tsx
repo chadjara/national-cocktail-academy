@@ -13,10 +13,10 @@ import {
 import type { Route } from "./+types/privacy";
 
 export const meta: Route.MetaFunction = () => [
-  { title: `Privacy policy · ${appConfig.academy.name}` },
+  { title: `Privacy Policy · ${appConfig.academy.name}` },
   {
     name: "description",
-    content: `${appConfig.academy.name} collects no personal data. No accounts, no analytics, no tracking. Everything stays on your device.`,
+    content: `Privacy Policy for the ${appConfig.academy.name} iPhone app. No accounts, no in-app analytics, no advertising and no tracking.`,
   },
 ];
 
@@ -90,16 +90,18 @@ function StoredOnDeviceTable() {
 }
 
 export default function PrivacyRoute() {
+  const officialCopy = appConfig.academy.privacyPolicyUrl;
   return (
     <article className="flex max-w-80 flex-col gap-4">
       <PageHeader
-        eyebrow="Privacy policy"
-        title="Your data stays with you"
+        eyebrow={appConfig.academy.name}
+        title="Privacy Policy"
         lede={
           <>
-            How {appConfig.academy.name} handles information on this website and in the iPhone app.
+            <span className="block text-sm text-ink-subtle">Last updated {policyLastUpdated}</span>
             <span className="mt-1 block text-sm text-ink-subtle">
-              Last updated {policyLastUpdated}
+              The official copy of this policy is published at{" "}
+              <OutboundLink href={officialCopy} label={officialCopy.replace(/^https:\/\//, "")} />.
             </span>
           </>
         }
