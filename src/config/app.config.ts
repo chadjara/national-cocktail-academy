@@ -14,6 +14,8 @@ const appConfigSchema = z.object({
     tagline: z.string().min(10).max(90),
     /** Where the website lives; links shared from the iOS app point here. */
     publicUrl: z.url().endsWith("/"),
+    /** How people reach the publisher; shown in the privacy policy. */
+    contactUrl: z.url().startsWith("https://"),
   }),
   ageGate: z.discriminatedUnion("mode", [
     z.object({
@@ -43,6 +45,7 @@ export const appConfig: AppConfig = appConfigSchema.parse({
     shortName: "Proof",
     tagline: "Professional bartending, from first pour to running the well.",
     publicUrl: "https://chadjara.github.io/proof-bartending-academy/",
+    contactUrl: "https://cjaratech.com/contact.html",
   },
   ageGate: {
     mode: "confirm-age",

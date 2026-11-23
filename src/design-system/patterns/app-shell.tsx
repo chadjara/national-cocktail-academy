@@ -32,10 +32,13 @@ function Wordmark({ name }: { name: string }) {
 export function AppShell({
   academyName,
   nav,
+  railFooter,
   children,
 }: {
   academyName: string;
   nav: readonly NavItem[];
+  /** Small print pinned to the bottom of the desktop rail (e.g. the privacy link). */
+  railFooter?: ReactNode;
   children: ReactNode;
 }) {
   const showNav = nav.length > 1;
@@ -80,6 +83,9 @@ export function AppShell({
               ))}
             </ul>
           </nav>
+        )}
+        {railFooter !== undefined && (
+          <div className="mt-auto text-caption text-ink-subtle">{railFooter}</div>
         )}
       </aside>
 

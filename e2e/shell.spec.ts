@@ -60,3 +60,19 @@ test("prerendered pages are served directly, not through the 404 fallback", asyn
     expect(response?.status(), path).toBe(200);
   }
 });
+
+test("the privacy policy is published, dated and gives a way to get in touch", async ({ page }) => {
+  const response = await page.goto("/privacy");
+  expect(response?.status()).toBe(200);
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Your data stays with you" }),
+  ).toBeVisible();
+  await expect(page.getByText(/^Last updated /)).toBeVisible();
+  await expect(page.getByRole("link", { name: /Get in touch here/ })).toHaveAttribute(
+    "href",
+    "https://cjaratech.com/contact.html",
+  );
+  await expect(
+    page.getByRole("table", { name: "Information Proof keeps on your device" }),
+  ).toBeVisible();
+});
