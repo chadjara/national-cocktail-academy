@@ -1,10 +1,14 @@
 import { useEffect } from "react";
 
 import { useToast } from "~/design-system";
+import { finishLaunch } from "~/lib/native";
 
 import { registerServiceWorker, requestPersistentStorage } from "./service-worker";
 
-/** Wires offline support and the "new version ready" prompt. Mount once. */
+/**
+ * Wires offline support, the "new version ready" prompt and, in the iOS app,
+ * the end of the launch screen. Mount once.
+ */
 export function useAppUpdates(): void {
   const toast = useToast();
 
@@ -19,5 +23,6 @@ export function useAppUpdates(): void {
       });
     });
     void requestPersistentStorage();
+    finishLaunch();
   }, [toast]);
 }

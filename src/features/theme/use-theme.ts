@@ -1,5 +1,7 @@
 import { useCallback, useSyncExternalStore } from "react";
 
+import { syncStatusBar } from "~/lib/native";
+
 import {
   applyThemePreference,
   readThemePreference,
@@ -45,6 +47,7 @@ export function useTheme(): {
     writeThemePreference(safeLocalStorage(), next);
     applyThemePreference(document.documentElement, next);
     window.dispatchEvent(new Event(CHANGE_EVENT));
+    syncStatusBar();
   }, []);
 
   return { preference, setPreference };

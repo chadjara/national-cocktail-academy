@@ -49,7 +49,7 @@ export function AppShell({
         Skip to content
       </a>
 
-      <header className="sticky top-0 z-30 flex h-7 items-center border-b border-line bg-canvas px-2 lg:hidden">
+      <header className="sticky top-0 z-30 box-content flex h-7 items-center border-b border-line bg-canvas px-2 pt-[env(safe-area-inset-top)] lg:hidden">
         <Wordmark name={academyName} />
       </header>
 

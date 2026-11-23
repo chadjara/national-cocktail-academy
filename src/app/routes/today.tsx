@@ -63,6 +63,15 @@ export default function TodayRoute() {
         ))}
       </ul>
       <FavoritesSection />
+      <p className="border-t border-line pt-2 text-sm text-ink-subtle">
+        No accounts, no tracking. Everything stays on this device.{" "}
+        <Link
+          to="/privacy"
+          className="font-medium text-accent-text underline decoration-1 underline-offset-[3px] hover:decoration-2"
+        >
+          Privacy
+        </Link>
+      </p>
     </div>
   );
 }

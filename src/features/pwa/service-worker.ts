@@ -1,10 +1,14 @@
+import { isNativeApp } from "~/lib/platform";
+
 /**
  * Registers the precaching service worker generated at build time
  * (scripts/postbuild.mjs). Updates never activate behind the student's back:
  * a waiting worker is surfaced, and activates only when they choose to reload.
  */
 export function registerServiceWorker(onUpdateReady: (activate: () => void) => void): void {
-  if (!import.meta.env.PROD || !("serviceWorker" in navigator)) return;
+  // Inside the iOS app every asset is already in the binary, and WKWebView's
+  // capacitor:// scheme doesn't support service workers.
+  if (!import.meta.env.PROD || isNativeApp() || !("serviceWorker" in navigator)) return;
 
   const base = import.meta.env.BASE_URL;
   let reloading = false;
@@ -55,8 +59,9 @@ export function isRunningInstalled(): boolean {
  * show a permission prompt out of context.
  */
 export async function requestPersistentStorage(): Promise<boolean> {
+  // App storage isn't subject to Safari's eviction, so the native app skips this.
   // `storage` is missing in older Safari despite what lib.dom says.
-  if (!("storage" in navigator) || !isRunningInstalled()) return false;
+  if (isNativeApp() || !("storage" in navigator) || !isRunningInstalled()) return false;
   if (await navigator.storage.persisted()) return true;
   return navigator.storage.persist();
 }

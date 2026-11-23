@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { installHintRepository } from "~/lib/db/meta-repository";
+import { isNativeApp } from "~/lib/platform";
 
 import { resolveInstallPlatform, type InstallPlatform } from "./install-hint";
 import { isRunningInstalled } from "./service-worker";
@@ -50,6 +51,7 @@ export function useInstallHint(): {
             userAgent: navigator.userAgent,
             maxTouchPoints: navigator.maxTouchPoints,
             isInstalled: isRunningInstalled(),
+            isNativeApp: isNativeApp(),
             hasDeferredPrompt: deferred !== null,
             dismissed,
           }),
