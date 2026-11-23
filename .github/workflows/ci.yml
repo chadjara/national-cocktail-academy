@@ -40,7 +40,7 @@ jobs:
         # prerendered pages don't end up at the site root.
         run: pnpm build
         env:
-          BASE_PATH: /proof-bartending-academy/
+          BASE_PATH: /national-cocktail-academy/
       - if: failure()
         uses: actions/upload-artifact@v4
         with:

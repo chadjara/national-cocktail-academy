@@ -2,6 +2,7 @@ import { useCallback } from "react";
 
 import { appConfig } from "~/config/app.config";
 import { useLiveQuery } from "~/lib/db/use-live-query";
+import { tapFeedback } from "~/lib/native";
 
 import { unitsRepository } from "../repositories/units-repository";
 import type { UnitSystem } from "../services/units";
@@ -14,6 +15,7 @@ export function useUnits(): { units: UnitSystem; setUnits: (next: UnitSystem) =>
   const state = useLiveQuery(() => unitsRepository.get(), []);
   const units = state.status === "ready" ? state.data : appConfig.units.default;
   const setUnits = useCallback((next: UnitSystem) => {
+    tapFeedback();
     void unitsRepository.set(next);
   }, []);
   return { units, setUnits };

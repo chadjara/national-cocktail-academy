@@ -11,7 +11,13 @@ const ipadDesktopMode =
 const androidChrome =
   "Mozilla/5.0 (Linux; Android 15) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Mobile Safari/537.36";
 
-const base = { maxTouchPoints: 5, isInstalled: false, hasDeferredPrompt: false, dismissed: false };
+const base = {
+  maxTouchPoints: 5,
+  isInstalled: false,
+  isNativeApp: false,
+  hasDeferredPrompt: false,
+  dismissed: false,
+};
 
 describe("resolveInstallPlatform", () => {
   it("explains the Share sheet on iPhone Safari", () => {
@@ -36,6 +42,12 @@ describe("resolveInstallPlatform", () => {
     expect(
       resolveInstallPlatform({ ...base, userAgent: androidChrome, hasDeferredPrompt: true }),
     ).toBe("prompt");
+  });
+
+  it("never suggests installing from inside the iOS app", () => {
+    expect(resolveInstallPlatform({ ...base, userAgent: iphoneSafari, isNativeApp: true })).toBe(
+      "none",
+    );
   });
 
   it("stays quiet once installed or dismissed", () => {

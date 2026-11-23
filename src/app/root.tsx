@@ -4,6 +4,7 @@ import { AlertTriangle } from "lucide-react";
 import type { ReactNode } from "react";
 import {
   isRouteErrorResponse,
+  Link,
   Links,
   Meta,
   Outlet,
@@ -57,10 +58,18 @@ export function Layout({ children }: { children: ReactNode }) {
   );
 }
 
+function RailFooter() {
+  return (
+    <Link to="/privacy" className="underline decoration-1 underline-offset-[3px] hover:text-ink">
+      Privacy policy
+    </Link>
+  );
+}
+
 function Frame({ children }: { children: ReactNode }) {
   useAppUpdates();
   return (
-    <AppShell academyName={appConfig.academy.name} nav={primaryNav}>
+    <AppShell academyName={appConfig.academy.name} nav={primaryNav} railFooter={<RailFooter />}>
       {children}
     </AppShell>
   );

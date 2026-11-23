@@ -12,6 +12,12 @@ const appConfigSchema = z.object({
     name: z.string().min(2).max(40),
     shortName: z.string().min(2).max(12),
     tagline: z.string().min(10).max(90),
+    /** Where the website lives; links shared from the iOS app point here. */
+    publicUrl: z.url().endsWith("/"),
+    /** Stated wherever the name could be mistaken for an official institution. */
+    disclaimer: z.string().min(20),
+    /** How people reach the publisher; shown in the privacy policy. */
+    contactUrl: z.url().startsWith("https://"),
   }),
   ageGate: z.discriminatedUnion("mode", [
     z.object({
@@ -37,9 +43,13 @@ export type AppConfig = z.infer<typeof appConfigSchema>;
 
 export const appConfig: AppConfig = appConfigSchema.parse({
   academy: {
-    name: "Proof Bartending Academy",
-    shortName: "Proof",
+    name: "National Cocktail Academy",
+    shortName: "NCA",
     tagline: "Professional bartending, from first pour to running the well.",
+    publicUrl: "https://chadjara.github.io/national-cocktail-academy/",
+    disclaimer:
+      "National Cocktail Academy is an independent training app, not an accredited school or a government body.",
+    contactUrl: "https://cjaratech.com/contact.html",
   },
   ageGate: {
     mode: "confirm-age",

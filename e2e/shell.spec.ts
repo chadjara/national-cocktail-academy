@@ -3,7 +3,7 @@ import { expect, test } from "./fixtures";
 test("Today renders the academy and works without an account", async ({ page }) => {
   await page.goto("/");
   await expect(
-    page.getByRole("heading", { level: 1, name: "Proof Bartending Academy" }),
+    page.getByRole("heading", { level: 1, name: "National Cocktail Academy" }),
   ).toBeVisible();
   await expect(page.getByRole("link", { name: "Spec library" })).toBeVisible();
 });
@@ -59,4 +59,20 @@ test("prerendered pages are served directly, not through the 404 fallback", asyn
     const response = await page.goto(path);
     expect(response?.status(), path).toBe(200);
   }
+});
+
+test("the privacy policy is published, dated and gives a way to get in touch", async ({ page }) => {
+  const response = await page.goto("/privacy");
+  expect(response?.status()).toBe(200);
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Your data stays with you" }),
+  ).toBeVisible();
+  await expect(page.getByText(/^Last updated /)).toBeVisible();
+  await expect(page.getByRole("link", { name: /Get in touch here/ })).toHaveAttribute(
+    "href",
+    "https://cjaratech.com/contact.html",
+  );
+  await expect(
+    page.getByRole("table", { name: "Information NCA keeps on your device" }),
+  ).toBeVisible();
 });

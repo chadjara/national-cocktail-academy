@@ -32,6 +32,7 @@ export const routes = [
   "/library/negroni",
   "/library/ramos-fizz",
   "/my-bar",
+  "/privacy",
   "/design-system",
   "/not-a-real-page",
 ] as const;

@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 
 import { useLiveQuery, type LiveQueryState } from "~/lib/db/use-live-query";
+import { tapFeedback } from "~/lib/native";
 
 import { barRepository } from "../repositories/bar-repository";
 
@@ -11,6 +12,7 @@ export function useBar(): {
 } {
   const stocked = useLiveQuery(async () => new Set(await barRepository.listIds()), []);
   const setStocked = useCallback((ingredientId: string, value: boolean) => {
+    tapFeedback();
     void barRepository.setStocked(ingredientId, value);
   }, []);
   const clear = useCallback(() => {

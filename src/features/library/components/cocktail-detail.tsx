@@ -6,6 +6,7 @@ import {
   Snowflake,
   Sparkles,
   Waves,
+  Share as ShareIcon,
 } from "lucide-react";
 
 import { getIngredient, type Cocktail } from "~/content";
@@ -34,9 +35,28 @@ import {
   TextLink,
 } from "~/design-system";
 
+import { canShare, share } from "~/lib/native";
+import { useHydrated } from "~/lib/use-hydrated";
+
 import { useFavorites } from "../hooks/use-favorites";
 import { useUnits } from "../hooks/use-units";
+import { buildShareText } from "../services/share-text";
 import { formatAmount, mlToOz, totalMl, type UnitSystem } from "../services/units";
+
+function ShareButton({ cocktail, units }: { cocktail: Cocktail; units: UnitSystem }) {
+  // navigator.share and the native bridge only exist after hydration.
+  const hydrated = useHydrated();
+  if (!hydrated || !canShare()) return null;
+  return (
+    <Button
+      variant="secondary"
+      onClick={() => void share(buildShareText(cocktail, units))}
+      leadingIcon={<ShareIcon aria-hidden size={18} strokeWidth={ICON_STROKE} />}
+    >
+      Share <span className="sr-only">{cocktail.name}</span>
+    </Button>
+  );
+}
 
 function FavoriteButton({ cocktailId, name }: { cocktailId: string; name: string }) {
   const { favorites, toggle } = useFavorites();
@@ -122,7 +142,10 @@ export function CocktailDetail({ cocktail }: { cocktail: Cocktail }) {
             {volume > 0 &&
               `${units === "oz" ? `${mlToOz(volume)} oz` : `${String(volume)} ml`} measured, before dilution`}
           </Text>
-          <FavoriteButton cocktailId={cocktail.id} name={cocktail.name} />
+          <div className="flex gap-1">
+            <ShareButton cocktail={cocktail} units={units} />
+            <FavoriteButton cocktailId={cocktail.id} name={cocktail.name} />
+          </div>
         </div>
       </section>
 

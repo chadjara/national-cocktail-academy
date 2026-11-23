@@ -15,7 +15,7 @@ test("after one visit, the app loads and navigates with no network", async ({ pa
 
   await page.reload();
   await expect(
-    page.getByRole("heading", { level: 1, name: "Proof Bartending Academy" }),
+    page.getByRole("heading", { level: 1, name: "National Cocktail Academy" }),
   ).toBeVisible();
 
   await page.getByRole("link", { name: "Spec library" }).click();

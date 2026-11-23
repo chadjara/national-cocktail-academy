@@ -32,10 +32,13 @@ function Wordmark({ name }: { name: string }) {
 export function AppShell({
   academyName,
   nav,
+  railFooter,
   children,
 }: {
   academyName: string;
   nav: readonly NavItem[];
+  /** Small print pinned to the bottom of the desktop rail (e.g. the privacy link). */
+  railFooter?: ReactNode;
   children: ReactNode;
 }) {
   const showNav = nav.length > 1;
@@ -49,7 +52,7 @@ export function AppShell({
         Skip to content
       </a>
 
-      <header className="sticky top-0 z-30 flex h-7 items-center border-b border-line bg-canvas px-2 lg:hidden">
+      <header className="sticky top-0 z-30 box-content flex h-7 items-center border-b border-line bg-canvas px-2 pt-[env(safe-area-inset-top)] lg:hidden">
         <Wordmark name={academyName} />
       </header>
 
@@ -80,6 +83,9 @@ export function AppShell({
               ))}
             </ul>
           </nav>
+        )}
+        {railFooter !== undefined && (
+          <div className="mt-auto text-caption text-ink-subtle">{railFooter}</div>
         )}
       </aside>
 

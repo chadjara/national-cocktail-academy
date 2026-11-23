@@ -10,6 +10,7 @@ export function prerenderPaths(): string[] {
     "/",
     "/library",
     "/my-bar",
+    "/privacy",
     "/design-system",
     ...listCocktails().map((cocktail) => `/library/${cocktail.id}`),
   ];
