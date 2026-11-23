@@ -6,6 +6,11 @@ name: TestFlight
 # so there are no certificates or profiles in the repo (ADR-0009).
 on:
   workflow_dispatch:
+    inputs:
+      attempt:
+        description: "Set automatically when a run is retried because no macOS runner was available"
+        required: false
+        default: "1"
   push:
     tags: ["v*"]
 
@@ -19,9 +24,10 @@ permissions:
 jobs:
   upload:
     name: Build and upload to TestFlight
-    # macos-15 has a far larger runner pool than macos-26 (whose jobs often went
-    # unclaimed) and ships Xcode 26.x, which meets Apple's iOS 26 SDK requirement.
-    runs-on: macos-15
+    # GitHub's Apple Silicon macOS pools (macos-15, macos-26) have been unable to
+    # hand out runners since late October 2026. The Intel pool is separate and its
+    # macOS 15 image ships Xcode 26.3, which meets Apple's iOS 26 SDK requirement.
+    runs-on: macos-15-intel
     timeout-minutes: 45
     env:
       ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
@@ -106,3 +112,35 @@ jobs:
       - name: Remove the API key
         if: always()
         run: rm -rf "$RUNNER_TEMP/asc"
+
+  # GitHub sometimes can't hand out a macOS runner at all; the upload job then
+  # ends after ~15 minutes without running a single step. Re-dispatch the
+  # workflow (up to 3 attempts) in that case only. Real build failures, which
+  # do run steps, are left for a human to read.
+  retry-unacquired:
+    name: Retry if no macOS runner was available
+    needs: upload
+    if: always() && needs.upload.result != 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ATTEMPT: ${{ inputs.attempt || '1' }}
+    steps:
+      - name: Re-dispatch when the upload job never got a runner
+        run: |
+          steps=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/jobs" \
+            --jq '[.jobs[] | select(.name == "Build and upload to TestFlight") | .steps | length] | first // 0')
+          if [ "$steps" != "0" ]; then
+            echo "The upload job ran $steps steps, so this was a real failure. Not retrying."
+            exit 0
+          fi
+          if [ "$ATTEMPT" -ge 3 ]; then
+            echo "::error::No macOS runner after $ATTEMPT attempts. Try again later."
+            exit 1
+          fi
+          next=$((ATTEMPT + 1))
+          echo "No macOS runner was available. Dispatching attempt $next."
+          gh workflow run testflight.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" -f attempt="$next"
