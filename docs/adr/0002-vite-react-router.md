@@ -1,6 +1,6 @@
 # 0002. Vite + React Router 7 instead of Next.js
 
-**Status:** Accepted · 2026-11-21
+**Status:** Accepted · 2026-11-21 · Prerendering superseded by [0010](0010-app-only-distribution.md) (the app ships one single-page `index.html`)
 
 ## Context
 

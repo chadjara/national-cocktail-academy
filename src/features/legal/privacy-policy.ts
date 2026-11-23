@@ -35,11 +35,6 @@ export const storedOnDevice: readonly StoredItem[] = [
   },
   { item: "Units (oz or ml) and theme", why: "To remember your display preferences.", when: "now" },
   {
-    item: "Whether you dismissed the install tip",
-    why: "So it doesn’t keep appearing.",
-    when: "now",
-  },
-  {
     item: "Lesson progress, practice history and exam results",
     why: "To track your training as those features arrive.",
     when: "planned",

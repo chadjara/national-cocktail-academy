@@ -7,7 +7,7 @@ import { z } from "zod";
 
 /** Small device-level settings, one row per key. */
 export const metaRecordSchema = z.object({
-  key: z.enum(["installHintDismissedAt", "units"]),
+  key: z.enum(["units"]),
   value: z.string(),
 });
 export type MetaRecord = z.infer<typeof metaRecordSchema>;

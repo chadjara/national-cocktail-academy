@@ -35,12 +35,6 @@ jobs:
       - run: pnpm e2e
       - name: Lighthouse budgets (mobile)
         run: pnpm exec lhci autorun
-      - name: Build for a GitHub Pages sub-path
-        # Pages serves project sites under /<repo>/. postbuild fails if the
-        # prerendered pages don't end up at the site root.
-        run: pnpm build
-        env:
-          BASE_PATH: /national-cocktail-academy/
       - if: failure()
         uses: actions/upload-artifact@v4
         with:

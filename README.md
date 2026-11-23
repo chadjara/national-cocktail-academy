@@ -11,8 +11,9 @@ certificate of completion.
 
 ## How it works
 
-- **Static PWA.** Hosted on GitHub Pages. After the first visit the service worker caches the
-  whole app, so it works with no signal behind the bar.
+- **An iPhone app.** NCA ships only as an iOS app: Capacitor wraps a React bundle that lives
+  entirely inside the binary, so it works with no signal behind the bar
+  ([ADR 0009](docs/adr/0009-native-ios-capacitor.md), [ADR 0010](docs/adr/0010-app-only-distribution.md)).
 - **Data stays on the device.** Progress lives in IndexedDB. There are no servers, accounts,
   analytics or third-party requests, and the Content Security Policy enforces that.
 - **Content is code.** Curriculum and specs are typed files, validated in CI.
@@ -31,15 +32,15 @@ pnpm install
 pnpm dev
 ```
 
-| Command          | What it does                                                           |
-| ---------------- | ---------------------------------------------------------------------- |
-| `pnpm dev`       | Dev server with hot reload                                             |
-| `pnpm build`     | Production build, then CSP hashing, Pages fallback and service worker  |
-| `pnpm preview`   | Serves the build the way GitHub Pages does, at `http://localhost:4173` |
-| `pnpm typecheck` | Route type generation and strict TypeScript                            |
-| `pnpm lint`      | ESLint (type-aware, a11y, hooks) with zero warnings allowed            |
-| `pnpm test`      | Vitest unit tests, including WCAG contrast checks on every token pair  |
-| `pnpm e2e`       | Playwright on phone and desktop: offline, axe, keyboard (build first)  |
+| Command          | What it does                                                          |
+| ---------------- | --------------------------------------------------------------------- |
+| `pnpm dev`       | Dev server with hot reload                                            |
+| `pnpm build`     | Production build (one single-page bundle), then CSP hashing           |
+| `pnpm preview`   | Serves the build the way the app loads it, at `http://localhost:4173` |
+| `pnpm typecheck` | Route type generation and strict TypeScript                           |
+| `pnpm lint`      | ESLint (type-aware, a11y, hooks) with zero warnings allowed           |
+| `pnpm test`      | Vitest unit tests, including WCAG contrast checks on every token pair |
+| `pnpm e2e`       | Playwright on phone and desktop: offline, axe, keyboard (build first) |
 
 Git hooks run lint-staged on commit and typecheck plus tests on push.
 
@@ -47,12 +48,12 @@ Git hooks run lint-staged on commit and typecheck plus tests on push.
 
 ```
 src/
-  app/              routes (thin), root layout, navigation, prerender list
+  app/              routes (thin), root layout, navigation
   config/           app.config.ts: name, age gate, units, pass mark (Zod-validated)
   design-system/    tokens, components, patterns; documented live at /design-system
   features/         one folder per feature: components, hooks, services, repositories
   lib/              database, shared utilities
-scripts/            postbuild (CSP, Pages, service worker), preview server, icon generator
+scripts/            postbuild (CSP), preview server, icon generator, iOS smoke test
 e2e/                Playwright specs
 docs/               product spec, architecture, data model, roadmap, ADRs
 ```
@@ -67,14 +68,6 @@ Rules the linter enforces:
 
 Visit `/design-system` in the running app. It documents color, type, space, motion, icons, every
 component in every state, and the voice. Screens use only these components and tokens.
-
-## Deploying
-
-Pushing to `main` runs CI. When CI passes, `.github/workflows/deploy.yml` builds with the
-repository's Pages base path and publishes it. One-time setup in the GitHub repo: **Settings →
-Pages → Source: GitHub Actions**.
-
-For a custom domain, add it in the Pages settings. The base path switches to `/` automatically.
 
 ## iOS app and TestFlight
 

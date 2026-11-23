@@ -1,35 +1,18 @@
 /**
- * Rasterizes public/icons/favicon.svg into every size the web manifest, iOS
- * Safari and the iOS app need. Run after changing the icon:
+ * Rasterizes resources/icon.svg into the inputs @capacitor/assets needs for
+ * the iOS app icon and launch screens. Run after changing the icon:
  *   node scripts/generate-icons.mjs && npx capacitor-assets generate --ios
  */
 import { mkdir, readFile } from "node:fs/promises";
 
 import { chromium } from "@playwright/test";
 
-const svg = await readFile("public/icons/favicon.svg", "utf8");
+const svg = await readFile("resources/icon.svg", "utf8");
 const glass = svg.replace(/<rect[^>]*\/>/, "");
 
 /** @type {Array<{ path: string; size: number; background: string; art: string; scale: number }>} */
 const targets = [
-  // Web: full-bleed square icons.
-  { path: "public/icons/icon-192.png", size: 192, background: "#74202e", art: svg, scale: 1 },
-  { path: "public/icons/icon-512.png", size: 512, background: "#74202e", art: svg, scale: 1 },
-  {
-    path: "public/icons/icon-maskable-512.png",
-    size: 512,
-    background: "#74202e",
-    art: svg,
-    scale: 1,
-  },
-  {
-    path: "public/icons/apple-touch-icon.png",
-    size: 180,
-    background: "#74202e",
-    art: svg,
-    scale: 1,
-  },
-  // iOS app (input for @capacitor/assets). App Store icons must be opaque.
+  // App icon. App Store icons must be opaque.
   { path: "resources/icon-only.png", size: 1024, background: "#74202e", art: svg, scale: 1 },
   // Launch screens: the coupe, small and centered, on the brand color.
   { path: "resources/splash.png", size: 2732, background: "#74202e", art: glass, scale: 0.18 },

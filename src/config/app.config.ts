@@ -12,8 +12,6 @@ const appConfigSchema = z.object({
     name: z.string().min(2).max(40),
     shortName: z.string().min(2).max(12),
     tagline: z.string().min(10).max(90),
-    /** Where the website lives; links shared from the iOS app point here. */
-    publicUrl: z.url().endsWith("/"),
     /** Stated wherever the name could be mistaken for an official institution. */
     disclaimer: z.string().min(20),
     /** The official, publisher-hosted privacy policy (also used in App Store Connect). */
@@ -48,7 +46,6 @@ export const appConfig: AppConfig = appConfigSchema.parse({
     name: "National Cocktail Academy",
     shortName: "NCA",
     tagline: "Professional bartending, from first pour to running the well.",
-    publicUrl: "https://chadjara.github.io/national-cocktail-academy/",
     disclaimer:
       "National Cocktail Academy is an independent training app, not an accredited school or a government body.",
     privacyPolicyUrl: "https://cjaratech.com/national-cocktail-academy/privacy",

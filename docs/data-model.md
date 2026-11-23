@@ -66,9 +66,9 @@ erDiagram
 The ERD above is the approved target. Tables land in the milestone that first uses them, each as a
 new Dexie `version()` block, so every release runs a real migration.
 
-| Schema version | Milestone | Tables added | Notes                                             |
-| -------------- | --------- | ------------ | ------------------------------------------------- |
-| 1              | M0        | `meta`       | Device-level settings (`installHintDismissedAt`). |
+| Schema version | Milestone | Tables added | Notes                                                                                                   |
+| -------------- | --------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+| 1              | M0        | `meta`       | Device-level settings (`units`). The website-only `installHintDismissedAt` key was retired by ADR 0010. |
 
 Theme preference is deliberately **not** in IndexedDB: it lives in `localStorage` under
 `academy.theme` so it can be applied before first paint (ADR 0003).

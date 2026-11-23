@@ -10,19 +10,14 @@ describe("schema migrations", () => {
     // A device that installed the M0/M1 release.
     const v1 = new Dexie(name);
     v1.version(1).stores({ meta: "key" });
-    await v1
-      .table("meta")
-      .put({ key: "installHintDismissedAt", value: "2026-11-21T22:15:00.000Z" });
+    await v1.table("meta").put({ key: "units", value: "ml" });
     v1.close();
 
     const current = new AcademyDatabase(name);
     await current.open();
 
     expect(current.verno).toBe(2);
-    expect(await current.meta.get("installHintDismissedAt")).toEqual({
-      key: "installHintDismissedAt",
-      value: "2026-11-21T22:15:00.000Z",
-    });
+    expect(await current.meta.get("units")).toEqual({ key: "units", value: "ml" });
     await current.favorites.put({ cocktailId: "negroni", addedAt: new Date().toISOString() });
     await current.barItems.put({ ingredientId: "gin", addedAt: new Date().toISOString() });
     expect(await current.favorites.count()).toBe(1);

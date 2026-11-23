@@ -14,7 +14,7 @@ import {
 
 import { appConfig } from "~/config/app.config";
 import { AppShell, Button, ErrorState, ICON_STROKE, ToastProvider } from "~/design-system";
-import { useAppUpdates } from "~/features/pwa/use-app-updates";
+import { useAppLaunch } from "~/features/app-shell/use-app-launch";
 import { themeBootScript } from "~/features/theme/theme";
 
 import frauncesLatin from "@fontsource-variable/fraunces/files/fraunces-latin-opsz-normal.woff2?url";
@@ -29,9 +29,6 @@ export const links: Route.LinksFunction = () => [
   // with no swap-induced layout shift.
   { rel: "preload", href: interLatin, as: "font", type: "font/woff2", crossOrigin: "anonymous" },
   { rel: "preload", href: frauncesLatin, as: "font", type: "font/woff2", crossOrigin: "anonymous" },
-  { rel: "manifest", href: `${import.meta.env.BASE_URL}manifest.webmanifest` },
-  { rel: "icon", href: `${import.meta.env.BASE_URL}icons/favicon.svg`, type: "image/svg+xml" },
-  { rel: "apple-touch-icon", href: `${import.meta.env.BASE_URL}icons/apple-touch-icon.png` },
 ];
 
 export function Layout({ children }: { children: ReactNode }) {
@@ -40,10 +37,6 @@ export function Layout({ children }: { children: ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        <meta name="theme-color" content="#f5f1e9" media="(prefers-color-scheme: light)" />
-        <meta name="theme-color" content="#12110f" media="(prefers-color-scheme: dark)" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-title" content={appConfig.academy.shortName} />
         <meta name="description" content={appConfig.academy.tagline} />
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
         <Meta />
@@ -67,12 +60,20 @@ function RailFooter() {
 }
 
 function Frame({ children }: { children: ReactNode }) {
-  useAppUpdates();
+  useAppLaunch();
   return (
     <AppShell academyName={appConfig.academy.name} nav={primaryNav} railFooter={<RailFooter />}>
       {children}
     </AppShell>
   );
+}
+
+/**
+ * What index.html shows before React takes over: just the page background,
+ * so nothing flashes. In the app the launch screen covers this moment.
+ */
+export function HydrateFallback() {
+  return <div className="min-h-dvh bg-canvas" />;
 }
 
 export default function App() {

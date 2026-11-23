@@ -1,6 +1,6 @@
 # Roadmap
 
-Every milestone ends **deployed to GitHub Pages, tested and reported** (shipped / tested / known
+Every milestone ends **built, tested, shipped to TestFlight and reported** (shipped / tested / known
 issues / next).
 
 | #         | Milestone                        | Ships                                                                                                                                                                                                                                                         | Key tests                                                                                                |
