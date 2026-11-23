@@ -5,7 +5,7 @@ import type { CapacitorConfig } from "@capacitor/cli";
  * Everything ships inside the binary; nothing is loaded from the network.
  */
 const config: CapacitorConfig = {
-  appId: "com.chadjara.nationalcocktailacademy",
+  appId: "com.cjaratech.nationalcocktailacademy",
   appName: "NCA",
   webDir: "build/client",
   ios: {

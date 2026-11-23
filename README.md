@@ -86,7 +86,7 @@ GitHub Actions builds and signs it on macOS, so no Mac is needed.
 1. **App Store Connect → Apps → + → New App.**
    - Platform: iOS
    - Name: National Cocktail Academy
-   - Bundle ID: `com.chadjara.nationalcocktailacademy` (register it under developer.apple.com → Identifiers if it isn't
+   - Bundle ID: `com.cjaratech.nationalcocktailacademy` (register it under developer.apple.com → Identifiers if it isn't
      listed)
    - SKU: `nca-ios`
 2. **App Store Connect → Users and Access → Integrations → App Store Connect API → Team Keys → +.**
