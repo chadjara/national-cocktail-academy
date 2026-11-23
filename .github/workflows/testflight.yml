@@ -19,7 +19,9 @@ permissions:
 jobs:
   upload:
     name: Build and upload to TestFlight
-    runs-on: macos-26
+    # macos-15 has a far larger runner pool than macos-26 (whose jobs often went
+    # unclaimed) and ships Xcode 26.x, which meets Apple's iOS 26 SDK requirement.
+    runs-on: macos-15
     timeout-minutes: 45
     env:
       ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
