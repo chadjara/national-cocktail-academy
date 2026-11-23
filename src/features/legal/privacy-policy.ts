@@ -1,15 +1,13 @@
 import { appConfig } from "~/config/app.config";
 
 /**
- * The privacy policy as data, so every change is a readable text diff.
- * Update `lastUpdated` with any material change, and rewrite this before
- * NCA ever adds accounts, payments, analytics or a server.
+ * The privacy policy for the NCA iPhone app, as data. This text must match
+ * the official copy at `appConfig.academy.privacyPolicyUrl` word for word;
+ * the publisher maintains that page, and any change there is mirrored here
+ * (and vice versa) in the same release. Update `policyLastUpdated` with it.
  */
 
 export const policyLastUpdated = "23 November 2026";
-
-/** The website, named by address so the policy reads correctly wherever it's posted. */
-const siteHost = appConfig.academy.publicUrl.replace(/^https:\/\//, "").replace(/\/$/, "");
 
 export type PolicyLink = { label: string; href: string };
 
@@ -21,9 +19,9 @@ export type PolicyBlock =
 export type PolicySection = { id: string; heading: string; blocks: readonly PolicyBlock[] };
 
 export const policySummary: readonly string[] = [
-  "No accounts, no analytics, no advertising and no tracking.",
-  "NCA doesn't collect personal data. What you do in the app stays on your device.",
-  "Nothing is sold or shared, because there is nothing to sell or share.",
+  "No accounts, no in-app analytics, no advertising and no tracking.",
+  "NCA does not collect your saved specs, bar inventory, preferences or training records. What you do in the app stays on your device.",
+  "We do not sell or share personal information for advertising, and never will. Apple-provided diagnostics and information you choose to send us are explained below.",
 ];
 
 export type StoredItem = { item: string; why: string; when: "now" | "planned" };
@@ -38,7 +36,7 @@ export const storedOnDevice: readonly StoredItem[] = [
   { item: "Units (oz or ml) and theme", why: "To remember your display preferences.", when: "now" },
   {
     item: "Whether you dismissed the install tip",
-    why: "So it doesn't keep appearing.",
+    why: "So it doesn’t keep appearing.",
     when: "now",
   },
   {
@@ -53,15 +51,6 @@ export const storedOnDevice: readonly StoredItem[] = [
   },
 ];
 
-const githubPrivacy: PolicyLink = {
-  label: "GitHub's Privacy Statement",
-  href: "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
-};
-const applePrivacy: PolicyLink = {
-  label: "Apple's Privacy Policy",
-  href: "https://www.apple.com/legal/privacy/",
-};
-
 export const policySections: readonly PolicySection[] = [
   {
     id: "who-we-are",
@@ -69,7 +58,11 @@ export const policySections: readonly PolicySection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: `${appConfig.academy.name} ("NCA") publishes the NCA website at ${siteHost} and the NCA app for iPhone. ${appConfig.academy.disclaimer} In this policy, "NCA" and "we" mean ${appConfig.academy.name}.`,
+        text: `${appConfig.academy.name} (“NCA”) publishes the NCA app for iPhone. ${appConfig.academy.disclaimer} In this policy, “NCA” and “we” mean ${appConfig.academy.name}.`,
+      },
+      {
+        kind: "paragraph",
+        text: "This policy applies only to the NCA iPhone app. It does not cover the NCA website, Bartender’s Academy website or general browsing of CJaraTech.",
       },
     ],
   },
@@ -79,11 +72,11 @@ export const policySections: readonly PolicySection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: "NCA keeps a small amount of information so it works the way you left it. On the NCA website it's in your browser's storage (IndexedDB and localStorage). In the iPhone app it's in the app's own storage. It is never sent to us or to anyone else, and we can't see it.",
+        text: "NCA keeps a small amount of information in the app’s own storage so it works the way you left it. These app records are never sent to us, and we cannot see them on your device. You may separately choose to include information in feedback or a support message.",
       },
       {
         kind: "paragraph",
-        text: "To delete it, clear the NCA website's data in your browser settings, or delete the app. If NCA later lets you export a backup file, that file is yours: it's created on your device and goes only where you put it.",
+        text: "To delete the information stored by the app, delete the app. If NCA later lets you export a backup file, that file is yours: it is created on your device and goes only where you put it. Copies in device backups or exported files may remain until you delete them through the relevant device settings or service.",
       },
     ],
   },
@@ -93,35 +86,29 @@ export const policySections: readonly PolicySection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: "NCA itself collects nothing, but two companies that deliver it may process limited technical information under their own policies:",
-      },
-      {
-        kind: "link",
-        before:
-          "GitHub hosts the NCA website on GitHub Pages. Like most web hosts, GitHub may log visitors' IP addresses and request details for security and to keep the service running. We don't receive or use those logs. See ",
-        link: githubPrivacy,
-        after: ".",
-      },
-      {
-        kind: "link",
-        before:
-          "Apple distributes the iPhone app through the App Store and TestFlight. If you test through TestFlight, Apple may share with us crash reports, device and iOS details, and any feedback or screenshots you choose to send, so we can fix problems. On the App Store, Apple shares app usage and crash data with developers only if you opt in to sharing with app developers in your device settings. See ",
-        link: applePrivacy,
-        after: ".",
+        text: "Apple distributes the app through the App Store and TestFlight. For App Store releases, the usage and crash information made available to us depends on Apple’s sharing settings and privacy safeguards.",
       },
       {
         kind: "paragraph",
-        text: "Each spec lists the sources it came from. Those links open the source's website in your browser, and that site's own privacy policy applies.",
+        text: "If you test a beta version through TestFlight, Apple automatically collects and shares crash logs and usage information with us, including device and iOS details. Depending on your invitation, this can include your name and email address. If you join through a public link, your name and email address are not displayed to us through that invitation. Feedback and screenshots you choose to submit through TestFlight are also shared with us.",
+      },
+      {
+        kind: "paragraph",
+        text: "We use these reports and feedback to fix problems and improve the app, not for advertising or tracking. This platform reporting is separate from the app records stored on your device.",
+      },
+      {
+        kind: "paragraph",
+        text: "Each spec lists its sources. If you choose to open a source link, it opens an external website in your browser. That website handles information under its own privacy practices.",
       },
     ],
   },
   {
-    id: "no-third-parties",
-    heading: "No third-party code",
+    id: "no-third-party-tracking",
+    heading: "No third-party tracking",
     blocks: [
       {
         kind: "paragraph",
-        text: "NCA doesn't load anything from other companies: no analytics, no ad networks, no social media widgets, no outside fonts. Every file comes from NCA itself, and the NCA website's security policy blocks scripts from elsewhere and stops the page from sending data to any other server.",
+        text: "NCA does not include analytics, advertising networks, social media tracking widgets or externally loaded fonts. The app’s content and fonts are bundled with the app. Apple’s distribution and diagnostic services described above are separate from the app’s own features.",
       },
     ],
   },
@@ -131,7 +118,7 @@ export const policySections: readonly PolicySection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: "NCA is professional bartending training for adults of legal drinking age (21 or older in the United States). It isn't directed at children. Because NCA collects no personal data from anyone, it collects none from children.",
+        text: "NCA is professional bartending training for adults of legal drinking age (21 or older in the United States). It is not directed at children. NCA’s core app features do not collect personal data from anyone, including children. Platform reports and voluntary communications are described in this policy.",
       },
     ],
   },
@@ -141,11 +128,11 @@ export const policySections: readonly PolicySection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: "Privacy laws such as the California Consumer Privacy Act (CCPA/CPRA) and the EU and UK GDPR give you rights to access, correct, delete and limit the use of your personal information, and to opt out of its sale or sharing.",
+        text: "You control the app records stored on your device. We cannot access or change those local records. Depending on where you live and the law that applies, you may have rights to access, correct or delete personal information, limit certain uses, or opt out of its sale or sharing.",
       },
       {
         kind: "paragraph",
-        text: "We hold no personal information about you, so there is nothing for us to access, correct, delete, sell or share. Everything NCA stores is on your device and fully under your control. We do not sell or share personal information, and never will.",
+        text: "If we have received information through diagnostics, feedback or a support request, contact us about that information or any applicable privacy rights. We do not sell personal information or share it for advertising, and never will.",
       },
     ],
   },
@@ -155,7 +142,7 @@ export const policySections: readonly PolicySection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: "Information on your device is protected by your device's and browser's own security, such as your passcode. NCA has no servers or accounts, so there is no database of your information that could be breached.",
+        text: "Information stored locally is protected by your device’s security, such as your passcode. NCA has no accounts or server-side database of your saved specs, bar inventory, preferences or training records. Diagnostic reports and support messages are separate, as described in this policy.",
       },
     ],
   },
@@ -165,7 +152,7 @@ export const policySections: readonly PolicySection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: "If how NCA handles information ever changes, we'll update this page and its date first, and tell you in the app before the change takes effect.",
+        text: `${appConfig.academy.name} reserves the right to update or modify this Privacy Policy at any time. We will post the revised policy on this page and update the “Last updated” date. Where applicable law requires additional notice or consent, we will provide that notice or obtain that consent.`,
       },
     ],
   },
@@ -178,6 +165,10 @@ export const policySections: readonly PolicySection[] = [
         before: "Questions about this policy or about NCA? ",
         link: { label: "Get in touch here", href: appConfig.academy.contactUrl },
         after: ".",
+      },
+      {
+        kind: "paragraph",
+        text: "If you contact us, we receive the message and any contact details or attachments you choose to provide. We use that information to respond and troubleshoot issues, and retain it as needed to handle your request and meet applicable obligations. Please do not include passwords or other sensitive information.",
       },
     ],
   },

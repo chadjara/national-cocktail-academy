@@ -99,6 +99,14 @@ GitHub Actions builds and signs it on macOS, so no Mac is needed.
    - `ASC_ISSUER_ID`
    - `APPLE_TEAM_ID`: shown at developer.apple.com → Membership
 
+4. **Privacy policy URL.** Use the official copy, `https://cjaratech.com/national-cocktail-academy/privacy`,
+   in two places:
+   - **App Information → Privacy Policy URL**, for the App Store
+   - **TestFlight → Test Information → Privacy Policy URL**, required for external testers
+
+   The app's built-in `/privacy` page mirrors that text word for word
+   (`src/features/legal/privacy-policy.ts`); change both together.
+
 **Ship a build.**
 
 1. Go to **Actions → TestFlight → Run workflow**, or push a tag matching the `package.json` version

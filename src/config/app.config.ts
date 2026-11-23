@@ -16,6 +16,8 @@ const appConfigSchema = z.object({
     publicUrl: z.url().endsWith("/"),
     /** Stated wherever the name could be mistaken for an official institution. */
     disclaimer: z.string().min(20),
+    /** The official, publisher-hosted privacy policy (also used in App Store Connect). */
+    privacyPolicyUrl: z.url().startsWith("https://"),
     /** How people reach the publisher; shown in the privacy policy. */
     contactUrl: z.url().startsWith("https://"),
   }),
@@ -49,6 +51,7 @@ export const appConfig: AppConfig = appConfigSchema.parse({
     publicUrl: "https://chadjara.github.io/national-cocktail-academy/",
     disclaimer:
       "National Cocktail Academy is an independent training app, not an accredited school or a government body.",
+    privacyPolicyUrl: "https://cjaratech.com/national-cocktail-academy/privacy",
     contactUrl: "https://cjaratech.com/contact.html",
   },
   ageGate: {

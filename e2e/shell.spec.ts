@@ -64,9 +64,10 @@ test("prerendered pages are served directly, not through the 404 fallback", asyn
 test("the privacy policy is published, dated and gives a way to get in touch", async ({ page }) => {
   const response = await page.goto("/privacy");
   expect(response?.status()).toBe(200);
+  await expect(page.getByRole("heading", { level: 1, name: "Privacy Policy" })).toBeVisible();
   await expect(
-    page.getByRole("heading", { level: 1, name: "Your data stays with you" }),
-  ).toBeVisible();
+    page.getByRole("link", { name: /cjaratech\.com\/national-cocktail-academy\/privacy/ }),
+  ).toHaveAttribute("href", "https://cjaratech.com/national-cocktail-academy/privacy");
   await expect(page.getByText(/^Last updated /)).toBeVisible();
   await expect(page.getByRole("link", { name: /Get in touch here/ })).toHaveAttribute(
     "href",
