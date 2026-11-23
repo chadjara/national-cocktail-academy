@@ -34,9 +34,23 @@ LOG_PID=$!
 trap 'kill $LOG_PID 2>/dev/null || true' EXIT
 
 CONSOLE="$OUT_DIR/console.log"
-xcrun simctl launch --terminate-running-process \
-  --stdout="$CONSOLE" --stderr="$OUT_DIR/stderr.log" \
-  "$DEVICE_ID" "$BUNDLE_ID"
+# A freshly booted CI simulator can refuse launches until SpringBoard has
+# settled ("denied by service delegate"), so retry briefly.
+launched=false
+for attempt in 1 2 3 4 5 6; do
+  if xcrun simctl launch --terminate-running-process \
+    --stdout="$CONSOLE" --stderr="$OUT_DIR/stderr.log" \
+    "$DEVICE_ID" "$BUNDLE_ID"; then
+    launched=true
+    break
+  fi
+  echo "Launch attempt $attempt failed; SpringBoard may still be starting. Retrying in 15s."
+  sleep 15
+done
+if [ "$launched" != true ]; then
+  echo "::error::The simulator refused to launch the app after 6 attempts."
+  exit 1
+fi
 
 for _ in $(seq 1 30); do
   if grep -q "\[proof\] ready" "$CONSOLE" 2>/dev/null; then break; fi
