@@ -76,6 +76,49 @@ Pages → Source: GitHub Actions**.
 
 For a custom domain, add it in the Pages settings. The base path switches to `/` automatically.
 
+## iOS app and TestFlight
+
+The iPhone app wraps the same build in Capacitor ([ADR 0009](docs/adr/0009-native-ios-capacitor.md)).
+GitHub Actions builds and signs it on macOS, so no Mac is needed.
+
+**One-time setup.** The account holder does this in Apple's and GitHub's web UIs.
+
+1. **App Store Connect → Apps → + → New App.**
+   - Platform: iOS
+   - Name: Proof Bartending Academy
+   - Bundle ID: `com.chadjara.proof` (register it under developer.apple.com → Identifiers if it isn't
+     listed)
+   - SKU: `proof-ios`
+2. **App Store Connect → Users and Access → Integrations → App Store Connect API → Team Keys → +.**
+   - Role: **Admin**. Cloud signing needs it.
+   - Download the `.p8` file, which is offered only once.
+   - Note the Key ID and Issuer ID.
+3. **GitHub → Settings → Secrets and variables → Actions.** Add:
+   - `ASC_API_KEY_P8`: the full text of the `.p8` file
+   - `ASC_KEY_ID`
+   - `ASC_ISSUER_ID`
+   - `APPLE_TEAM_ID`: shown at developer.apple.com → Membership
+
+**Ship a build.**
+
+1. Go to **Actions → TestFlight → Run workflow**, or push a tag matching the `package.json` version
+   (`git tag v0.2.0 && git push origin v0.2.0`).
+2. After Apple processes it (5–30 minutes), go to **App Store Connect → TestFlight**, add yourself as
+   an internal tester, and install with the TestFlight app.
+
+**Every PR that touches the app** is built for the iOS simulator and launched by `ios.yml`. A
+screenshot of the launch is attached to the run.
+
+To work on the native project locally (macOS only):
+
+```bash
+pnpm ios:sync
+```
+
+```bash
+pnpm exec cap open ios
+```
+
 ## Documentation
 
 - [Product spec and user stories](docs/product-spec.md)
