@@ -11,7 +11,7 @@ describe("buildShareText", () => {
     expect(buildShareText(negroni, "oz")).toEqual({
       title: "Negroni",
       text: "Negroni: 1 oz London dry gin, 1 oz Campari, 1 oz Sweet vermouth. Built, rocks glass. Garnish: half orange slice.",
-      url: "https://chadjara.github.io/proof-bartending-academy/library/negroni/",
+      url: "https://chadjara.github.io/national-cocktail-academy/library/negroni/",
     });
   });
 

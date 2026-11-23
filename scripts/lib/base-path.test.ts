@@ -18,15 +18,15 @@ afterEach(async () => {
 
 describe("hoistBasePathOutput", () => {
   it("moves pages prerendered under the base path to the root", async () => {
-    await mkdir(join(dir, "proof-bartending-academy", "library", "negroni"), { recursive: true });
-    await writeFile(join(dir, "proof-bartending-academy", "index.html"), "home");
+    await mkdir(join(dir, "national-cocktail-academy", "library", "negroni"), { recursive: true });
+    await writeFile(join(dir, "national-cocktail-academy", "index.html"), "home");
     await writeFile(
-      join(dir, "proof-bartending-academy", "library", "negroni", "index.html"),
+      join(dir, "national-cocktail-academy", "library", "negroni", "index.html"),
       "negroni",
     );
     await writeFile(join(dir, "__spa-fallback.html"), "fallback");
 
-    expect(await hoistBasePathOutput(dir, "/proof-bartending-academy/")).toBe(true);
+    expect(await hoistBasePathOutput(dir, "/national-cocktail-academy/")).toBe(true);
     expect(await readFile(join(dir, "index.html"), "utf8")).toBe("home");
     expect(await readFile(join(dir, "library", "negroni", "index.html"), "utf8")).toBe("negroni");
     expect(await readFile(join(dir, "__spa-fallback.html"), "utf8")).toBe("fallback");

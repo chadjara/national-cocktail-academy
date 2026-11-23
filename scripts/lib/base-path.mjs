@@ -40,7 +40,7 @@ async function moveInto(from, to) {
  * must live at the root too. Moves them up; a no-op for basePath "/".
  *
  * @param {string} buildDir
- * @param {string} basePath normalized, e.g. "/proof-bartending-academy/"
+ * @param {string} basePath normalized, e.g. "/national-cocktail-academy/"
  * @returns {Promise<boolean>} whether anything was moved
  */
 export async function hoistBasePathOutput(buildDir, basePath) {

@@ -8,6 +8,9 @@ import { appConfig } from "~/config/app.config";
 
 export const policyLastUpdated = "23 November 2026";
 
+/** The website, named by address so the policy reads correctly wherever it's posted. */
+const siteHost = appConfig.academy.publicUrl.replace(/^https:\/\//, "").replace(/\/$/, "");
+
 export type PolicyLink = { label: string; href: string };
 
 export type PolicyBlock =
@@ -66,7 +69,7 @@ export const policySections: readonly PolicySection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: `${appConfig.academy.name} ("NCA") publishes this website and the NCA app for iPhone. ${appConfig.academy.disclaimer} In this policy, "NCA" and "we" mean ${appConfig.academy.name}.`,
+        text: `${appConfig.academy.name} ("NCA") publishes the NCA website at ${siteHost} and the NCA app for iPhone. ${appConfig.academy.disclaimer} In this policy, "NCA" and "we" mean ${appConfig.academy.name}.`,
       },
     ],
   },
@@ -76,11 +79,11 @@ export const policySections: readonly PolicySection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: "NCA keeps a small amount of information so it works the way you left it. On the website it's in your browser's storage (IndexedDB and localStorage). In the iPhone app it's in the app's own storage. It is never sent to us or to anyone else, and we can't see it.",
+        text: "NCA keeps a small amount of information so it works the way you left it. On the NCA website it's in your browser's storage (IndexedDB and localStorage). In the iPhone app it's in the app's own storage. It is never sent to us or to anyone else, and we can't see it.",
       },
       {
         kind: "paragraph",
-        text: "To delete it, clear this site's data in your browser settings, or delete the app. If NCA later lets you export a backup file, that file is yours: it's created on your device and goes only where you put it.",
+        text: "To delete it, clear the NCA website's data in your browser settings, or delete the app. If NCA later lets you export a backup file, that file is yours: it's created on your device and goes only where you put it.",
       },
     ],
   },
@@ -95,14 +98,14 @@ export const policySections: readonly PolicySection[] = [
       {
         kind: "link",
         before:
-          "GitHub hosts this website on GitHub Pages. Like most web hosts, GitHub may log visitors' IP addresses and request details for security and to keep the service running. We don't receive or use those logs. See ",
+          "GitHub hosts the NCA website on GitHub Pages. Like most web hosts, GitHub may log visitors' IP addresses and request details for security and to keep the service running. We don't receive or use those logs. See ",
         link: githubPrivacy,
         after: ".",
       },
       {
         kind: "link",
         before:
-          "Apple distributes the iPhone app through the App Store and TestFlight. If you test through TestFlight, Apple may share crash reports, device and iOS details, and any feedback or screenshots you choose to send with us, to help fix problems. On the App Store, Apple shares app usage and crash data with developers only if you opt in to sharing with app developers in your device settings. See ",
+          "Apple distributes the iPhone app through the App Store and TestFlight. If you test through TestFlight, Apple may share with us crash reports, device and iOS details, and any feedback or screenshots you choose to send, so we can fix problems. On the App Store, Apple shares app usage and crash data with developers only if you opt in to sharing with app developers in your device settings. See ",
         link: applePrivacy,
         after: ".",
       },
@@ -118,7 +121,7 @@ export const policySections: readonly PolicySection[] = [
     blocks: [
       {
         kind: "paragraph",
-        text: "NCA doesn't load anything from other companies: no analytics, no ad networks, no social media widgets, no outside fonts. Every file comes from NCA itself, and the site's security policy blocks scripts from elsewhere and stops the page from sending data to any other server.",
+        text: "NCA doesn't load anything from other companies: no analytics, no ad networks, no social media widgets, no outside fonts. Every file comes from NCA itself, and the NCA website's security policy blocks scripts from elsewhere and stops the page from sending data to any other server.",
       },
     ],
   },

@@ -46,8 +46,9 @@ export const appConfig: AppConfig = appConfigSchema.parse({
     name: "National Cocktail Academy",
     shortName: "NCA",
     tagline: "Professional bartending, from first pour to running the well.",
-    publicUrl: "https://chadjara.github.io/proof-bartending-academy/",
-    disclaimer: "An independent training app, not an accredited school or a government body.",
+    publicUrl: "https://chadjara.github.io/national-cocktail-academy/",
+    disclaimer:
+      "National Cocktail Academy is an independent training app, not an accredited school or a government body.",
     contactUrl: "https://cjaratech.com/contact.html",
   },
   ageGate: {
