@@ -100,3 +100,20 @@ Modules, estimated minutes and exam blueprints are not used yet.
 
 **User state (Dexie v3):** `lessonProgress { id: "courseId/lessonId", courseId, lessonId, completedAt }`, indexed by `courseId` and
 `completedAt`. A row means every question in that lesson was answered correctly. The first completion date is kept.
+
+## Implemented in M4
+
+**User state (Dexie v4):**
+
+- `reviewCards { id: "cocktailId:facet", cocktailId, facet (spec | service | method), due, addedAt, scheduler }`
+  - indexed by `due` and `cocktailId`
+  - `scheduler` is the FSRS state in a JSON-safe shape: ISO dates, numeric state 0–3. Only
+    `features/practice/services/scheduler.ts` converts it to and from ts-fsrs.
+- `reviewLogs { ++id, cardId, rating 1–4, state before review, reviewedAt }`
+  - kept when a drink is removed from review, so parameters can be fitted to the student later
+- `practiceRuns { ++id, kind (speed-round | pour-timing | pour-log | bar-math), score, total, durationMs, finishedAt }`
+  - personal bests are computed from these rows, not stored separately
+
+**Enrollment:** finishing any lesson with a `cocktail` block adds that drink's three cards. The
+Library's Review button adds or removes a drink. New cards are capped at 15 a day, counted from
+today's logs.
