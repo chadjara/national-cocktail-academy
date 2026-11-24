@@ -1,9 +1,10 @@
-import { ArrowRight, Martini, Wine } from "lucide-react";
+import { ArrowRight, GraduationCap, Martini, Wine } from "lucide-react";
 import { Link } from "react-router";
 
 import { appConfig } from "~/config/app.config";
 import { listCocktails } from "~/content";
 import { Card, Heading, ICON_STROKE, PageHeader, Text } from "~/design-system";
+import { TodayLearning, courseCount } from "~/features/learn/components/today-learning";
 import { FavoritesSection } from "~/features/library/components/favorites-section";
 
 import type { Route } from "./+types/today";
@@ -14,6 +15,12 @@ export const meta: Route.MetaFunction = () => [
 ];
 
 const entryPoints = [
+  {
+    to: "/learn",
+    icon: GraduationCap,
+    title: "The program",
+    body: `${String(courseCount)} courses: tools, glassware, technique, garnishes, service, and every family of classic drinks.`,
+  },
   {
     to: "/library",
     icon: Martini,
@@ -32,7 +39,8 @@ export default function TodayRoute() {
   return (
     <div className="flex flex-col gap-4">
       <PageHeader eyebrow="Today" title={appConfig.academy.name} lede={appConfig.academy.tagline} />
-      <ul className="grid gap-1.5 sm:grid-cols-2">
+      <TodayLearning />
+      <ul className="grid gap-1.5 sm:grid-cols-3">
         {entryPoints.map((entry) => (
           <li key={entry.to}>
             <Card interactive className="flex h-full flex-col gap-1.5">
