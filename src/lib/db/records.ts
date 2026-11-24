@@ -26,3 +26,13 @@ export const barItemRecordSchema = z.object({
   addedAt: z.iso.datetime(),
 });
 export type BarItemRecord = z.infer<typeof barItemRecordSchema>;
+
+/** A lesson the student has finished: every question answered correctly. */
+export const lessonProgressRecordSchema = z.object({
+  /** `${courseId}/${lessonId}`, both content ids that never change. */
+  id: z.string().regex(/^[a-z0-9-]+\/[a-z0-9-]+$/),
+  courseId: z.string().min(1),
+  lessonId: z.string().min(1),
+  completedAt: z.iso.datetime(),
+});
+export type LessonProgressRecord = z.infer<typeof lessonProgressRecordSchema>;

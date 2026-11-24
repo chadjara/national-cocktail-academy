@@ -9,7 +9,7 @@ import {
   Share as ShareIcon,
 } from "lucide-react";
 
-import { getIngredient, type Cocktail } from "~/content";
+import type { Cocktail } from "~/content";
 import {
   difficultyLabels,
   familyLabels,
@@ -41,7 +41,8 @@ import { useHydrated } from "~/lib/use-hydrated";
 import { useFavorites } from "../hooks/use-favorites";
 import { useUnits } from "../hooks/use-units";
 import { buildShareText } from "../services/share-text";
-import { formatAmount, mlToOz, totalMl, type UnitSystem } from "../services/units";
+import { specRows } from "../services/spec-rows";
+import { mlToOz, totalMl, type UnitSystem } from "../services/units";
 
 function ShareButton({ cocktail, units }: { cocktail: Cocktail; units: UnitSystem }) {
   // navigator.share and the native bridge only exist after hydration.
@@ -90,18 +91,7 @@ export function CocktailDetail({ cocktail }: { cocktail: Cocktail }) {
   const { units, setUnits } = useUnits();
   const volume = totalMl(cocktail.spec.map((line) => line.amount));
 
-  const rows = cocktail.spec.map((line) => {
-    const amount = formatAmount(line.amount, units);
-    return {
-      ...amount,
-      name: getIngredient(line.ingredient).name,
-      note:
-        [line.amount.unit === "piece" ? line.amount.label : undefined, line.note]
-          .filter(Boolean)
-          .join(", ") || undefined,
-      optional: line.optional,
-    };
-  });
+  const rows = specRows(cocktail, units);
 
   return (
     <article className="flex flex-col gap-4">

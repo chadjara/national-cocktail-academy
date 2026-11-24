@@ -80,3 +80,23 @@ Specs live in `src/content/` and are validated by `cocktailSchema` (`src/content
 history?, note?, variations[], iba?, sources[]`. A spec line is `{ ingredient, amount, note?,
 optional? }`, where `amount` is a discriminated union of bar units (ml, dash, drop, barspoon, tsp,
 piece, pinch, few drops, splash, top, to taste). See [content-style-guide.md](content-style-guide.md).
+
+## Implemented in M3
+
+**Curriculum (content):** `src/content/curriculum/` holds `Course { id, group (foundations | families), title, summary, icon, family?, lessons[] }`.
+Each `Lesson { id, title, summary, blocks[] }` is built from blocks:
+
+- `text`
+- `key-points`
+- `callout` (tip | warning)
+- `steps`
+- `tools`
+- `glasses`
+- `cocktail` (a live Library spec)
+- `question` (authored)
+- `drill` (generated from Library specs; facets glass | ice | method | garnish | amount | ingredient; mode every-facet | rotate)
+
+Modules, estimated minutes and exam blueprints are not used yet.
+
+**User state (Dexie v3):** `lessonProgress { id: "courseId/lessonId", courseId, lessonId, completedAt }`, indexed by `courseId` and
+`completedAt`. A row means every question in that lesson was answered correctly. The first completion date is kept.
