@@ -75,18 +75,19 @@ jobs:
         run: |
           VERSION=$(node -p "require('./package.json').version")
           echo "Archiving NCA $VERSION (build $GITHUB_RUN_NUMBER)"
+          # Archived unsigned on purpose. Every runner is a fresh Mac with an empty
+          # keychain, so a development certificate made on one run can't be used on
+          # the next ("private key is not installed"). The export step signs for App
+          # Store distribution with Apple's cloud-managed certificate, which needs no
+          # local key.
           xcodebuild archive \
             -project ios/App/App.xcodeproj \
             -scheme App \
             -configuration Release \
             -destination 'generic/platform=iOS' \
             -archivePath "$RUNNER_TEMP/NCA.xcarchive" \
-            -allowProvisioningUpdates \
-            -authenticationKeyPath "$RUNNER_TEMP/asc/AuthKey.p8" \
-            -authenticationKeyID "$ASC_KEY_ID" \
-            -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
             DEVELOPMENT_TEAM="$APPLE_TEAM_ID" \
-            CODE_SIGN_STYLE=Automatic \
+            CODE_SIGNING_ALLOWED=NO \
             MARKETING_VERSION="$VERSION" \
             CURRENT_PROJECT_VERSION="$GITHUB_RUN_NUMBER"
       - name: Export and upload to App Store Connect
