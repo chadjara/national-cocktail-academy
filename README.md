@@ -129,6 +129,15 @@ pnpm exec cap open ios
 - [Roadmap](docs/roadmap.md)
 - [Decisions (ADRs)](docs/adr/README.md)
 
+## The program
+
+14 courses and 99 lessons. **Foundations:** Bar Tools (all sixteen tools on a professional station),
+Glassware & Ice, Technique, Garnishes, and Service & Responsibility. **Drink families:** Sours,
+Martinis & Manhattans, Old Fashioneds, Highballs, Fizzes & Collinses, Juleps & Smashes, Tiki &
+Tropical, Sparkling & Wine, and After-Dinner Drinks. Teaching is authored; spec questions are
+generated from the Library, so a lesson and its spec can never disagree
+([ADR 0011](docs/adr/0011-curriculum-from-library-data.md)).
+
 ## Spec library
 
 105 specs, including the 87 drinks on the current IBA official list (imported from the MIT-licensed
