@@ -131,12 +131,20 @@ pnpm exec cap open ios
 
 ## The program
 
-14 courses and 99 lessons. **Foundations:** Bar Tools (all sixteen tools on a professional station),
-Glassware & Ice, Technique, Garnishes, and Service & Responsibility. **Drink families:** Sours,
+15 courses. **Foundations:** Bar Tools (all sixteen tools on a professional station),
+Glassware & Ice, Technique, Spirits & Products, Garnishes, and Service & Responsibility (with
+branching Responsible Service scenarios). **Drink families:** Sours,
 Martinis & Manhattans, Old Fashioneds, Highballs, Fizzes & Collinses, Juleps & Smashes, Tiki &
 Tropical, Sparkling & Wine, and After-Dinner Drinks. Teaching is authored; spec questions are
 generated from the Library, so a lesson and its spec can never disagree
 ([ADR 0011](docs/adr/0011-curriculum-from-library-data.md)).
+
+## Exams
+
+Every course ends with a 10-question exam drawn from that course. It unlocks once the course's
+lessons are finished, and the pass mark is 80%. Results break the score down by lesson, link
+back to anything missed, and explain every missed question. Retakes are immediate, with new
+questions ([ADR 0012](docs/adr/0012-exams-and-scenarios.md)).
 
 ## Practice
 

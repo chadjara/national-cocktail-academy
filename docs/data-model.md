@@ -117,3 +117,19 @@ Modules, estimated minutes and exam blueprints are not used yet.
 **Enrollment:** finishing any lesson with a `cocktail` block adds that drink's three cards. The
 Library's Review button adds or removes a drink. New cards are capped at 15 a day, counted from
 today's logs.
+
+## Implemented in M5
+
+**Scenarios (content):** `src/content/scenarios/` holds
+`Scenario { id, title, setting, start, nodes[] }`.
+
+- Each node is `{ id, guest, choices[] }`.
+- Each choice is `{ text, outcome (best | acceptable | unsafe), feedback, next? }`.
+- A choice without `next` ends the scenario.
+- A lesson plays a scenario through a `{ kind: "scenario", scenarioId }` block.
+
+**User state (Dexie v5):** `examAttempts { ++id, courseId, seed, questionIds[], score, total,
+passed, topics[{ lessonId, right, total }], startedAt, submittedAt }`.
+
+- Indexed by `courseId` and `submittedAt`.
+- The seed and question ids make an attempt reproducible for review.
