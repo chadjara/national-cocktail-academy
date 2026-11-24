@@ -13,6 +13,7 @@ import {
 import { garnishes } from "./courses/garnishes";
 import { glasswareAndIce } from "./courses/glassware-and-ice";
 import { service } from "./courses/service";
+import { spirits } from "./courses/spirits";
 import { technique } from "./courses/technique";
 import type {
   Block,
@@ -37,6 +38,7 @@ export const rawCourses: readonly CourseInput[] = [
   barTools,
   glasswareAndIce,
   technique,
+  spirits,
   garnishes,
   service,
   sours,
