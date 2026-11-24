@@ -12,8 +12,12 @@ export function Card({
   interactive = false,
   className,
   children,
+  ...labelling
 }: {
   as?: "div" | "section" | "article" | "li";
+  /** Names a section or article card for assistive tech. */
+  "aria-labelledby"?: string;
+  "aria-label"?: string;
   padding?: "none" | "sm" | "md" | "lg";
   /** Adds hover and focus-within affordances for cards that wrap a link. */
   interactive?: boolean;
@@ -22,6 +26,7 @@ export function Card({
 }) {
   return (
     <Tag
+      {...labelling}
       className={cn(
         "rounded-base border border-line bg-surface",
         padding === "sm" && "p-2",

@@ -10,13 +10,16 @@ import {
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
+import { listTools } from "~/content/curriculum";
 import { glassLabels } from "~/content/taxonomy";
 import {
   Badge,
   Button,
+  Callout,
   Card,
   Checkbox,
   ChipGroup,
+  ChoiceQuestion,
   Dialog,
   EmptyState,
   ErrorState,
@@ -26,6 +29,7 @@ import {
   ICON_STROKE,
   IconButton,
   Input,
+  KeyPoints,
   LoadingRegion,
   ProgressBar,
   RadioGroup,
@@ -37,10 +41,12 @@ import {
   SpecCard,
   SpecFact,
   SpecSheet,
+  StepList,
   Switch,
   Tabs,
   Text,
   Textarea,
+  ToolIcon,
   useToast,
   type GlassShape,
 } from "~/design-system";
@@ -422,6 +428,58 @@ function SpecComponents() {
   );
 }
 
+function LessonComponents() {
+  return (
+    <Specimen
+      title="Lesson components"
+      note="The pieces a course is built from. Questions teach rather than grade: a wrong pick is marked and the student tries again, and the explanation appears once they find the answer."
+    >
+      <div className="flex flex-col gap-3">
+        <ul className="grid grid-cols-4 gap-1.5 sm:grid-cols-8">
+          {listTools().map((tool) => (
+            <li
+              key={tool.id}
+              className="flex flex-col items-center gap-1 rounded-base border border-line px-0.5 py-2 text-ink"
+            >
+              <ToolIcon tool={tool.id} size={28} />
+              <span className="text-center text-caption text-ink-muted">{tool.name}</span>
+            </li>
+          ))}
+        </ul>
+        <div className="grid gap-3 md:grid-cols-2">
+          <div className="flex flex-col gap-2">
+            <Callout tone="tip" title="Fill to the rim">
+              Measuring to just below the rim shorts every drink.
+            </Callout>
+            <Callout tone="warning" title="Point it away from guests">
+              If the seal fails mid-shake, the drink flies away from people, not at them.
+            </Callout>
+            <StepList
+              title="A clean pour (example)"
+              items={[
+                "Hold the jigger level over the tin.",
+                "Fill to the rim.",
+                "Tip it in with a flick.",
+              ]}
+            />
+            <KeyPoints
+              title="Remember"
+              items={["Shake citrus, cream and egg.", "Stir drinks that are all spirit."]}
+            />
+          </div>
+          <ChoiceQuestion
+            number="Question 1 of 1"
+            prompt="Which strainer goes with a mixing glass? (example)"
+            options={["Hawthorne strainer", "Julep strainer", "No strainer"]}
+            answer={1}
+            explanation="The julep strainer is shaped to sit inside a mixing glass."
+          />
+        </div>
+      </div>
+    </Specimen>
+  );
+}
+
 function States() {
   return (
     <Specimen
@@ -476,6 +534,7 @@ export function ComponentsSection() {
         <Overlays />
         <DataDisplay />
         <SpecComponents />
+        <LessonComponents />
         <States />
       </div>
     </DocSection>
