@@ -1,4 +1,4 @@
-import { ArrowRight, GraduationCap, Martini, Wine } from "lucide-react";
+import { ArrowRight, GraduationCap, Martini, Target, Wine } from "lucide-react";
 import { Link } from "react-router";
 
 import { appConfig } from "~/config/app.config";
@@ -6,6 +6,7 @@ import { listCocktails } from "~/content";
 import { Card, Heading, ICON_STROKE, PageHeader, Text } from "~/design-system";
 import { TodayLearning, courseCount } from "~/features/learn/components/today-learning";
 import { FavoritesSection } from "~/features/library/components/favorites-section";
+import { TodayReview } from "~/features/practice/components/today-review";
 
 import type { Route } from "./+types/today";
 
@@ -20,6 +21,12 @@ const entryPoints = [
     icon: GraduationCap,
     title: "The program",
     body: `${String(courseCount)} courses: tools, glassware, technique, garnishes, service, and every family of classic drinks.`,
+  },
+  {
+    to: "/practice",
+    icon: Target,
+    title: "Practice",
+    body: "Daily spec review, Speed Round tickets, a free-pour trainer and bar math.",
   },
   {
     to: "/library",
@@ -40,7 +47,8 @@ export default function TodayRoute() {
     <div className="flex flex-col gap-4">
       <PageHeader eyebrow="Today" title={appConfig.academy.name} lede={appConfig.academy.tagline} />
       <TodayLearning />
-      <ul className="grid gap-1.5 sm:grid-cols-3">
+      <TodayReview />
+      <ul className="grid gap-1.5 sm:grid-cols-2">
         {entryPoints.map((entry) => (
           <li key={entry.to}>
             <Card interactive className="flex h-full flex-col gap-1.5">

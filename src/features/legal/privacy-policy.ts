@@ -40,8 +40,13 @@ export const storedOnDevice: readonly StoredItem[] = [
     when: "now",
   },
   {
-    item: "Practice history and exam results",
-    why: "To track your training as those features arrive.",
+    item: "Review cards, review history and practice scores",
+    why: "To schedule your Daily Review and show your personal bests.",
+    when: "now",
+  },
+  {
+    item: "Exam results",
+    why: "To track your training as that feature arrives.",
     when: "planned",
   },
   {
