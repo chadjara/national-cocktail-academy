@@ -66,7 +66,7 @@ export const barTools: CourseInput = {
           "Hold the jigger between your index and middle fingers, level, over the tin, not over the bar.",
           "Pour until the liquid reaches the rim, so the surface sits level with the edge.",
           "Tip it into the tin with a flick of the wrist, so it empties completely.",
-          "Measure the cheapest ingredients first, so a mistake costs lime juice, not whiskey.",
+          "Pour in the same order on every drink, so you never miss an ingredient or double one.",
         ]),
         tip(
           "Fill to the rim",
@@ -79,14 +79,14 @@ export const barTools: CourseInput = {
           "The US standard is 1½ oz (about 45 ml). Many sours call for 2 oz.",
         ),
         ask(
-          "Why measure citrus and syrup before the spirit?",
-          "A mistake then costs cheap ingredients, not the spirit",
+          "When is a jigger pour accurate?",
+          "When the liquid is level with the rim",
           [
-            "Spirit dilutes faster if it goes in first",
-            "Citrus has to dissolve the sugar",
-            "Health code requires it",
+            "When it's just below the rim",
+            "When it spills over a little",
+            "Whenever it looks close",
           ],
-          "Build order is about cost. If you over-pour lime, you dump a few cents of juice. If you over-pour after the whiskey is in, you dump the whiskey too.",
+          "Fill the jigger right to the rim. Stopping short shorts every drink, and spilling over wastes product.",
         ),
       ],
     },
@@ -100,7 +100,7 @@ export const barTools: CourseInput = {
         ),
         { kind: "tools", tools: ["boston-shaker", "cobbler-shaker"] },
         steps("Using a Boston shaker", [
-          "Build the drink in the small tin, then fill it with ice.",
+          "Fill the small tin with ice, then pour in the ingredients.",
           "Set the large tin over it at a slight angle and give it one firm tap to seal.",
           "Hold both tins, large tin toward you, small tin toward the guest, and shake hard.",
           "To open, hold it with the small tin on top and strike the large tin with the heel of your hand where the two tins meet.",

@@ -94,7 +94,7 @@ export const typeScale = [
     token: "base",
     className: "text-base",
     sample:
-      "Measure the cheapest ingredients first. If you mis-pour, you've wasted lime juice, not a premium rum.",
+      "Fill the jigger to the rim. Stopping short shorts every drink; spilling over wastes product.",
   },
   {
     token: "sm",

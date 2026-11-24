@@ -73,8 +73,9 @@ test("a Speed Round deals five tickets, scores them and records a personal best"
 
   await expect(page.getByText("Round complete")).toBeVisible();
   await expect(page.getByText("New personal best")).toBeVisible();
-  await page.goto("/practice/speed-round");
-  await expect(page.getByText(/Personal best: \d+\/30/)).toBeVisible();
+  // Navigate in the app rather than reloading, and wait for the saved run to show.
+  await page.getByRole("link", { name: "Back to Practice" }).click();
+  await expect(page.getByText(/Best \d+\/30 in \d+:\d{2}/)).toBeVisible();
 });
 
 test("Bar Math checks an answer and shows the worked solution", async ({ page }) => {
