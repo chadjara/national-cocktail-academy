@@ -138,6 +138,15 @@ Tropical, Sparkling & Wine, and After-Dinner Drinks. Teaching is authored; spec 
 generated from the Library, so a lesson and its spec can never disagree
 ([ADR 0011](docs/adr/0011-curriculum-from-library-data.md)).
 
+## Practice
+
+- **Daily Review:** spaced repetition with FSRS. Each drink you learn becomes three cards (spec;
+  glass, ice and garnish; method), scheduled to return just before you'd forget them.
+- **Speed Round:** five tickets built from memory against the clock, with personal bests.
+- **Pour Trainer:** a calibrated free-pour count drill, and a water-and-jigger log for home.
+- **Bar Math:** pour cost, menu pricing, batching, dilution, bottles and par levels, with worked
+  solutions.
+
 ## Spec library
 
 105 specs, including the 87 drinks on the current IBA official list (imported from the MIT-licensed

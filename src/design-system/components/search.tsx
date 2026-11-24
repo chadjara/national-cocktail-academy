@@ -67,12 +67,15 @@ export function ChipGroup<V extends string>({
   value,
   onValueChange,
   options,
+  layout = "scroll",
   className,
 }: {
   label: string;
   value: readonly V[];
   onValueChange: (value: V[]) => void;
   options: readonly ChipOption<V>[];
+  /** "scroll" keeps filters on one swipeable row on phones; "wrap" shows every chip at once. */
+  layout?: "scroll" | "wrap";
   className?: string;
 }) {
   return (
@@ -84,7 +87,9 @@ export function ChipGroup<V extends string>({
         onValueChange(options.filter((option) => next.includes(option.value)).map((o) => o.value))
       }
       className={cn(
-        "-mx-2 flex [scrollbar-width:none] gap-1 overflow-x-auto px-2 pb-0.5 sm:mx-0 sm:flex-wrap sm:px-0",
+        layout === "scroll"
+          ? "-mx-2 flex [scrollbar-width:none] gap-1 overflow-x-auto px-2 pb-0.5 sm:mx-0 sm:flex-wrap sm:px-0"
+          : "flex flex-wrap gap-1",
         className,
       )}
     >

@@ -16,7 +16,7 @@ describe("schema migrations", () => {
     const current = new AcademyDatabase(name);
     await current.open();
 
-    expect(current.verno).toBe(3);
+    expect(current.verno).toBe(4);
     expect(await current.meta.get("units")).toEqual({ key: "units", value: "ml" });
     await current.favorites.put({ cocktailId: "negroni", addedAt: new Date().toISOString() });
     await current.barItems.put({ ingredientId: "gin", addedAt: new Date().toISOString() });
@@ -26,7 +26,7 @@ describe("schema migrations", () => {
     await current.delete();
   });
 
-  it("upgrades a v2 device to v3, keeping saved specs and the back bar", async () => {
+  it("upgrades a v2 device to the current version, keeping saved specs and the back bar", async () => {
     const name = `migration-${crypto.randomUUID()}`;
 
     // A device that installed the M2 release.
@@ -40,10 +40,39 @@ describe("schema migrations", () => {
     const current = new AcademyDatabase(name);
     await current.open();
 
-    expect(current.verno).toBe(3);
+    expect(current.verno).toBe(4);
     expect(await current.favorites.count()).toBe(1);
     expect(await current.barItems.count()).toBe(1);
     expect(await current.lessonProgress.count()).toBe(0);
+    expect(await current.reviewCards.count()).toBe(0);
+
+    await current.delete();
+  });
+
+  it("upgrades a v3 device to v4, keeping finished lessons", async () => {
+    const name = `migration-${crypto.randomUUID()}`;
+
+    // A device that installed the M3 release.
+    const v3 = new Dexie(name);
+    v3.version(1).stores({ meta: "key" });
+    v3.version(2).stores({ favorites: "cocktailId, addedAt", barItems: "ingredientId" });
+    v3.version(3).stores({ lessonProgress: "id, courseId, completedAt" });
+    await v3.table("lessonProgress").put({
+      id: "sours/daiquiri",
+      courseId: "sours",
+      lessonId: "daiquiri",
+      completedAt: "2026-11-24T10:00:00.000Z",
+    });
+    v3.close();
+
+    const current = new AcademyDatabase(name);
+    await current.open();
+
+    expect(current.verno).toBe(4);
+    expect(await current.lessonProgress.count()).toBe(1);
+    expect(await current.reviewCards.count()).toBe(0);
+    expect(await current.reviewLogs.count()).toBe(0);
+    expect(await current.practiceRuns.count()).toBe(0);
 
     await current.delete();
   });

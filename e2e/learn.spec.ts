@@ -30,6 +30,7 @@ test("a wrong answer can be retried; answering everything finishes and saves the
   await second.getByRole("button", { name: /catch the bits of muddled basil/ }).click();
 
   await expect(page.getByRole("heading", { name: "Lesson complete" })).toBeVisible();
+  await expect(page.getByText("Completed", { exact: true })).toBeVisible();
   await page.getByRole("link", { name: /Next: Barspoon, mixing glass and muddler/ }).click();
   await expect(page).toHaveURL("/learn/bar-tools/spoon-glass-muddler");
 
@@ -59,6 +60,7 @@ test("resetting a course asks first", async ({ page }) => {
   await page.goto("/learn/service/taking-orders");
   await page.getByRole("group").first().getByRole("button", { name: "The French 75" }).click();
   await expect(page.getByRole("heading", { name: "Lesson complete" })).toBeVisible();
+  await expect(page.getByText("Completed", { exact: true })).toBeVisible();
 
   await page.goto("/learn/service");
   await page.getByRole("button", { name: "Reset progress for this course" }).click();

@@ -46,6 +46,7 @@ import {
   Tabs,
   Text,
   Textarea,
+  TicketCard,
   ToolIcon,
   useToast,
   type GlassShape,
@@ -467,13 +468,16 @@ function LessonComponents() {
               items={["Shake citrus, cream and egg.", "Stir drinks that are all spirit."]}
             />
           </div>
-          <ChoiceQuestion
-            number="Question 1 of 1"
-            prompt="Which strainer goes with a mixing glass? (example)"
-            options={["Hawthorne strainer", "Julep strainer", "No strainer"]}
-            answer={1}
-            explanation="The julep strainer is shaped to sit inside a mixing glass."
-          />
+          <div className="flex flex-col gap-3">
+            <TicketCard label="Ticket 2 of 5" meta="0:42" title="Negroni (example)" />
+            <ChoiceQuestion
+              number="Question 1 of 1"
+              prompt="Which strainer goes with a mixing glass? (example)"
+              options={["Hawthorne strainer", "Julep strainer", "No strainer"]}
+              answer={1}
+              explanation="The julep strainer is shaped to sit inside a mixing glass."
+            />
+          </div>
         </div>
       </div>
     </Specimen>

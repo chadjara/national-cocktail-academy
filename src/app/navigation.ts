@@ -1,4 +1,4 @@
-import { GraduationCap, Home, Martini, Wine } from "lucide-react";
+import { GraduationCap, Home, Martini, Target, Wine } from "lucide-react";
 
 import type { NavItem } from "~/design-system";
 
@@ -9,6 +9,7 @@ import type { NavItem } from "~/design-system";
 export const primaryNav: readonly NavItem[] = [
   { to: "/", label: "Today", icon: Home, end: true },
   { to: "/learn", label: "Learn", icon: GraduationCap },
+  { to: "/practice", label: "Practice", icon: Target },
   { to: "/library", label: "Library", icon: Martini },
   { to: "/my-bar", label: "My Bar", icon: Wine },
 ];

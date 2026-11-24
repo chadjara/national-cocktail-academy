@@ -1,6 +1,14 @@
 import Dexie, { type EntityTable } from "dexie";
 
-import type { BarItemRecord, FavoriteRecord, LessonProgressRecord, MetaRecord } from "./records";
+import type {
+  BarItemRecord,
+  FavoriteRecord,
+  LessonProgressRecord,
+  MetaRecord,
+  PracticeRunRecord,
+  ReviewCardRecord,
+  ReviewLogRecord,
+} from "./records";
 
 export const DATABASE_NAME = "academy";
 
@@ -14,6 +22,9 @@ export class AcademyDatabase extends Dexie {
   favorites!: EntityTable<FavoriteRecord, "cocktailId">;
   barItems!: EntityTable<BarItemRecord, "ingredientId">;
   lessonProgress!: EntityTable<LessonProgressRecord, "id">;
+  reviewCards!: EntityTable<ReviewCardRecord, "id">;
+  reviewLogs!: EntityTable<ReviewLogRecord, "id">;
+  practiceRuns!: EntityTable<PracticeRunRecord, "id">;
 
   constructor(name: string = DATABASE_NAME) {
     super(name);
@@ -32,6 +43,13 @@ export class AcademyDatabase extends Dexie {
     // v3 (M3): finished lessons.
     this.version(3).stores({
       lessonProgress: "id, courseId, completedAt",
+    });
+
+    // v4 (M4): spaced-repetition cards and their history, and practice runs.
+    this.version(4).stores({
+      reviewCards: "id, due, cocktailId",
+      reviewLogs: "++id, cardId, reviewedAt",
+      practiceRuns: "++id, kind, finishedAt",
     });
   }
 }

@@ -1,6 +1,7 @@
 import {
   Bookmark,
   BookmarkCheck,
+  Layers,
   Clock3,
   ExternalLink,
   Snowflake,
@@ -35,6 +36,7 @@ import {
   TextLink,
 } from "~/design-system";
 
+import { useReviewEnrollment } from "~/features/practice/hooks/use-review";
 import { canShare, share } from "~/lib/native";
 import { useHydrated } from "~/lib/use-hydrated";
 
@@ -87,6 +89,30 @@ function FavoriteButton({ cocktailId, name }: { cocktailId: string; name: string
   );
 }
 
+function ReviewButton({ cocktailId, name }: { cocktailId: string; name: string }) {
+  const { enrolled, setEnrolled } = useReviewEnrollment(cocktailId);
+  const added = enrolled.status === "ready" && enrolled.data;
+  return (
+    <Button
+      variant="secondary"
+      aria-pressed={added}
+      disabled={enrolled.status === "loading"}
+      onClick={() => setEnrolled(!added)}
+      leadingIcon={
+        <Layers
+          aria-hidden
+          size={18}
+          strokeWidth={ICON_STROKE}
+          className={added ? "text-accent-text" : undefined}
+        />
+      }
+    >
+      <span className="sr-only">{name}: </span>
+      {added ? "In review" : "Review"}
+    </Button>
+  );
+}
+
 export function CocktailDetail({ cocktail }: { cocktail: Cocktail }) {
   const { units, setUnits } = useUnits();
   const volume = totalMl(cocktail.spec.map((line) => line.amount));
@@ -127,13 +153,14 @@ export function CocktailDetail({ cocktail }: { cocktail: Cocktail }) {
         <Card padding="sm" className="px-2">
           <SpecSheet caption={`${cocktail.name} spec`} rows={rows} />
         </Card>
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <Text size="sm" tone="subtle">
             {volume > 0 &&
               `${units === "oz" ? `${mlToOz(volume)} oz` : `${String(volume)} ml`} measured, before dilution`}
           </Text>
-          <div className="flex gap-1">
+          <div className="flex flex-wrap gap-1">
             <ShareButton cocktail={cocktail} units={units} />
+            <ReviewButton cocktailId={cocktail.id} name={cocktail.name} />
             <FavoriteButton cocktailId={cocktail.id} name={cocktail.name} />
           </div>
         </div>
