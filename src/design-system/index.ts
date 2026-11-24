@@ -16,6 +16,7 @@ export { IconButton } from "./components/icon-button";
 export {
   Callout,
   ChoiceQuestion,
+  type CalloutTone,
   KeyPoints,
   StepList,
   type ChoiceResult,

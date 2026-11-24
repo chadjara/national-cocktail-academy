@@ -21,6 +21,7 @@ import {
   Text,
   type ChoiceResult,
 } from "~/design-system";
+import { getScenario, type Scenario } from "~/content/scenarios";
 import { useUnits } from "~/features/library/hooks/use-units";
 import { tapFeedback } from "~/lib/native";
 
@@ -28,10 +29,12 @@ import { useLessonActions, useProgress } from "../hooks/use-progress";
 import { drillQuestions, presentQuestion } from "../services/drill";
 import { isLessonComplete } from "../services/progress";
 import { LessonBlock } from "./lesson-blocks";
+import { ScenarioPlayer } from "./scenario-player";
 
 type Section =
   | { kind: "content"; key: string; block: Parameters<typeof LessonBlock>[0]["block"] }
-  | { kind: "questions"; key: string; questions: (Question & { key: string })[] };
+  | { kind: "questions"; key: string; questions: (Question & { key: string })[] }
+  | { kind: "scenario"; key: string; scenario: Scenario };
 
 /** Splits a lesson into teaching blocks and question groups, with stable keys and seeds. */
 function useSections(course: Course, lesson: Lesson): Section[] {
@@ -57,6 +60,11 @@ function useSections(course: Course, lesson: Lesson): Section[] {
               key: `${seed}/${units}/${question.id}`,
             })),
           };
+        }
+        if (block.kind === "scenario") {
+          const scenario = getScenario(block.scenarioId);
+          if (scenario) return { kind: "scenario", key: `${seed}/scenario`, scenario };
+          throw new Error(`Unknown scenario: ${block.scenarioId}`);
         }
         return { kind: "content", key: seed, block };
       }),
@@ -97,9 +105,10 @@ function NextStep({ course, lesson }: { course: Course; lesson: Lesson }) {
 }
 
 /**
- * Plays one lesson top to bottom: teaching blocks, then questions in place.
- * The lesson is finished, and saved on the device, once every question has
- * been answered correctly. Wrong answers can be retried as often as needed.
+ * Plays one lesson top to bottom: teaching blocks, then questions and
+ * scenarios in place. The lesson is finished, and saved on the device, once
+ * every question has been answered correctly and every scenario finished
+ * without an unsafe choice. Both can be retried as often as needed.
  */
 export function LessonPlayer({ course, lesson }: { course: Course; lesson: Lesson }) {
   const sections = useSections(course, lesson);
@@ -111,12 +120,17 @@ export function LessonPlayer({ course, lesson }: { course: Course; lesson: Lesso
       ),
     [sections],
   );
+  const scenarioKeys = useMemo(
+    () => sections.flatMap((section) => (section.kind === "scenario" ? [section.key] : [])),
+    [sections],
+  );
+  const taskKeys = useMemo(() => [...questionKeys, ...scenarioKeys], [questionKeys, scenarioKeys]);
   const [solved, setSolved] = useState<ReadonlySet<string>>(new Set());
   const progress = useProgress();
   const { complete } = useLessonActions();
 
-  const solvedCount = questionKeys.filter((key) => solved.has(key)).length;
-  const finished = questionKeys.length > 0 && solvedCount === questionKeys.length;
+  const solvedCount = taskKeys.filter((key) => solved.has(key)).length;
+  const finished = taskKeys.length > 0 && solvedCount === taskKeys.length;
   const finishedBefore =
     progress.status === "ready" && isLessonComplete(progress.data, course.id, lesson.id);
   const lessonIndex = course.lessons.findIndex((l) => l.id === lesson.id);
@@ -124,6 +138,11 @@ export function LessonPlayer({ course, lesson }: { course: Course; lesson: Lesso
   useEffect(() => {
     if (finished) complete(course.id, lesson.id);
   }, [finished, complete, course.id, lesson.id]);
+
+  const onScenarioFinish = useCallback((key: string, passed: boolean) => {
+    if (!passed) return;
+    setSolved((current) => new Set([...current, key]));
+  }, []);
 
   const onAnswer = useCallback((key: string, result: ChoiceResult) => {
     if (result !== "correct") return;
@@ -165,6 +184,14 @@ export function LessonPlayer({ course, lesson }: { course: Course; lesson: Lesso
         {sections.map((section) => {
           if (section.kind === "content")
             return <LessonBlock key={section.key} block={section.block} />;
+          if (section.kind === "scenario")
+            return (
+              <ScenarioPlayer
+                key={section.key}
+                scenario={section.scenario}
+                onFinish={(passed) => onScenarioFinish(section.key, passed)}
+              />
+            );
           return (
             <section
               key={section.key}
@@ -194,12 +221,22 @@ export function LessonPlayer({ course, lesson }: { course: Course; lesson: Lesso
           className="flex flex-col gap-1.5 border-t border-line pt-3"
         >
           <Heading as="h2" size="sm" id="lesson-status" className={finished ? "text-success" : ""}>
-            {finished ? "Lesson complete" : "Answer every question to finish"}
+            {finished
+              ? "Lesson complete"
+              : scenarioKeys.length === 0
+                ? "Answer every question to finish"
+                : questionKeys.length === 0
+                  ? "Finish every scenario safely to complete the lesson"
+                  : "Answer every question and finish every scenario safely"}
           </Heading>
           <ProgressBar
-            label={`${String(solvedCount)} of ${String(questionKeys.length)} correct`}
+            label={
+              scenarioKeys.length === 0
+                ? `${String(solvedCount)} of ${String(taskKeys.length)} correct`
+                : `${String(solvedCount)} of ${String(taskKeys.length)} done`
+            }
             value={solvedCount}
-            max={questionKeys.length}
+            max={taskKeys.length}
             tone={finished ? "success" : "accent"}
           />
           {finished && <NextStep course={course} lesson={lesson} />}

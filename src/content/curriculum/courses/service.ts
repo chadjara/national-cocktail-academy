@@ -119,5 +119,40 @@ export const service: CourseInput = {
         ),
       ],
     },
+    {
+      id: "scenarios-checking-id",
+      title: "Scenarios: checking ID",
+      summary: "An expired license, and a round ordered for a table with someone under 21.",
+      blocks: [
+        text(
+          "Work through each situation as if you're behind the bar. Every response is explained. Choose an unsafe one and you'll replay the scenario, the way you'd want to practice before it happens for real.",
+        ),
+        { kind: "scenario", scenarioId: "expired-license" },
+        { kind: "scenario", scenarioId: "round-for-the-table" },
+      ],
+    },
+    {
+      id: "scenarios-cutting-off",
+      title: "Scenarios: cutting someone off",
+      summary: "A regular who's had too much, and a guest who argues when you stop serving.",
+      blocks: [
+        text(
+          "Refusing service is a skill. These two scenarios practice saying no kindly, privately and firmly, and getting your manager involved.",
+        ),
+        { kind: "scenario", scenarioId: "one-more-round" },
+        { kind: "scenario", scenarioId: "the-guest-who-argues" },
+      ],
+    },
+    {
+      id: "scenarios-safe-ride",
+      title: "Scenarios: getting guests home safely",
+      summary: "An intoxicated guest who plans to drive.",
+      blocks: [
+        text(
+          "Keeping an impaired guest from driving is one of the most important things you'll do behind a bar. Procedures vary by bar and state; the steps below are what they share.",
+        ),
+        { kind: "scenario", scenarioId: "keys-on-the-bar" },
+      ],
+    },
   ],
 };
