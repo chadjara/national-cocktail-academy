@@ -1,21 +1,5 @@
-import type { Page } from "@playwright/test";
-
 import { expect, test } from "./fixtures";
-
-/** Finishes a lesson by trying each option until it's marked correct. */
-async function finishLesson(page: Page, path: string) {
-  await page.goto(path);
-  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  for (const group of await page.getByRole("group").all()) {
-    for (const option of await group.getByRole("button").all()) {
-      await option.click();
-      if ((await group.getByRole("status").innerText()).includes("Correct")) break;
-    }
-  }
-  await expect(page.getByRole("heading", { name: "Lesson complete" })).toBeVisible();
-  // The badge appears once the finish is saved on the device, so a reload can't lose it.
-  await expect(page.getByText("Completed", { exact: true })).toBeVisible();
-}
+import { finishLesson } from "./helpers";
 
 test("a finished drink lesson becomes review cards that can be graded", async ({ page }) => {
   await page.goto("/practice");
