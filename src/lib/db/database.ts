@@ -1,6 +1,6 @@
 import Dexie, { type EntityTable } from "dexie";
 
-import type { BarItemRecord, FavoriteRecord, MetaRecord } from "./records";
+import type { BarItemRecord, FavoriteRecord, LessonProgressRecord, MetaRecord } from "./records";
 
 export const DATABASE_NAME = "academy";
 
@@ -13,6 +13,7 @@ export class AcademyDatabase extends Dexie {
   meta!: EntityTable<MetaRecord, "key">;
   favorites!: EntityTable<FavoriteRecord, "cocktailId">;
   barItems!: EntityTable<BarItemRecord, "ingredientId">;
+  lessonProgress!: EntityTable<LessonProgressRecord, "id">;
 
   constructor(name: string = DATABASE_NAME) {
     super(name);
@@ -26,6 +27,11 @@ export class AcademyDatabase extends Dexie {
     this.version(2).stores({
       favorites: "cocktailId, addedAt",
       barItems: "ingredientId",
+    });
+
+    // v3 (M3): finished lessons.
+    this.version(3).stores({
+      lessonProgress: "id, courseId, completedAt",
     });
   }
 }
