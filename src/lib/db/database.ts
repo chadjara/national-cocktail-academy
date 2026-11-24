@@ -2,6 +2,7 @@ import Dexie, { type EntityTable } from "dexie";
 
 import type {
   BarItemRecord,
+  ExamAttemptRecord,
   FavoriteRecord,
   LessonProgressRecord,
   MetaRecord,
@@ -25,6 +26,7 @@ export class AcademyDatabase extends Dexie {
   reviewCards!: EntityTable<ReviewCardRecord, "id">;
   reviewLogs!: EntityTable<ReviewLogRecord, "id">;
   practiceRuns!: EntityTable<PracticeRunRecord, "id">;
+  examAttempts!: EntityTable<ExamAttemptRecord, "id">;
 
   constructor(name: string = DATABASE_NAME) {
     super(name);
@@ -50,6 +52,11 @@ export class AcademyDatabase extends Dexie {
       reviewCards: "id, due, cocktailId",
       reviewLogs: "++id, cardId, reviewedAt",
       practiceRuns: "++id, kind, finishedAt",
+    });
+
+    // v5 (M5): submitted course exams.
+    this.version(5).stores({
+      examAttempts: "++id, courseId, submittedAt",
     });
   }
 }

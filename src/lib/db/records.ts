@@ -94,3 +94,26 @@ export const practiceRunRecordSchema = z.object({
 });
 export type PracticeRunRecord = z.infer<typeof practiceRunRecordSchema>;
 export type PracticeKind = PracticeRunRecord["kind"];
+
+/** One submitted course exam. */
+export const examAttemptRecordSchema = z.object({
+  id: z.number().int().optional(),
+  courseId: z.string().min(1),
+  /** Deals the same questions again, for review. */
+  seed: z.string().min(1),
+  questionIds: z.array(z.string().min(1)),
+  score: z.number().int().min(0),
+  total: z.number().int().positive(),
+  passed: z.boolean(),
+  /** Right and total per lesson: the topic breakdown. */
+  topics: z.array(
+    z.object({
+      lessonId: z.string().min(1),
+      right: z.number().int().min(0),
+      total: z.number().int().min(1),
+    }),
+  ),
+  startedAt: z.iso.datetime(),
+  submittedAt: z.iso.datetime(),
+});
+export type ExamAttemptRecord = z.infer<typeof examAttemptRecordSchema>;

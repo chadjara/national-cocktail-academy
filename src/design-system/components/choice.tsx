@@ -76,16 +76,28 @@ export function RadioGroup({
   value,
   onValueChange,
   options,
+  labelSize = "sm",
 }: {
   label: string;
   value: string;
   onValueChange: (value: string) => void;
   options: readonly RadioOption[];
+  /** "lg" sets the label as a question, for exams. */
+  labelSize?: "sm" | "lg";
 }) {
   const id = useId();
   return (
     <fieldset className="flex flex-col">
-      <legend className="mb-0.5 text-sm font-medium text-ink">{label}</legend>
+      <legend
+        className={cn(
+          "text-ink",
+          labelSize === "sm"
+            ? "mb-0.5 text-sm font-medium"
+            : "mb-1.5 text-heading-md font-semibold",
+        )}
+      >
+        {label}
+      </legend>
       <RadixRadioGroup.Root value={value} onValueChange={onValueChange} className="flex flex-col">
         {options.map((option) => {
           const optionId = `${id}-${option.value}`;

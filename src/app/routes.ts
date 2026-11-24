@@ -4,6 +4,7 @@ export default [
   index("routes/today.tsx"),
   route("learn", "routes/learn.tsx"),
   route("learn/:courseId", "routes/learn-course.tsx"),
+  route("learn/:courseId/exam", "routes/learn-exam.tsx"),
   route("learn/:courseId/:lessonId", "routes/learn-lesson.tsx"),
   route("practice", "routes/practice.tsx"),
   route("practice/review", "routes/practice-review.tsx"),

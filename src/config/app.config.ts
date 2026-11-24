@@ -62,6 +62,6 @@ export const appConfig: AppConfig = appConfigSchema.parse({
   },
   assessment: {
     passMarkPercent: 80,
-    retakeCooldownHours: 12,
+    retakeCooldownHours: 0,
   },
 });

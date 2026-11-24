@@ -16,7 +16,7 @@ describe("schema migrations", () => {
     const current = new AcademyDatabase(name);
     await current.open();
 
-    expect(current.verno).toBe(4);
+    expect(current.verno).toBe(5);
     expect(await current.meta.get("units")).toEqual({ key: "units", value: "ml" });
     await current.favorites.put({ cocktailId: "negroni", addedAt: new Date().toISOString() });
     await current.barItems.put({ ingredientId: "gin", addedAt: new Date().toISOString() });
@@ -40,7 +40,7 @@ describe("schema migrations", () => {
     const current = new AcademyDatabase(name);
     await current.open();
 
-    expect(current.verno).toBe(4);
+    expect(current.verno).toBe(5);
     expect(await current.favorites.count()).toBe(1);
     expect(await current.barItems.count()).toBe(1);
     expect(await current.lessonProgress.count()).toBe(0);
@@ -49,7 +49,7 @@ describe("schema migrations", () => {
     await current.delete();
   });
 
-  it("upgrades a v3 device to v4, keeping finished lessons", async () => {
+  it("upgrades a v3 device to the current version, keeping finished lessons", async () => {
     const name = `migration-${crypto.randomUUID()}`;
 
     // A device that installed the M3 release.
@@ -68,11 +68,43 @@ describe("schema migrations", () => {
     const current = new AcademyDatabase(name);
     await current.open();
 
-    expect(current.verno).toBe(4);
+    expect(current.verno).toBe(5);
     expect(await current.lessonProgress.count()).toBe(1);
     expect(await current.reviewCards.count()).toBe(0);
     expect(await current.reviewLogs.count()).toBe(0);
     expect(await current.practiceRuns.count()).toBe(0);
+
+    await current.delete();
+  });
+
+  it("upgrades a v4 device to v5, keeping review cards and practice runs", async () => {
+    const name = `migration-${crypto.randomUUID()}`;
+
+    // A device that installed the M4 release.
+    const v4 = new Dexie(name);
+    v4.version(1).stores({ meta: "key" });
+    v4.version(2).stores({ favorites: "cocktailId, addedAt", barItems: "ingredientId" });
+    v4.version(3).stores({ lessonProgress: "id, courseId, completedAt" });
+    v4.version(4).stores({
+      reviewCards: "id, due, cocktailId",
+      reviewLogs: "++id, cardId, reviewedAt",
+      practiceRuns: "++id, kind, finishedAt",
+    });
+    await v4.table("practiceRuns").add({
+      kind: "bar-math",
+      score: 4,
+      total: 5,
+      durationMs: 60_000,
+      finishedAt: "2026-11-24T10:00:00.000Z",
+    });
+    v4.close();
+
+    const current = new AcademyDatabase(name);
+    await current.open();
+
+    expect(current.verno).toBe(5);
+    expect(await current.practiceRuns.count()).toBe(1);
+    expect(await current.examAttempts.count()).toBe(0);
 
     await current.delete();
   });
