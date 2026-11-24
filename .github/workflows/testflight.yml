@@ -66,6 +66,11 @@ jobs:
           mkdir -p "$RUNNER_TEMP/asc"
           printf '%s\n' "$ASC_API_KEY_P8" > "$RUNNER_TEMP/asc/AuthKey.p8"
           chmod 600 "$RUNNER_TEMP/asc/AuthKey.p8"
+      - name: Check the App Store Connect key with Apple
+        env:
+          ASC_KEY_PATH: ${{ runner.temp }}/asc/AuthKey.p8
+          BUNDLE_ID: com.cjaratech.nationalcocktailacademy
+        run: node scripts/check-asc-credentials.mjs
       - name: Archive
         run: |
           VERSION=$(node -p "require('./package.json').version")
