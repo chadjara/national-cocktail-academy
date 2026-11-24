@@ -26,6 +26,7 @@ export { Select, type SelectOption } from "./components/select";
 export { SpecCard, SpecFact, SpecSheet, type SpecRow } from "./components/spec";
 export { Badge, Card, Divider, TextLink, type BadgeTone } from "./components/surfaces";
 export { Tabs, type TabItem } from "./components/tabs";
+export { TicketCard } from "./components/ticket";
 export { ToolIcon, type ToolShape } from "./components/tool-icon";
 export { ToastProvider, useToast, type ToastInput, type ToastTone } from "./components/toast";
 export { Display, Eyebrow, Heading, Text } from "./components/typography";
