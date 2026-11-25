@@ -1,5 +1,6 @@
 import {
   ArrowRight,
+  Award,
   Calculator,
   Droplets,
   Layers,
@@ -17,6 +18,7 @@ import { passedExamIds } from "~/features/learn/services/exam-status";
 import { courseProgress } from "~/features/learn/services/progress";
 import type { PracticeKind } from "~/lib/db/records";
 
+import { useCapstoneStatus } from "../hooks/use-capstone";
 import { useReviewSummary } from "../hooks/use-review";
 import { useRuns, type RunStats } from "../hooks/use-runs";
 import { formatDuration } from "../services/speed-round";
@@ -111,6 +113,31 @@ function ToolCard({
   );
 }
 
+function SimCard() {
+  const status = useCapstoneStatus();
+  const best = status.status === "ready" ? status.data.best : undefined;
+  return (
+    <Card as="li" interactive className="flex h-full flex-col gap-1.5">
+      <Award aria-hidden size={24} strokeWidth={ICON_STROKE} className="text-accent-text" />
+      <Heading as="h3" size="md">
+        <Link to="/capstone" className="after:absolute after:inset-0">
+          Service Sim
+        </Link>
+      </Heading>
+      <Text size="sm" tone="muted" className="flex-1">
+        The capstone: a full shift of tickets with guest situations between them. Pass it to earn
+        your certificate.
+      </Text>
+      {best && (
+        <Text size="sm" className="flex items-center gap-0.5 text-ink">
+          <Trophy aria-hidden size={16} strokeWidth={ICON_STROKE} className="text-brass" />
+          Best {Math.round((best.score / best.total) * 100)}% in {formatDuration(best.durationMs)}
+        </Text>
+      )}
+    </Card>
+  );
+}
+
 function ProgressSummary() {
   const progress = useProgress();
   const review = useReviewSummary();
@@ -168,7 +195,7 @@ export function PracticeHome() {
         <Heading as="h2" size="lg" id="drills-heading">
           Drills
         </Heading>
-        <ul aria-labelledby="drills-heading" className="grid gap-1.5 sm:grid-cols-3">
+        <ul aria-labelledby="drills-heading" className="grid gap-1.5 sm:grid-cols-2">
           <ToolCard
             to="/practice/speed-round"
             icon={Timer}
@@ -200,6 +227,7 @@ export function PracticeHome() {
               stats.best && `Best set ${String(stats.best.score)}/${String(stats.best.total)}`
             }
           />
+          <SimCard />
         </ul>
       </section>
       <ProgressSummary />
