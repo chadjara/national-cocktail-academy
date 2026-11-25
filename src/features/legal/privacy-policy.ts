@@ -46,8 +46,8 @@ export const storedOnDevice: readonly StoredItem[] = [
   },
   {
     item: "Exam results",
-    why: "To track your training as that feature arrives.",
-    when: "planned",
+    why: "To show which course exams you've passed and what to review.",
+    when: "now",
   },
   {
     item: "The name you choose for your certificate",

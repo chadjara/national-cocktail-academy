@@ -1,4 +1,4 @@
-import { CircleCheck } from "lucide-react";
+import { CircleCheck, Trophy } from "lucide-react";
 import { Link } from "react-router";
 
 import {
@@ -9,7 +9,9 @@ import {
 } from "~/content/curriculum";
 import { Badge, Card, Heading, ICON_STROKE, ProgressBar, Text } from "~/design-system";
 
+import { useExamStatuses } from "../hooks/use-exams";
 import { useProgress } from "../hooks/use-progress";
+import { passedExamIds } from "../services/exam-status";
 import { courseProgress, emptyProgress, type Progress } from "../services/progress";
 import { ContinueCard } from "./continue-card";
 import { CourseIcon } from "./course-icon";
@@ -18,10 +20,12 @@ function CourseCard({
   course,
   progress,
   ready,
+  examPassed,
 }: {
   course: Course;
   progress: Progress;
   ready: boolean;
+  examPassed: boolean;
 }) {
   const { done, total } = courseProgress(course, progress);
   const complete = done === total;
@@ -29,13 +33,20 @@ function CourseCard({
     <Card as="li" interactive className="flex h-full flex-col gap-1.5">
       <div className="flex items-start justify-between gap-2">
         <CourseIcon icon={course.icon} />
-        {ready && complete && (
-          <Badge
-            tone="success"
-            icon={<CircleCheck aria-hidden size={14} strokeWidth={ICON_STROKE} />}
-          >
-            Complete
+        {ready && examPassed ? (
+          <Badge tone="brass" icon={<Trophy aria-hidden size={14} strokeWidth={ICON_STROKE} />}>
+            Exam passed
           </Badge>
+        ) : (
+          ready &&
+          complete && (
+            <Badge
+              tone="accent"
+              icon={<CircleCheck aria-hidden size={14} strokeWidth={ICON_STROKE} />}
+            >
+              Exam ready
+            </Badge>
+          )
         )}
       </div>
       <Heading as="h3" size="md">
@@ -66,11 +77,15 @@ export function CourseList() {
   const state = useProgress();
   const ready = state.status === "ready";
   const progress = ready ? state.data : emptyProgress;
+  const exams = useExamStatuses();
+  const passed = passedExamIds(exams);
   const groups: CourseGroup[] = ["foundations", "families"];
 
   return (
     <div className="flex flex-col gap-5">
-      {ready && <ContinueCard progress={progress} />}
+      {ready && exams.status !== "loading" && (
+        <ContinueCard progress={progress} passedExams={passed} />
+      )}
       {groups.map((group) => {
         const courses = listCourses().filter((course) => course.group === group);
         const headingId = `group-${group}`;
@@ -84,7 +99,13 @@ export function CourseList() {
             </div>
             <ul aria-labelledby={headingId} className="grid gap-1.5 sm:grid-cols-2">
               {courses.map((course) => (
-                <CourseCard key={course.id} course={course} progress={progress} ready={ready} />
+                <CourseCard
+                  key={course.id}
+                  course={course}
+                  progress={progress}
+                  ready={ready}
+                  examPassed={passed.has(course.id)}
+                />
               ))}
             </ul>
           </section>

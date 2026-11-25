@@ -91,6 +91,8 @@ export const blockSchema = z.discriminatedUnion("kind", [
   }),
   /** A live spec card pulled from the library (spec, glass, ice, garnish, method). */
   z.object({ kind: z.literal("cocktail"), cocktailId: slugSchema }),
+  /** A branching Responsible Service scenario, from src/content/scenarios. */
+  z.object({ kind: z.literal("scenario"), scenarioId: slugSchema }),
   /** An authored question. */
   z.object({ kind: z.literal("question"), question: questionSchema }),
   /**

@@ -1,36 +1,66 @@
-import { Check, CircleAlert, Lightbulb, X } from "lucide-react";
+import { Check, CircleAlert, CircleCheck, Lightbulb, OctagonX, X } from "lucide-react";
 import { useId, useState, type ReactNode } from "react";
 
 import { cn } from "../cn";
 import { ICON_STROKE } from "./icon";
 
-/** A behind-the-bar tip or a safety warning set apart from the lesson text. */
+export type CalloutTone = "tip" | "warning" | "success" | "danger";
+
+const calloutTones: Record<
+  CalloutTone,
+  { icon: typeof Lightbulb; box: string; icon_: string; label: string }
+> = {
+  tip: {
+    icon: Lightbulb,
+    box: "border-accent bg-accent-subtle",
+    icon_: "text-accent-text",
+    label: "Tip: ",
+  },
+  warning: {
+    icon: CircleAlert,
+    box: "border-warning bg-warning-subtle",
+    icon_: "text-warning",
+    label: "Warning: ",
+  },
+  success: {
+    icon: CircleCheck,
+    box: "border-success bg-success-subtle",
+    icon_: "text-success",
+    label: "",
+  },
+  danger: {
+    icon: OctagonX,
+    box: "border-danger bg-danger-subtle",
+    icon_: "text-danger",
+    label: "",
+  },
+};
+
+/**
+ * Text set apart from the lesson: a behind-the-bar tip, a safety warning, or
+ * feedback on a choice (success for a good call, danger for an unsafe one).
+ */
 export function Callout({
   tone,
   title,
   children,
 }: {
-  tone: "tip" | "warning";
+  tone: CalloutTone;
   title: string;
   children: ReactNode;
 }) {
-  const Icon = tone === "tip" ? Lightbulb : CircleAlert;
+  const { icon: Icon, box, icon_, label } = calloutTones[tone];
   return (
-    <aside
-      className={cn(
-        "flex gap-1.5 rounded-base border-l-2 p-2",
-        tone === "tip" ? "border-accent bg-accent-subtle" : "border-warning bg-warning-subtle",
-      )}
-    >
+    <aside className={cn("flex gap-1.5 rounded-base border-l-2 p-2", box)}>
       <Icon
         aria-hidden
         size={20}
         strokeWidth={ICON_STROKE}
-        className={cn("mt-0.5 shrink-0", tone === "tip" ? "text-accent-text" : "text-warning")}
+        className={cn("mt-0.5 shrink-0", icon_)}
       />
       <div className="flex flex-col gap-0.5">
         <p className="text-heading-sm font-semibold text-ink">
-          <span className="sr-only">{tone === "tip" ? "Tip: " : "Warning: "}</span>
+          {label !== "" && <span className="sr-only">{label}</span>}
           {title}
         </p>
         <p className="text-base text-ink-muted">{children}</p>

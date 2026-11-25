@@ -455,6 +455,12 @@ function LessonComponents() {
             <Callout tone="warning" title="Point it away from guests">
               If the seal fails mid-shake, the drink flies away from people, not at them.
             </Callout>
+            <Callout tone="success" title="Good call">
+              Feedback on a safe choice in a Responsible Service scenario.
+            </Callout>
+            <Callout tone="danger" title="Unsafe">
+              Feedback on an unsafe choice. The scenario has to be replayed.
+            </Callout>
             <StepList
               title="A clean pour (example)"
               items={[

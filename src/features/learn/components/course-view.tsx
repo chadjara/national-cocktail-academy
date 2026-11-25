@@ -16,6 +16,7 @@ import {
   useToast,
 } from "~/design-system";
 
+import { useExamStatuses } from "../hooks/use-exams";
 import { useLessonActions, useProgress } from "../hooks/use-progress";
 import {
   courseProgress,
@@ -23,6 +24,7 @@ import {
   isLessonComplete,
   nextLessonIn,
 } from "../services/progress";
+import { CourseExam } from "./course-exam";
 import { CourseIcon } from "./course-icon";
 
 /** A course's syllabus: every lesson in order, with what's done and what's next. */
@@ -33,6 +35,7 @@ export function CourseView({ course }: { course: Course }) {
   const { done, total } = courseProgress(course, progress);
   const next = nextLessonIn(course, progress);
   const { resetCourse } = useLessonActions();
+  const exams = useExamStatuses();
   const { show } = useToast();
   const [confirming, setConfirming] = useState(false);
 
@@ -116,6 +119,10 @@ export function CourseView({ course }: { course: Course }) {
           })}
         </ol>
       </section>
+
+      {ready && exams.status === "ready" && (
+        <CourseExam course={course} progress={progress} status={exams.data.get(course.id)} />
+      )}
 
       {ready && done > 0 && (
         <div>

@@ -22,7 +22,7 @@ import { useUnits } from "~/features/library/hooks/use-units";
 import { specRows } from "~/features/library/services/spec-rows";
 import type { UnitSystem } from "~/features/library/services/units";
 
-type ContentBlock = Exclude<Block, { kind: "question" } | { kind: "drill" }>;
+type ContentBlock = Exclude<Block, { kind: "question" } | { kind: "drill" } | { kind: "scenario" }>;
 
 function ToolList({ tools }: { tools: Extract<Block, { kind: "tools" }>["tools"] }) {
   return (

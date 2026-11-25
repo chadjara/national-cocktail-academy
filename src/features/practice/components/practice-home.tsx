@@ -11,7 +11,9 @@ import { Link } from "react-router";
 
 import { listCourses } from "~/content/curriculum";
 import { Button, Card, Eyebrow, Heading, ICON_STROKE, Skeleton, Text } from "~/design-system";
+import { useExamStatuses } from "~/features/learn/hooks/use-exams";
 import { useProgress } from "~/features/learn/hooks/use-progress";
+import { passedExamIds } from "~/features/learn/services/exam-status";
 import { courseProgress } from "~/features/learn/services/progress";
 import type { PracticeKind } from "~/lib/db/records";
 
@@ -112,6 +114,7 @@ function ToolCard({
 function ProgressSummary() {
   const progress = useProgress();
   const review = useReviewSummary();
+  const exams = useExamStatuses();
   if (progress.status !== "ready") return null;
   const courses = listCourses();
   const lessons = courses.reduce((sum, course) => sum + course.lessons.length, 0);
@@ -124,7 +127,14 @@ function ProgressSummary() {
       label: "Lessons finished",
       value: `${String(progress.data.completed.size)} of ${String(lessons)}`,
     },
-    { label: "Courses complete", value: `${String(finishedCourses)} of ${String(courses.length)}` },
+    {
+      label: "Courses with every lesson done",
+      value: `${String(finishedCourses)} of ${String(courses.length)}`,
+    },
+    {
+      label: "Exams passed",
+      value: `${String(passedExamIds(exams).size)} of ${String(courses.length)}`,
+    },
     {
       label: "Drinks in review",
       value: review.status === "ready" ? String(review.data.drinks) : "–",
@@ -135,7 +145,7 @@ function ProgressSummary() {
       <Heading as="h2" size="lg" id="progress-heading">
         Your progress
       </Heading>
-      <dl className="grid grid-cols-3 gap-1.5">
+      <dl className="grid grid-cols-2 gap-1.5 sm:grid-cols-4">
         {stats.map((stat) => (
           <div
             key={stat.label}

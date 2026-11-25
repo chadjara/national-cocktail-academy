@@ -33,23 +33,30 @@ export function nextLessonIn(course: Course, progress: Progress): Lesson | undef
   return course.lessons.find((lesson) => !isLessonComplete(progress, course.id, lesson.id));
 }
 
-export type Recommendation = { course: Course; lesson: Lesson; started: boolean };
+export type Recommendation =
+  | { kind: "lesson"; course: Course; lesson: Lesson; started: boolean }
+  | { kind: "exam"; course: Course };
 
 /**
  * Where to pick up: the course the student was last working in, if it still
- * has lessons left; otherwise the first unfinished lesson in the recommended
- * order. Undefined once everything is finished.
+ * has a lesson left or an exam to pass; otherwise the first course in the
+ * recommended order that does. Undefined once every lesson is finished and
+ * every exam passed.
  */
 export function recommendNext(
   courses: readonly Course[],
   progress: Progress,
+  passedExams: ReadonlySet<string>,
 ): Recommendation | undefined {
   const current =
     progress.latest && courses.find((course) => course.id === progress.latest?.courseId);
   const ordered = current ? [current, ...courses.filter((course) => course !== current)] : courses;
   for (const course of ordered) {
     const lesson = nextLessonIn(course, progress);
-    if (lesson) return { course, lesson, started: courseProgress(course, progress).done > 0 };
+    if (lesson) {
+      return { kind: "lesson", course, lesson, started: courseProgress(course, progress).done > 0 };
+    }
+    if (!passedExams.has(course.id)) return { kind: "exam", course };
   }
   return undefined;
 }
