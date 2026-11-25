@@ -1,5 +1,6 @@
 import { DatabaseBackup, FileUp, Trash2 } from "lucide-react";
 import { useRef, useState } from "react";
+import { Link } from "react-router";
 
 import {
   Button,
@@ -108,6 +109,30 @@ export function YourData() {
         <p role="alert" className="min-h-0 text-sm font-medium text-danger">
           {restoreError}
         </p>
+      </section>
+
+      <section aria-labelledby="about-heading" className="flex flex-col gap-1">
+        <Heading as="h2" size="lg" id="about-heading">
+          About
+        </Heading>
+        <ul className="flex flex-col gap-0.5 text-base">
+          <li>
+            <Link
+              to="/credits"
+              className="inline-flex min-h-3 items-center text-accent-text underline decoration-1 underline-offset-[3px] hover:decoration-2"
+            >
+              Photo credits
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/privacy"
+              className="inline-flex min-h-3 items-center text-accent-text underline decoration-1 underline-offset-[3px] hover:decoration-2"
+            >
+              Privacy policy
+            </Link>
+          </li>
+        </ul>
       </section>
 
       <Card

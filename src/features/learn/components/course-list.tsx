@@ -7,16 +7,16 @@ import {
   type Course,
   type CourseGroup,
 } from "~/content/curriculum";
-import { Badge, Card, Heading, ICON_STROKE, ProgressBar, Text } from "~/design-system";
+import { Badge, Card, CoverImage, Heading, ICON_STROKE, ProgressBar, Text } from "~/design-system";
 
 import { useExamStatuses } from "../hooks/use-exams";
 import { useProgress } from "../hooks/use-progress";
 import { passedExamIds } from "../services/exam-status";
+import { courseArt } from "../services/course-art";
 import { courseProgress, emptyProgress, type Progress } from "../services/progress";
 import { CapstoneSection } from "~/features/certificate/components/capstone-section";
 
 import { ContinueCard } from "./continue-card";
-import { CourseIcon } from "./course-icon";
 
 function CourseCard({
   course,
@@ -31,45 +31,49 @@ function CourseCard({
 }) {
   const { done, total } = courseProgress(course, progress);
   const complete = done === total;
+  const art = courseArt(course);
   return (
-    <Card as="li" interactive className="flex h-full flex-col gap-1.5">
-      <div className="flex items-start justify-between gap-2">
-        <CourseIcon icon={course.icon} />
-        {ready && examPassed ? (
-          <Badge tone="brass" icon={<Trophy aria-hidden size={14} strokeWidth={ICON_STROKE} />}>
-            Exam passed
-          </Badge>
-        ) : (
-          ready &&
-          complete && (
-            <Badge
-              tone="accent"
-              icon={<CircleCheck aria-hidden size={14} strokeWidth={ICON_STROKE} />}
-            >
-              Exam ready
+    <Card as="li" interactive padding="none" className="flex h-full flex-col overflow-hidden">
+      <CoverImage src={art.photo?.src} alt="" tone={art.tone} aspect="16/9" rounded={false}>
+        <div className="absolute top-1.5 right-1.5">
+          {ready && examPassed ? (
+            <Badge tone="brass" icon={<Trophy aria-hidden size={14} strokeWidth={ICON_STROKE} />}>
+              Exam passed
             </Badge>
-          )
+          ) : (
+            ready &&
+            complete && (
+              <Badge
+                tone="accent"
+                icon={<CircleCheck aria-hidden size={14} strokeWidth={ICON_STROKE} />}
+              >
+                Exam ready
+              </Badge>
+            )
+          )}
+        </div>
+      </CoverImage>
+      <div className="flex flex-1 flex-col gap-1.5 p-3">
+        <Heading as="h3" size="md">
+          <Link to={`/learn/${course.id}`} className="after:absolute after:inset-0">
+            {course.title}
+          </Link>
+        </Heading>
+        <Text size="sm" tone="muted" className="flex-1">
+          {course.summary}
+        </Text>
+        {ready && done > 0 && !complete ? (
+          <ProgressBar
+            label={`${String(done)} of ${String(total)} lessons`}
+            value={done}
+            max={total}
+          />
+        ) : (
+          <Text size="sm" tone="subtle">
+            {total} lessons
+          </Text>
         )}
       </div>
-      <Heading as="h3" size="md">
-        <Link to={`/learn/${course.id}`} className="after:absolute after:inset-0">
-          {course.title}
-        </Link>
-      </Heading>
-      <Text size="sm" tone="muted" className="flex-1">
-        {course.summary}
-      </Text>
-      {ready && done > 0 && !complete ? (
-        <ProgressBar
-          label={`${String(done)} of ${String(total)} lessons`}
-          value={done}
-          max={total}
-        />
-      ) : (
-        <Text size="sm" tone="subtle">
-          {total} lessons
-        </Text>
-      )}
     </Card>
   );
 }
