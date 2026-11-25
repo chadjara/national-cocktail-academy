@@ -11,7 +11,6 @@ const heroImage = todayPhoto
 export function TodayHero() {
   return (
     <PageHeader
-      eyebrow="Today"
       title={appConfig.academy.name}
       lede={appConfig.academy.tagline}
       {...(heroImage ? { image: heroImage } : {})}

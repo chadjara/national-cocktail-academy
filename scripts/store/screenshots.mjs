@@ -229,7 +229,7 @@ async function restore(page, json) {
     buffer: Buffer.from(json),
   });
   await page.getByRole("button", { name: "Restore", exact: true }).click();
-  await page.getByText("Backup restored").waitFor();
+  await page.getByText("Backup restored", { exact: true }).waitFor();
 }
 
 /** @param {Page} page */
