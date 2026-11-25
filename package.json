@@ -20,7 +20,8 @@
     "e2e": "playwright test",
     "prepare": "husky",
     "ios:sync": "pnpm build && cap sync ios",
-    "images:process": "node scripts/images/process-photos.mjs"
+    "images:process": "node scripts/images/process-photos.mjs",
+    "store:screenshots": "node scripts/store/screenshots.mjs"
   },
   "lint-staged": {
     "*.{ts,tsx,js,mjs}": [
