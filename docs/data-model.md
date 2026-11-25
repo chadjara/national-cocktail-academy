@@ -133,3 +133,16 @@ passed, topics[{ lessonId, right, total }], startedAt, submittedAt }`.
 
 - Indexed by `courseId` and `submittedAt`.
 - The seed and question ids make an attempt reproducible for review.
+
+## Implemented in M6
+
+**Guest moments (content):** `src/content/service-sim/` holds `GuestMoment { id, situation,
+choices[{ text, outcome, feedback }] }`, which are single decisions inside a Service Sim shift.
+
+**User state (Dexie v6):**
+
+- `capstoneAttempts { ++id, score, total, unsafe, passed, durationMs, finishedAt }`
+- `certificate { key: "current", displayName, certificateId, issuedAt, appVersion }`
+
+**Backup file:** `{ format: "nca-backup", version: 1, exportedAt, appVersion, tables }` holds every
+table. Each row is validated with its record schema on restore (ADR 0013).

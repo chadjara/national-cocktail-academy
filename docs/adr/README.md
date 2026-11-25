@@ -18,3 +18,4 @@ what it costs us. Add a new record instead of rewriting an accepted one; mark th
 | [0010](0010-app-only-distribution.md)        | App-only distribution: no public website                 | Accepted              |
 | [0011](0011-curriculum-from-library-data.md) | Courses authored; drills generated from Library specs    | Accepted              |
 | [0012](0012-exams-and-scenarios.md)          | Course exams from course content; RS branching scenarios | Accepted              |
+| [0013](0013-backup-and-certificate-files.md) | Backup files and the on-device certificate PDF           | Accepted              |
