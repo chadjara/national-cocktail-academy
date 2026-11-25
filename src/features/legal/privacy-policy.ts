@@ -52,7 +52,12 @@ export const storedOnDevice: readonly StoredItem[] = [
   {
     item: "The name you choose for your certificate",
     why: "To print it on your certificate of completion.",
-    when: "planned",
+    when: "now",
+  },
+  {
+    item: "Backup and certificate files",
+    why: "Created only when you choose to save one, and saved wherever you choose. NCA never uploads them.",
+    when: "now",
   },
 ];
 
