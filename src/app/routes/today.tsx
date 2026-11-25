@@ -2,9 +2,9 @@ import { ArrowRight, GraduationCap, Martini, Target, Wine } from "lucide-react";
 import { Link } from "react-router";
 
 import { appConfig } from "~/config/app.config";
-import { getScenePhoto, scenePhotoSrc } from "~/content/photos";
 import { listCocktails } from "~/content";
-import { Card, Heading, ICON_STROKE, PageHeader, Text } from "~/design-system";
+import { Card, Heading, ICON_STROKE, Text } from "~/design-system";
+import { TodayHero } from "~/features/app-shell/today-hero";
 import { TodayLearning, courseCount } from "~/features/learn/components/today-learning";
 import { FavoritesSection } from "~/features/library/components/favorites-section";
 import { TodayReview } from "~/features/practice/components/today-review";
@@ -43,20 +43,10 @@ const entryPoints = [
   },
 ] as const;
 
-const todayPhoto = getScenePhoto("today");
-const heroImage = todayPhoto
-  ? { src: scenePhotoSrc(todayPhoto.id), alt: todayPhoto.alt, tone: "oxblood" as const }
-  : undefined;
-
 export default function TodayRoute() {
   return (
     <div className="flex flex-col gap-4">
-      <PageHeader
-        eyebrow="Today"
-        title={appConfig.academy.name}
-        lede={appConfig.academy.tagline}
-        {...(heroImage ? { image: heroImage } : {})}
-      />
+      <TodayHero />
       <TodayLearning />
       <TodayReview />
       <ul className="grid gap-1.5 sm:grid-cols-2">

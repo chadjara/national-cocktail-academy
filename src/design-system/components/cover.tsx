@@ -48,6 +48,7 @@ export function CoverImage({
           src={src}
           alt={alt}
           loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : "auto"}
           decoding="async"
           className="absolute inset-0 -z-10 size-full object-cover"
         />

@@ -14,6 +14,7 @@ import {
 
 import { appConfig } from "~/config/app.config";
 import { AppShell, Button, ErrorState, ICON_STROKE, ToastProvider } from "~/design-system";
+import { startPageBootScript, TodayHero } from "~/features/app-shell/today-hero";
 import { useAppLaunch } from "~/features/app-shell/use-app-launch";
 import { themeBootScript } from "~/features/theme/theme";
 
@@ -39,6 +40,7 @@ export function Layout({ children }: { children: ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta name="description" content={appConfig.academy.tagline} />
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
+        <script dangerouslySetInnerHTML={{ __html: startPageBootScript }} />
         <Meta />
         <Links />
       </head>
@@ -81,11 +83,24 @@ function Frame({ children }: { children: ReactNode }) {
 }
 
 /**
- * What index.html shows before React takes over: just the page background,
- * so nothing flashes. In the app the launch screen covers this moment.
+ * What index.html shows before React takes over. It is the same file for every
+ * screen, so it is blank (just the page background) except when the app opens
+ * on Today: then Today's hero, laid out where the real page puts it, paints
+ * straight from the HTML instead of waiting for the JavaScript. In the iOS app
+ * the launch screen covers this moment either way.
  */
 export function HydrateFallback() {
-  return <div className="min-h-dvh bg-canvas" />;
+  return (
+    <div className="min-h-dvh bg-canvas">
+      <div className="hidden in-data-[start=today]:block">
+        {/* Stands in for the phone header bar so the hero lands where it will stay. */}
+        <div className="box-content h-7 border-b border-transparent pt-[env(safe-area-inset-top)] lg:hidden" />
+        <div className="mx-auto w-full max-w-180 px-2 pt-3 sm:px-4 lg:px-6 lg:pt-6">
+          <TodayHero />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function App() {

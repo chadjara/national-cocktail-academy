@@ -47,6 +47,10 @@ own later. Two constraints shape the choices:
 
 - Photos are processed with `sharp`: cropped, resized to WebP, metadata stripped.
 - They're stored in `public/images`; nothing is hotlinked.
+- Today's hero is the first screen's largest element. So it doesn't wait for the JavaScript,
+  `index.html` contains it: a small inline script marks a start on `/`, and the page shown before
+  React loads (`HydrateFallback`) reveals the hero only then. Every other screen still opens on a
+  blank page.
 
 ### Credits
 
