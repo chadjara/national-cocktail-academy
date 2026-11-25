@@ -105,6 +105,25 @@
   --shadow-color: 0 0 0;
 }
 
+/* Family tones: deep, theme-independent colors for covers and drink
+   backdrops, one per drink family. White text sits on them at WCAG AA;
+   tokens.test.ts checks it. */
+:root {
+  --tone-oxblood: #6a1c29;
+  --tone-charcoal: #2e2a26;
+  --tone-citrus: #74560f;
+  --tone-crimson: #7a1626;
+  --tone-amber: #844515;
+  --tone-copper: #86401f;
+  --tone-slate: #2f4a5e;
+  --tone-emerald: #1f5a3a;
+  --tone-teal: #0f5257;
+  --tone-champagne: #6b572b;
+  --tone-mocha: #4a2c1f;
+  /* Text and strokes laid over photos and tones, in either theme. */
+  --on-image: #ffffff;
+}
+
 @theme inline {
   --color-*: initial;
   --color-transparent: transparent;
@@ -133,6 +152,18 @@
   --color-danger-subtle: var(--danger-subtle);
   --color-focus: var(--focus);
   --color-scrim: var(--scrim);
+  --color-tone-oxblood: var(--tone-oxblood);
+  --color-tone-charcoal: var(--tone-charcoal);
+  --color-tone-citrus: var(--tone-citrus);
+  --color-tone-crimson: var(--tone-crimson);
+  --color-tone-amber: var(--tone-amber);
+  --color-tone-copper: var(--tone-copper);
+  --color-tone-slate: var(--tone-slate);
+  --color-tone-emerald: var(--tone-emerald);
+  --color-tone-teal: var(--tone-teal);
+  --color-tone-champagne: var(--tone-champagne);
+  --color-tone-mocha: var(--tone-mocha);
+  --color-on-image: var(--on-image);
 
   --shadow-*: initial;
   --shadow-overlay:
