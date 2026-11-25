@@ -3,7 +3,8 @@ import { Link } from "react-router";
 
 import { appConfig } from "~/config/app.config";
 import { listCocktails } from "~/content";
-import { Card, Heading, ICON_STROKE, PageHeader, Text } from "~/design-system";
+import { Card, Heading, ICON_STROKE, Text } from "~/design-system";
+import { TodayHero } from "~/features/app-shell/today-hero";
 import { TodayLearning, courseCount } from "~/features/learn/components/today-learning";
 import { FavoritesSection } from "~/features/library/components/favorites-section";
 import { TodayReview } from "~/features/practice/components/today-review";
@@ -45,7 +46,7 @@ const entryPoints = [
 export default function TodayRoute() {
   return (
     <div className="flex flex-col gap-4">
-      <PageHeader eyebrow="Today" title={appConfig.academy.name} lede={appConfig.academy.tagline} />
+      <TodayHero />
       <TodayLearning />
       <TodayReview />
       <ul className="grid gap-1.5 sm:grid-cols-2">

@@ -44,6 +44,7 @@ import { useFavorites } from "../hooks/use-favorites";
 import { useUnits } from "../hooks/use-units";
 import { buildShareText } from "../services/share-text";
 import { specRows } from "../services/spec-rows";
+import { DrinkHero } from "./drink-image";
 import { mlToOz, totalMl, type UnitSystem } from "../services/units";
 
 function ShareButton({ cocktail, units }: { cocktail: Cocktail; units: UnitSystem }) {
@@ -121,6 +122,7 @@ export function CocktailDetail({ cocktail }: { cocktail: Cocktail }) {
 
   return (
     <article className="flex flex-col gap-4">
+      <DrinkHero cocktail={cocktail} layout="bleed" />
       <header className="flex flex-col gap-2">
         <Eyebrow tone="accent">{familyLabels[cocktail.family].label}</Eyebrow>
         <Display size="xl">{cocktail.name}</Display>

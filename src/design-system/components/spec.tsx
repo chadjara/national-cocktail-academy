@@ -29,7 +29,8 @@ export function SpecCard({
         "transition-colors duration-(--duration-fast) ease-(--ease-out) hover:bg-surface",
       )}
     >
-      <span className="inline-flex size-6 shrink-0 items-center justify-center rounded-base border border-line bg-surface text-ink-muted">
+      {/* A picture of the drink fills the tile; an icon sits centered on a framed tile. */}
+      <span className="inline-flex size-7 shrink-0 items-center justify-center overflow-hidden rounded-base border border-line bg-surface text-ink-muted">
         {leading}
       </span>
       <span className="flex min-w-0 flex-1 flex-col">

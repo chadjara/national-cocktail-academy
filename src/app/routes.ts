@@ -17,6 +17,7 @@ export default [
   route("library/:cocktailId", "routes/library-cocktail.tsx"),
   route("my-bar", "routes/my-bar.tsx"),
   route("settings", "routes/settings.tsx"),
+  route("credits", "routes/credits.tsx"),
   route("privacy", "routes/privacy.tsx"),
   route("design-system", "routes/design-system.tsx"),
   route("*", "routes/not-found.tsx"),

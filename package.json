@@ -1,7 +1,7 @@
 {
   "name": "national-cocktail-academy",
   "private": true,
-  "version": "0.6.0",
+  "version": "0.7.0",
   "type": "module",
   "packageManager": "pnpm@10.28.0",
   "engines": {
@@ -19,7 +19,8 @@
     "test:watch": "vitest",
     "e2e": "playwright test",
     "prepare": "husky",
-    "ios:sync": "pnpm build && cap sync ios"
+    "ios:sync": "pnpm build && cap sync ios",
+    "images:process": "node scripts/images/process-photos.mjs"
   },
   "lint-staged": {
     "*.{ts,tsx,js,mjs}": [
@@ -79,6 +80,7 @@
     "lint-staged": "^17.6.1",
     "prettier": "^3.10.1",
     "prettier-plugin-tailwindcss": "^0.8.1",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4.3.5",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.73.0",

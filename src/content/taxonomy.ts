@@ -115,3 +115,21 @@ export const ingredientCategoryLabels: Record<IngredientCategory, string> = {
   produce: "Produce",
   pantry: "Pantry",
 };
+
+/** Each family's color, used for covers and illustration backdrops (tokens.css --tone-*). */
+export const familyTones: Record<
+  Family,
+  "citrus" | "crimson" | "amber" | "copper" | "slate" | "emerald" | "teal" | "champagne" | "mocha"
+> = {
+  sour: "citrus",
+  "spirit-forward": "crimson",
+  "old-fashioned": "amber",
+  highball: "copper",
+  "fizz-collins": "slate",
+  "julep-smash": "emerald",
+  "tiki-tropical": "teal",
+  sparkling: "champagne",
+  "duo-trio": "mocha",
+  "cream-flip": "mocha",
+  hot: "mocha",
+};

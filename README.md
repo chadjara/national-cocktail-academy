@@ -169,6 +169,20 @@ after checking every record, and can erase all progress.
 - **Bar Math:** pour cost, menu pricing, batching, dilution, bottles and par levels, with worked
   solutions.
 
+## Photos and illustrations
+
+Drink photos are used only where an openly licensed photo matches the spec. Every other drink is
+an illustration drawn from its spec ([ADR 0014](docs/adr/0014-imagery.md)). All images are bundled
+and credited on the in-app Credits page.
+
+**Replacing a photo with your own:**
+
+1. Run `pnpm images:process path/to/photo.jpg drink <cocktail-id>`. Use `scene <id>` for a cover
+   photo, and add `--focus=left|right|top|bottom` to steer the crop.
+2. In `src/content/photos.ts`, add or update the entry: author "National Cocktail Academy",
+   license "Owner's photo", and `sourceUrl` pointing to your own page.
+3. Run `pnpm test`. It checks that every entry has its image files and every file has an entry.
+
 ## Spec library
 
 105 specs, including the 87 drinks on the current IBA official list (imported from the MIT-licensed

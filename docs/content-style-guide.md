@@ -55,3 +55,14 @@ for a working bartender's review before launch, because the dataset didn't inclu
 
 A working head bartender reviews every spec, garnish and note before launch (M7). Record review
 corrections as normal commits so the history shows what changed and why.
+
+## Photos
+
+- **Accept a drink photo only if it matches the spec:** the glass, or an obvious equivalent, a
+  plausible color and a compatible garnish. When in doubt, the illustration is better than a
+  wrong photo.
+- **Licenses:** CC0, public domain, CC BY or the owner's own photos. Never share-alike,
+  non-commercial or unlicensed.
+- **Content:** no brand labels, no identifiable faces, no AI-generated images.
+- **Credit:** every photo needs an entry in `src/content/photos.ts` with its author, source and
+  license. They appear on the Credits page.

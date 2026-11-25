@@ -1,6 +1,8 @@
 import type { Cocktail } from "~/content";
 import { baseSpiritLabels, glassLabels, methodLabels } from "~/content/taxonomy";
-import { GlassIcon, SpecCard } from "~/design-system";
+import { SpecCard } from "~/design-system";
+
+import { DrinkThumb } from "./drink-image";
 
 export function cocktailMeta(cocktail: Cocktail): string {
   return [
@@ -16,7 +18,7 @@ export function CocktailRow({ cocktail }: { cocktail: Cocktail }) {
       to={`/library/${cocktail.id}`}
       title={cocktail.name}
       meta={cocktailMeta(cocktail)}
-      leading={<GlassIcon glass={cocktail.glass} />}
+      leading={<DrinkThumb cocktail={cocktail} className="size-full" />}
     />
   );
 }

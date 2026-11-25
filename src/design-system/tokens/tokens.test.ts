@@ -88,6 +88,23 @@ describe.each([
   });
 });
 
+describe("family tones", () => {
+  const tones = new Map(
+    [...css.matchAll(/--(tone-[a-z]+):\s*(#[0-9a-f]{6});/g)].map(([, name, value]) => [
+      name ?? "",
+      value ?? "",
+    ]),
+  );
+
+  it("defines a tone for every family", () => {
+    expect(tones.size).toBeGreaterThanOrEqual(11);
+  });
+
+  it.each([...tones])("white text on %s is at least 4.5:1", (_name, value) => {
+    expect(contrast("#ffffff", value)).toBeGreaterThanOrEqual(4.5);
+  });
+});
+
 describe("token definitions", () => {
   it("keeps the OS-preference and explicit dark palettes identical", () => {
     expect(Object.fromEntries(darkFromMedia)).toEqual(Object.fromEntries(darkExplicit));

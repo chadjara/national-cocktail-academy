@@ -36,8 +36,9 @@ test("an explicit theme choice survives reload and applies before hydration", as
 test("keyboard users can skip straight to content", async ({ page, isMobile }) => {
   test.skip(isMobile, "Skip links are a keyboard affordance.");
   await page.goto("/");
-  // The app renders on the device; wait for the first screen before tabbing.
-  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  // The app renders on the device; wait for its shell before tabbing. (Today's
+  // heading alone isn't enough: index.html shows the hero before the app loads.)
+  await expect(page.getByRole("main")).toBeVisible();
   await page.keyboard.press("Tab");
   const skip = page.getByRole("link", { name: "Skip to content" });
   await expect(skip).toBeFocused();

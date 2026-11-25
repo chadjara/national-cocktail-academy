@@ -19,6 +19,7 @@ import {
   ToolIcon,
 } from "~/design-system";
 import { useUnits } from "~/features/library/hooks/use-units";
+import { DrinkHero } from "~/features/library/components/drink-image";
 import { specRows } from "~/features/library/services/spec-rows";
 import type { UnitSystem } from "~/features/library/services/units";
 
@@ -79,8 +80,14 @@ function LessonSpec({ cocktailId }: { cocktailId: string }) {
   const headingId = `spec-${cocktail.id}`;
 
   return (
-    <Card as="section" padding="none" className="flex flex-col" aria-labelledby={headingId}>
-      <div className="flex items-center justify-between gap-2 border-b border-line px-2 py-1.5">
+    <Card
+      as="section"
+      padding="none"
+      className="flex flex-col overflow-hidden"
+      aria-labelledby={headingId}
+    >
+      <DrinkHero cocktail={cocktail} layout="card" />
+      <div className="flex items-center justify-between gap-2 border-y border-line px-2 py-1.5">
         <Heading as="h2" size="lg" id={headingId}>
           The spec
         </Heading>

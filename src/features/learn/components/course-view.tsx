@@ -6,8 +6,7 @@ import type { Course } from "~/content/curriculum";
 import {
   Button,
   Dialog,
-  Display,
-  Eyebrow,
+  CoverImage,
   Heading,
   ICON_STROKE,
   ProgressBar,
@@ -25,7 +24,7 @@ import {
   nextLessonIn,
 } from "../services/progress";
 import { CourseExam } from "./course-exam";
-import { CourseIcon } from "./course-icon";
+import { courseArt } from "../services/course-art";
 
 /** A course's syllabus: every lesson in order, with what's done and what's next. */
 export function CourseView({ course }: { course: Course }) {
@@ -37,6 +36,7 @@ export function CourseView({ course }: { course: Course }) {
   const { resetCourse } = useLessonActions();
   const exams = useExamStatuses();
   const { show } = useToast();
+  const art = courseArt(course);
   const [confirming, setConfirming] = useState(false);
 
   return (
@@ -49,11 +49,25 @@ export function CourseView({ course }: { course: Course }) {
       </Button>
 
       <header className="flex flex-col gap-2">
-        <CourseIcon icon={course.icon} size={32} />
-        <Eyebrow tone="accent">
-          {course.group === "foundations" ? "Foundations" : "Drink family"}
-        </Eyebrow>
-        <Display size="lg">{course.title}</Display>
+        <CoverImage
+          src={art.photo?.src}
+          alt={art.photo?.alt ?? ""}
+          tone={art.tone}
+          aspect="auto"
+          shade
+          priority
+          rounded={false}
+          className="-mx-2 flex min-h-25 flex-col justify-end sm:mx-0 sm:rounded-base"
+        >
+          <div className="flex flex-col gap-0.5 p-3">
+            <p className="text-caption font-semibold tracking-(--text-caption--letter-spacing) text-on-image/85 uppercase">
+              {course.group === "foundations" ? "Foundations" : "Drink family"}
+            </p>
+            <h1 className="font-display-optical text-display-md font-normal tracking-[-0.02em] text-on-image">
+              {course.title}
+            </h1>
+          </div>
+        </CoverImage>
         <Text size="lg" tone="muted" className="max-w-80">
           {course.summary}
         </Text>

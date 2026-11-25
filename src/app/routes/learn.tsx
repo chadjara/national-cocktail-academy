@@ -1,4 +1,5 @@
 import { appConfig } from "~/config/app.config";
+import { getScenePhoto, scenePhotoSrc } from "~/content/photos";
 import { listCourses } from "~/content/curriculum";
 import { PageHeader } from "~/design-system";
 import { CourseList } from "~/features/learn/components/course-list";
@@ -16,10 +17,16 @@ export const meta: Route.MetaFunction = () => [
 
 const lessonCount = listCourses().reduce((sum, course) => sum + course.lessons.length, 0);
 
+const scene = getScenePhoto("learn");
+const heroImage = scene
+  ? { src: scenePhotoSrc(scene.id), alt: scene.alt, tone: "charcoal" as const }
+  : undefined;
+
 export default function LearnRoute() {
   return (
     <>
       <PageHeader
+        {...(heroImage ? { image: heroImage } : {})}
         eyebrow="Learn"
         title="The bartending program"
         lede={`${String(listCourses().length)} courses and ${String(lessonCount)} lessons, from your first pour to the classics by heart. Start with the foundations, then work through the drink families.`}

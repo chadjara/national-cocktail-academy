@@ -10,7 +10,9 @@ import {
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
+import { getCocktail } from "~/content";
 import { listTools } from "~/content/curriculum";
+import { drinkArt } from "~/features/library/services/drink-art";
 import { glassLabels } from "~/content/taxonomy";
 import {
   Badge,
@@ -18,6 +20,8 @@ import {
   Callout,
   Card,
   Checkbox,
+  CoverImage,
+  DrinkIllustration,
   ChipGroup,
   ChoiceQuestion,
   Dialog,
@@ -490,6 +494,83 @@ function LessonComponents() {
   );
 }
 
+const TONES = [
+  "oxblood",
+  "charcoal",
+  "citrus",
+  "crimson",
+  "amber",
+  "copper",
+  "slate",
+  "emerald",
+  "teal",
+  "champagne",
+  "mocha",
+] as const;
+
+function ImageryComponents() {
+  const specimens = [
+    "negroni",
+    "margarita",
+    "mint-julep",
+    "espresso-martini",
+    "tequila-sunrise",
+    "moscow-mule",
+  ].flatMap((id) => {
+    const cocktail = getCocktail(id);
+    return cocktail ? [cocktail] : [];
+  });
+  return (
+    <Specimen
+      title="Imagery"
+      note="Family tones give each drink family its color. Drinks without a photo are drawn from their spec, so the glass, color, ice and garnish are always right."
+    >
+      <div className="flex flex-col gap-3">
+        <ul className="grid grid-cols-4 gap-1 sm:grid-cols-6">
+          {TONES.map((tone) => (
+            <li key={tone} className="flex flex-col gap-0.5">
+              <span
+                className="h-5 rounded-base"
+                style={{ backgroundColor: `var(--tone-${tone})` }}
+              />
+              <span className="text-caption text-ink-muted">{tone}</span>
+            </li>
+          ))}
+        </ul>
+        <ul className="grid grid-cols-3 gap-1.5 sm:grid-cols-6">
+          {specimens.map((cocktail) => (
+            <li key={cocktail.id} className="flex flex-col items-center gap-0.5">
+              <DrinkIllustration art={drinkArt(cocktail)} className="h-15 text-ink" />
+              <span className="text-caption text-ink-muted">{cocktail.name}</span>
+            </li>
+          ))}
+        </ul>
+        <div className="grid gap-1.5 sm:grid-cols-2">
+          <CoverImage
+            src="/images/scenes/garnishes-small.webp"
+            tone="emerald"
+            shade
+            className="flex flex-col justify-end"
+          >
+            <p className="p-2 font-display-optical text-heading-lg text-on-image">
+              Cover with shade
+            </p>
+          </CoverImage>
+          <CoverImage
+            tone="teal"
+            fallback={(() => {
+              const zombie = getCocktail("zombie");
+              return zombie ? (
+                <DrinkIllustration art={drinkArt(zombie)} className="h-[86%] text-on-image" />
+              ) : null;
+            })()}
+          />
+        </div>
+      </div>
+    </Specimen>
+  );
+}
+
 function States() {
   return (
     <Specimen
@@ -545,6 +626,7 @@ export function ComponentsSection() {
         <DataDisplay />
         <SpecComponents />
         <LessonComponents />
+        <ImageryComponents />
         <States />
       </div>
     </DocSection>
