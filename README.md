@@ -107,6 +107,10 @@ GitHub Actions builds and signs it on macOS, so no Mac is needed.
 2. After Apple processes it (5–30 minutes), go to **App Store Connect → TestFlight**, add yourself as
    an internal tester, and install with the TestFlight app.
 
+**App Store screenshots** for iPhone 6.9", iPhone 6.5" and iPad 13" are in
+[`store/app-store`](store/app-store/README.md), with upload steps. Regenerate them after UI
+changes with `pnpm store:screenshots`.
+
 **Every PR that touches the app** is built for the iOS simulator and launched by `ios.yml`. A
 screenshot of the launch is attached to the run.
 

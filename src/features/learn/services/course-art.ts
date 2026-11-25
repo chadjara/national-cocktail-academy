@@ -16,7 +16,7 @@ const COVERS: Record<string, { tone: Tone; scene?: string; drink?: string }> = {
   sours: { tone: "citrus", drink: "clover-club" },
   "martinis-and-manhattans": { tone: "crimson", drink: "manhattan" },
   "old-fashioneds": { tone: "amber", drink: "old-fashioned" },
-  highballs: { tone: "copper", drink: "moscow-mule" },
+  highballs: { tone: "copper", drink: "cuba-libre" },
   "fizzes-and-collinses": { tone: "slate", drink: "ramos-fizz" },
   "juleps-and-smashes": { tone: "emerald", drink: "mojito" },
   tiki: { tone: "teal", scene: "tiki" },
