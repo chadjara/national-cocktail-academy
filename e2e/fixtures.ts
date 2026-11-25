@@ -38,6 +38,8 @@ export const routes = [
   "/capstone",
   "/certificate",
   "/settings",
+  "/credits",
+  "/library/mai-tai",
   "/practice/review",
   "/practice/speed-round",
   "/practice/pour",
