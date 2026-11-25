@@ -1,13 +1,15 @@
-import { ArrowRight, GraduationCap, Trophy } from "lucide-react";
+import { ArrowRight, Trophy } from "lucide-react";
 import { Link } from "react-router";
 
 import { listCourses } from "~/content/curriculum";
 import { Button, Card, Eyebrow, Heading, ICON_STROKE, Text } from "~/design-system";
 
+import { FinalSteps } from "~/features/certificate/components/final-steps";
+
 import { courseProgress, recommendNext, type Progress } from "../services/progress";
 import { CourseIcon } from "./course-icon";
 
-/** Where to pick up next: the next lesson, a course exam that's ready, or a well-done once it's all finished. */
+/** Where to pick up next: the next lesson, a course exam that's ready, then the Service Sim and certificate. */
 export function ContinueCard({
   progress,
   passedExams,
@@ -17,26 +19,7 @@ export function ContinueCard({
 }) {
   const next = recommendNext(listCourses(), progress, passedExams);
 
-  if (!next) {
-    return (
-      <Card className="flex items-start gap-2 border-success bg-success-subtle">
-        <GraduationCap
-          aria-hidden
-          size={28}
-          strokeWidth={ICON_STROKE}
-          className="shrink-0 text-success"
-        />
-        <div className="flex flex-col gap-0.5">
-          <Heading as="h2" size="md">
-            You've finished every course and passed every exam
-          </Heading>
-          <Text tone="muted">
-            Keep your specs sharp with Daily Review and the Speed Round in Practice.
-          </Text>
-        </div>
-      </Card>
-    );
-  }
+  if (!next) return <FinalSteps />;
 
   if (next.kind === "exam") {
     return (

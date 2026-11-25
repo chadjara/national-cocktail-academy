@@ -117,3 +117,28 @@ export const examAttemptRecordSchema = z.object({
   submittedAt: z.iso.datetime(),
 });
 export type ExamAttemptRecord = z.infer<typeof examAttemptRecordSchema>;
+
+/** One finished Service Sim shift. */
+export const capstoneAttemptRecordSchema = z.object({
+  id: z.number().int().optional(),
+  score: z.number().int().min(0),
+  total: z.number().int().positive(),
+  /** True if any guest moment was handled unsafely. */
+  unsafe: z.boolean(),
+  passed: z.boolean(),
+  durationMs: z.number().int().min(0),
+  finishedAt: z.iso.datetime(),
+});
+export type CapstoneAttemptRecord = z.infer<typeof capstoneAttemptRecordSchema>;
+
+/** The student's Certificate of Completion. There is only ever one, keyed "current". */
+export const certificateRecordSchema = z.object({
+  key: z.literal("current"),
+  displayName: z.string().trim().min(1).max(80),
+  /** NCA-XXXX-XXXX. Kept when the name is corrected. */
+  certificateId: z.string().regex(/^NCA-[A-HJ-NP-Z2-9]{4}-[A-HJ-NP-Z2-9]{4}$/),
+  issuedAt: z.iso.datetime(),
+  /** The app version, which pins the content the certificate was earned on. */
+  appVersion: z.string().min(1),
+});
+export type CertificateRecord = z.infer<typeof certificateRecordSchema>;

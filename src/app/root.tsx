@@ -53,9 +53,21 @@ export function Layout({ children }: { children: ReactNode }) {
 
 function RailFooter() {
   return (
-    <Link to="/privacy" className="underline decoration-1 underline-offset-[3px] hover:text-ink">
-      Privacy policy
-    </Link>
+    <span className="flex flex-col gap-0.5">
+      {/* Each link gets a 24px-tall target so the stacked pair meets WCAG target size. */}
+      <Link
+        to="/settings"
+        className="inline-flex min-h-3 items-center self-start underline decoration-1 underline-offset-[3px] hover:text-ink"
+      >
+        Your data
+      </Link>
+      <Link
+        to="/privacy"
+        className="inline-flex min-h-3 items-center self-start underline decoration-1 underline-offset-[3px] hover:text-ink"
+      >
+        Privacy policy
+      </Link>
+    </span>
   );
 }
 

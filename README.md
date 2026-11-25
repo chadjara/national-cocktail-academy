@@ -146,6 +146,20 @@ lessons are finished, and the pass mark is 80%. Results break the score down by 
 back to anything missed, and explain every missed question. Retakes are immediate, with new
 questions ([ADR 0012](docs/adr/0012-exams-and-scenarios.md)).
 
+## Capstone and certificate
+
+The **Service Sim** is a simulated shift: eight tickets built from memory, with guest situations
+between them. You pass with 80% or better and no unsafe calls. Pass every course exam and the
+Service Sim to earn a **Certificate of Completion**. It's made on the device as a PDF with your
+name, the date, a certificate ID and the app version. It is a certificate of completion, not a
+license or a state alcohol-server certification ([ADR 0006](docs/adr/0006-unverifiable-certificates.md),
+[ADR 0013](docs/adr/0013-backup-and-certificate-files.md)).
+
+## Your data
+
+Progress stays on the phone. **Your data** saves a backup file wherever you choose, restores it
+after checking every record, and can erase all progress.
+
 ## Practice
 
 - **Daily Review:** spaced repetition with FSRS. Each drink you learn becomes three cards (spec;

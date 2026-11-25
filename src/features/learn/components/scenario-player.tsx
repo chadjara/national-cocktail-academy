@@ -1,25 +1,11 @@
 import { ArrowRight, MessageSquareQuote, RotateCcw } from "lucide-react";
 import { useState } from "react";
 
-import type { Scenario, ScenarioChoice, ScenarioOutcome } from "~/content/scenarios";
-import {
-  Button,
-  Callout,
-  Card,
-  Eyebrow,
-  Heading,
-  ICON_STROKE,
-  Text,
-  cn,
-  type CalloutTone,
-} from "~/design-system";
+import type { Scenario, ScenarioChoice } from "~/content/scenarios";
+import { Button, Callout, Card, Eyebrow, Heading, ICON_STROKE, Text } from "~/design-system";
 import { tapFeedback } from "~/lib/native";
 
-const outcomeFeedback: Record<ScenarioOutcome, { tone: CalloutTone; title: string }> = {
-  best: { tone: "success", title: "Good call" },
-  acceptable: { tone: "warning", title: "Okay, but there's a better way" },
-  unsafe: { tone: "danger", title: "Unsafe" },
-};
+import { ChoiceWithFeedback } from "./choice-with-feedback";
 
 /**
  * Plays one branching scenario. Each pick is explained before moving on. A
@@ -119,41 +105,15 @@ export function ScenarioPlayer({
             <p id={`${headingId}-${node.id}`} className="text-sm font-semibold text-ink">
               What do you do?
             </p>
-            <ul aria-labelledby={`${headingId}-${node.id}`} className="flex flex-col gap-1">
-              {node.choices.map((choice) => {
-                const chosen = picked === choice;
-                return (
-                  <li key={choice.text}>
-                    <button
-                      type="button"
-                      aria-pressed={chosen}
-                      aria-disabled={picked !== null || undefined}
-                      onClick={() => pick(choice)}
-                      className={cn(
-                        "flex min-h-5.5 w-full items-center rounded-base border px-1.5 py-1 text-left text-base",
-                        "transition-colors duration-(--duration-fast) ease-(--ease-out)",
-                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus",
-                        chosen && "border-accent bg-accent-subtle font-semibold text-ink",
-                        !chosen && "border-line-strong bg-raised text-ink",
-                        picked === null && "hover:border-accent hover:bg-accent-subtle",
-                        picked !== null && !chosen && "opacity-60",
-                      )}
-                    >
-                      {choice.text}
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
+            <ChoiceWithFeedback
+              labelledBy={`${headingId}-${node.id}`}
+              choices={node.choices}
+              picked={picked}
+              onPick={pick}
+            />
             <div aria-live="polite" className="flex flex-col gap-1.5">
               {picked && (
                 <>
-                  <Callout
-                    tone={outcomeFeedback[picked.outcome].tone}
-                    title={outcomeFeedback[picked.outcome].title}
-                  >
-                    {picked.feedback}
-                  </Callout>
                   <Button className="self-start" onClick={next}>
                     {picked.next ? "Continue" : "Finish"}
                     <ArrowRight aria-hidden size={18} strokeWidth={ICON_STROKE} />

@@ -80,6 +80,13 @@ export default function TodayRoute() {
       <p className="border-t border-line pt-2 text-sm text-ink-subtle">
         {appConfig.academy.disclaimer} No accounts, no tracking. Everything stays on this device.{" "}
         <Link
+          to="/settings"
+          className="font-medium text-accent-text underline decoration-1 underline-offset-[3px] hover:decoration-2"
+        >
+          Your data
+        </Link>
+        {" · "}
+        <Link
           to="/privacy"
           className="font-medium text-accent-text underline decoration-1 underline-offset-[3px] hover:decoration-2"
         >

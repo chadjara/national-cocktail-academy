@@ -92,10 +92,15 @@ export function coreCocktailIds(): string[] {
  * A round of tickets, drawn from the drinks the student has learned when there
  * are enough of them, so practice reinforces what they've studied.
  */
-export function makeRound(learned: readonly string[], units: UnitSystem, seed: string): Ticket[] {
+export function makeRound(
+  learned: readonly string[],
+  units: UnitSystem,
+  seed: string,
+  count: number = TICKETS_PER_ROUND,
+): Ticket[] {
   const random = seededRandom(seed);
-  const pool = learned.length >= TICKETS_PER_ROUND ? learned : coreCocktailIds();
-  return sample(pool, TICKETS_PER_ROUND, random).flatMap((id) => {
+  const pool = learned.length >= count ? learned : coreCocktailIds();
+  return sample(pool, count, random).flatMap((id) => {
     const cocktail = getCocktail(id);
     if (!cocktail) return [];
     const questions = drillQuestions(

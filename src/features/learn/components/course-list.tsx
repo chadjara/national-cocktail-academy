@@ -13,6 +13,8 @@ import { useExamStatuses } from "../hooks/use-exams";
 import { useProgress } from "../hooks/use-progress";
 import { passedExamIds } from "../services/exam-status";
 import { courseProgress, emptyProgress, type Progress } from "../services/progress";
+import { CapstoneSection } from "~/features/certificate/components/capstone-section";
+
 import { ContinueCard } from "./continue-card";
 import { CourseIcon } from "./course-icon";
 
@@ -111,6 +113,7 @@ export function CourseList() {
           </section>
         );
       })}
+      <CapstoneSection />
     </div>
   );
 }
